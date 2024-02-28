@@ -46,5 +46,8 @@ module.exports = {
       template: './client/index.html',
     }),
   ],
+  resolve: {
+    extensions: ['.jsx', '.js', '.css'], // this will resolve extension on imports in our project
+  },
   mode: process.env.NODE_ENV, // variable that will store whether we are using dev or prod server
 };
