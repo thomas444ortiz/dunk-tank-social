@@ -5,25 +5,13 @@ const app = express();
 
 app.use(express.json());
 
-//Logs all incoming request
-app.use("*", (req, res, next) => {
-  console.log(`
-  #######\n
-  URL: ${req.method} ${req.url}\n
-  Params: ${JSON.stringify(req.params)}\n
-  Body: ${JSON.stringify(req.body)}
-  #######
-  `);
-  next();
-});
-
 // serve everything from the build folder
-app.use("/", express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(__dirname, "../build")));
 
-// serve index.html to any get request on the path '/'
-app.get("/test", (req, res) =>
-  res.status(200).json({})
-);
+// After all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 // 404 error handler
 app.use("/*", (req, res) => {
