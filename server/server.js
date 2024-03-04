@@ -8,14 +8,9 @@ app.use(express.json());
 // serve everything from the build folder
 app.use(express.static(path.join(__dirname, "../build")));
 
-// After all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
-
-// 404 error handler
-app.use("/*", (req, res) => {
-  res.status(404).send("Error: This page does not exist!");
+// handle all other routes
+app.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
 });
 
 // global error handler

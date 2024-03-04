@@ -32,9 +32,8 @@ module.exports = {
       directory: path.join(__dirname, 'client'), // uses all code from the client folder to make bundle and render dev server
     },
     proxy: {
-      '/api': { // whenever we make an http request to the path /api, it redirects it from 8080 to 3000 to go to the backend automatically
+      '/': { // whenever we make an http request to the path /api, it redirects it from 8080 to 3000 to go to the backend automatically
         target: 'http://localhost:3000',
-        pathRewrite: { '^/api': '/api' },
       },
     },
     compress: true,
