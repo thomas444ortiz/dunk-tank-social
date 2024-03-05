@@ -17,9 +17,26 @@ module.exports = {
         ],
       },
       {
-        test: /\.(sa|sc|c)ss$/, // if a file name ends with sass, css or scss
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.module\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+        ],
       },
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(sa|sc)ss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },     
     ],
   },
   entry: './client/index.js', // starts the entrypoint of creating the dependency tree with this file

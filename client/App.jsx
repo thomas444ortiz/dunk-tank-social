@@ -1,13 +1,16 @@
 import React from 'react';
 import { Routes, Route} from 'react-router-dom'
+import Navbar from './containers/Navbar'
+import SignupPage from './containers/SignupContainer'
+import Login from './containers/LoginContainer'
 
 export default function App() {
   return (
-
-    <div> React Works, App
-      <Routes>
-        <Route  path="/" element={<div>element</div>}/>
-        <Route  path="/home" element={<div>home</div>}/>
+    <div>
+      <Routes >
+        <Route  path="/" element={<Login />}/>
+        <Route  path="/home" element={<Navbar />}/>
+        <Route  path="/signup" element={<SignupPage />}/>
       </Routes>
     </div>
   );
