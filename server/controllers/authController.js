@@ -36,13 +36,11 @@ authController.loginUser = (req, res, next) => {
         models.User.findOne({email: `${req.body.email}`})
         .then((data)=> {
             if((bcrypt.compareSync(req.body.password, data.password))){
-                res.locals = data;
+                res.locals.userId = data._id;
                 return next();                
             } else {
                 return next('Invalid email or password');
             }
-
-
         })
     } catch {
         return next('Error logging in')
