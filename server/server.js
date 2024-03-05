@@ -1,14 +1,17 @@
 const express = require("express");
 const path = require("path");
-
 const app = express();
+const authRouter = require ('./routes/auth')
 
 app.use(express.json());
 
 // serve everything from the build folder
 app.use(express.static(path.join(__dirname, "../build")));
 
-// handle all other routes
+// handle authentication logic 
+app.use('/auth', authRouter);
+
+// handle all other routes by serving the index.html file
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
 });
@@ -18,7 +21,7 @@ app.use("/", (err, req, res, next) => {
   const defaultErr = {
     log: "Global error handler caught an error",
     status: 500,
-    message: { err: "An error occurred" },
+    message: { err: err },
   };
   const errorObj = { ...defaultErr, err };
   res.status(errorObj.status).json(errorObj.message);
