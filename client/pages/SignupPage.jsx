@@ -1,10 +1,11 @@
 import React from 'react';
-import Signup from '../containers/SignupContainer.jsx'
+import SignupContainer from '../containers/SignupContainer.jsx'
+import '../styles.css'
 
-export default function Signup() {
+export default function SignupPage() {
   return (
-    <div >
-      <Signup />
+    <div className="center">
+      <SignupContainer />
     </div>
   );
 }

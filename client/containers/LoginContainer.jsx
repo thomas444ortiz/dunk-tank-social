@@ -1,7 +1,20 @@
 import React from 'react';
+import { Box, Input, Button } from '@chakra-ui/react'
+import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-styles/LoginAndSignupStyles'
+import '../styles.css'
+import { Link } from 'react-router-dom';
 
-export default function LoginContainer() {
+export default function SignupContainer() {
+
   return (
-    <div> Login</div>
+      <Box sx={signupContainerStyle}>
+          <h1 className="login-header" >Login</h1>
+          <Input placeholder='Email' sx={signupInputStyle}/>
+          <Input placeholder='Password' type={'password'} sx={signupInputStyle}/>
+          <Button colorScheme='gray' sx={buttonStyle}>Log In</Button>
+          <div className="login-link-text">Don't yet have an account?
+            <Link to="/signup" className="login-link">Sign Up</Link>
+          </div>
+      </Box>
   );
 }
