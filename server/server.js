@@ -21,7 +21,7 @@ app.use("/", (err, req, res, next) => {
   const defaultErr = {
     log: "Global error handler caught an error",
     status: 500,
-    message: { err: "An error occurred" },
+    message: { err: err },
   };
   const errorObj = { ...defaultErr, err };
   res.status(errorObj.status).json(errorObj.message);

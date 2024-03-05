@@ -5,16 +5,26 @@ const authController = require('../controllers/authController')
 
 router.post('/signup', 
     authController.hashPassword,
+    authController.createUser,
     (req, res)=> {
-        console.log('this is res.locals from /auth/signup', res.locals)
-        return res.status(200).json({})
+        return res.status(200).json(res.locals)
     }
 )
 
-router.post('/login', (req, res)=>{
-    console.log('this is res.locals from /auth/login', res.locals)
-    return res.status(200).json({})
-})
+router.post('/login', 
+    // authController.hashPassword,
+    authController.loginUser,
+    (req, res) => {
+        return res.status(200).json(res.locals)
+    }
+)
+
+router.get('/allUsers',
+    authController.getAllUsers,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
 
 // export the router
 module.exports = router;
