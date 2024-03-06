@@ -9,7 +9,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     updateAuthStatus: (state, action )=> {
-      state.authStatus = !state.authStatus;
+      state.authStatus = action;
     },
   },
 })
