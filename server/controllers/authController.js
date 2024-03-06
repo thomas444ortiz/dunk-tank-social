@@ -22,7 +22,6 @@ authController.createUser = (req, res, next) =>{
         models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, email: `${req.body.email}`})
         .then((data) => {
             res.locals.data = data;
-            console.log(res.locals.data);
             return next();
         })
     } catch {
@@ -32,19 +31,19 @@ authController.createUser = (req, res, next) =>{
 
 authController.loginUser = (req, res, next) => {
     try {
-        console.log('login user method invoked')
         models.User.findOne({email: `${req.body.email}`})
         .then((data)=> {
+            if(data === undefined || data === null) return next('Invalid email or password')
             if((bcrypt.compareSync(req.body.password, data.password))){
                 res.locals.userId = data._id;
                 return next();                
             } else {
                 return next('Invalid email or password');
             }
-        })
+        }) 
     } catch {
-        return next('Error logging in')
-    }
+        return next('Error logging in') 
+    } 
 }
 
 //function to get all users
