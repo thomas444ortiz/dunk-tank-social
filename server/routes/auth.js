@@ -11,7 +11,7 @@ router.post('/signup',
     cookieController.setSSIDCookie,
     sessionController.createSession,
     (req, res)=> {
-        return res.redirect('/home')
+        return res.status(200).json({})
     }
 )
 
@@ -20,7 +20,7 @@ router.post('/login',
     cookieController.setSSIDCookie,
     sessionController.createSession,
     (req, res) => {
-        return res.redirect('/home')
+        return res.status(200).json({})
     }
 )
 

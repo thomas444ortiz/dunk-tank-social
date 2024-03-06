@@ -2,13 +2,15 @@ import React from 'react';
 import { Box, Input, Button } from '@chakra-ui/react'
 import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-styles/LoginAndSignupStyles'
 import '../styles.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateEmail, updatePassword } from '../redux/loginSlice'
+import { updateAuthStatus } from '../redux/authSlice';
 
 export default function SignupContainer() {
   const store = useSelector((state)=> state.login);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   function login(){
     // make post request with the email, username, and password in the request body
@@ -22,10 +24,19 @@ export default function SignupContainer() {
         password: store.password
       })
     })
-    .then(()=> {
+    .then(response => {
       // clear the fields
       dispatch(updateEmail(''));
-      dispatch(updatePassword(''));    
+      dispatch(updatePassword(''));  
+      if(response.ok) {
+        // update the auth status and redirect
+        dispatch(updateAuthStatus(true))
+        navigate('/home');
+      } else {
+        // Handle login failure
+        alert('Login failed. Please check your credentials.');
+      }
+      return response.json();
     })
   }
 
