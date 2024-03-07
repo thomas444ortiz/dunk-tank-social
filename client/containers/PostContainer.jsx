@@ -18,7 +18,7 @@ export default function PostContainer() {
     .then((data)=>{
       return data.json()
     })
-    .then((data) =>{
+    .then((data) => {
       dispatch(updatePostsArray(data))
       // reset the needs rerender boolean back to false
       dispatch(updateNeedsRerender(false))
@@ -28,7 +28,7 @@ export default function PostContainer() {
   const posts = [];
   
   for(const post of store.postsArray){
-    posts.push(<Post key={post._id} id={post._id} body={post.body} postedBy={post.by} timestamp={post.updatedAt}/>)
+    posts.push(<Post key={post._id} id={post._id} body={post.body} postedBy={post.username} timestamp={post.updatedAt}/>)
   }
 
   return (

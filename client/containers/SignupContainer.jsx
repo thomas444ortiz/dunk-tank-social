@@ -36,7 +36,7 @@ export default function SignupContainer() {
         navigate('/home');
       } else {
         // Handle login failure
-        alert('Login failed. Please check your credentials.');
+        alert('Signup failed. Please ensure your username and email are unique.');
       }
       return response.json();
     })

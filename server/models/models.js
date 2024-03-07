@@ -9,9 +9,9 @@ mongoose.connect(MONGO_URI)
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    email: String,
-    username: String,
-    password: String
+    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -25,10 +25,11 @@ const Session = mongoose.model('Session', sessionSchema);
 
 const postSchema = new Schema({
     body: String,
-    by: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    username: String
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);

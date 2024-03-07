@@ -11,6 +11,7 @@ userController.createUser = (req, res, next) => {
             res.locals.data = data;
             return next();
         })
+        .catch(() => next('Error creating user, please ensure username and email are unique'))
     } catch {
         return next('Error creating user')
     }
