@@ -4,7 +4,7 @@ import ProfileContainer from '../containers/ProfileContainer'
 
 export default function ProfilePage() {
   return (
-    <div>
+    <div className="page-container">
         <Navbar />
         <ProfileContainer />
     </div>

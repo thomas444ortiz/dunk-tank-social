@@ -4,8 +4,7 @@ const postController = {};
 
 postController.createPost = (req, res, next) => {
     try {
-        console.log('create post invoked')
-        models.Post.create({body: `${req.body.body}`})
+        models.Post.create({body: `${req.body.body}`, by: `${req.cookies.ssid}`})
         .then(()=> {
             return next();
         })
@@ -25,6 +24,16 @@ postController.getAllPosts = (req,res, next) => {
     } catch {
         return next('Error getting all posts')
     }
+}
+
+// function to delete all posts 
+postController.deleteAllPosts = (req, res, next) => {
+    models.Post.deleteMany({})
+    .then(()=> {
+        res.locals.status = 'All Posts Dropped'
+        return next();
+    })
+    .catch(err => next(err));
 }
 
 module.exports = postController;

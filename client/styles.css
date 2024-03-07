@@ -1,7 +1,6 @@
 html, body {
     height: 100%;
     width: 100%;
-    background-color: antiquewhite;
 }
 
 #root {
@@ -40,8 +39,47 @@ html, body {
 
 .navbar{
     background-color: red;
-    height: 50px;
+    height: 10%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.page-container{
+    height: 91%;
+}
+
+.feed-outer-container{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.feed-inner-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 80%;
+    background-color: rgb(204, 204, 248);
+    border-left: 2px solid gray;
+    border-right: 2px solid gray;
+    padding: 10px;
+}
+
+.create-post-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    border: 2px solid gray;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.post-container{
+    width: 100%;
+    background-color: rgb(255, 117, 202);
 }

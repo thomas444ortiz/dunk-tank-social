@@ -4,7 +4,7 @@ import FeedContainer from '../containers/FeedContainer';
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="page-container">
         <Navbar />
         <FeedContainer />
     </div>
