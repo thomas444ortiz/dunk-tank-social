@@ -11,7 +11,7 @@ export default function PostContainer() {
 
   useEffect(() => {
     // fetch request to get all posts
-    fetch('/post/getAllPosts', {
+    fetch('/post/allPosts', {
       method: 'GET',
       headers: {"Content-Type": "application/json"}
     })
