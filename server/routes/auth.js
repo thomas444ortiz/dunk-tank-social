@@ -32,12 +32,5 @@ router.post('/logout',
     }
 )
 
-router.get('/allUsers',
-    authController.getAllUsers,
-    (req, res) => {
-        return res.status(200).json(res.locals);
-    }
-)
-
 // export the router
 module.exports = router;
