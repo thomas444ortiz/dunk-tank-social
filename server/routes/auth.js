@@ -4,10 +4,11 @@ const router = express.Router();
 const authController = require('../controllers/authController')
 const cookieController = require('../controllers/cookieController')
 const sessionController = require('../controllers/sessionController')
+const userController = require('../controllers/userController')
 
 router.post('/signup', 
     authController.hashPassword,
-    authController.createUser,
+    userController.createUser,
     cookieController.setSSIDCookie,
     sessionController.createSession,
     (req, res)=> {
@@ -29,13 +30,6 @@ router.post('/logout',
     cookieController.removeSSIDCookie,
     (req, res) => {
         return res.status(200).json({})
-    }
-)
-
-router.get('/allUsers',
-    authController.getAllUsers,
-    (req, res) => {
-        return res.status(200).json(res.locals);
     }
 )
 

@@ -23,7 +23,19 @@ const sessionSchema = new Schema({
 
 const Session = mongoose.model('Session', sessionSchema);
 
+const postSchema = new Schema({
+    body: String,
+    by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    
+})
+
+const Post = mongoose.model('Post', postSchema);
+
 module.exports = {
     User,
-    Session
+    Session,
+    Post
   };

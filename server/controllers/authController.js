@@ -16,19 +16,6 @@ authController.hashPassword = (req, res, next) => {
     }
 }
 
-authController.createUser = (req, res, next) =>{
-    try {
-        if(req.body.username === '' || req.body.password === '' || req.body.email==='') return next('username or password not provided');
-        models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, email: `${req.body.email}`})
-        .then((data) => {
-            res.locals.data = data;
-            return next();
-        })
-    } catch {
-        return next('Error creating user')
-    }
-}
-
 authController.loginUser = (req, res, next) => {
     try {
         models.User.findOne({email: `${req.body.email}`})
@@ -44,16 +31,6 @@ authController.loginUser = (req, res, next) => {
     } catch {
         return next('Error logging in') 
     } 
-}
-
-//function to get all users
-authController.getAllUsers = (req, res, next) => {
-    models.User.find()
-    .then((data)=> {
-        res.locals = data;
-        return next();
-    })
-    .catch(err => next(err));
 }
 
 module.exports = authController;

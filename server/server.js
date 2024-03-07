@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const authRouter = require ('./routes/auth')
+const userRouter = require('./routes/user')
+const postRouter = require('./routes/post')
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
@@ -10,8 +12,10 @@ app.use(express.json());
 // serve everything from the build folder
 app.use(express.static(path.join(__dirname, "../build")));
 
-// handle authentication logic 
+// handle logic
 app.use('/auth', authRouter);
+app.use('/user', userRouter)
+app.use('/post', postRouter)
 
 // handle all other routes by serving the index.html file
 app.use('*', (req, res) => {
