@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles.css'
 import Post from '../components/Post'
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePostsArray } from '../redux/slices/postSlice';
+import { updatePostsArray, updateNeedsRerender } from '../redux/slices/postSlice';
 import { useEffect } from 'react'
 
 export default function PostContainer() {
@@ -20,16 +20,18 @@ export default function PostContainer() {
     })
     .then((data) =>{
       dispatch(updatePostsArray(data))
+      // reset the needs rerender boolean back to false
+      dispatch(updateNeedsRerender(false))
     })
-  }, [store.postsArray])
+  }, [store.needsRerender])
   
   const posts = [];
-
+  
   for(const post of store.postsArray){
-    console.log(post)
+    // console.log(post)
     posts.push(<Post key={post._id} body={post.body} postedBy = {post.by}/>)
   }
-  
+
   return (
     <div className="post-container">
        {posts}
