@@ -2,8 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
+const sessionController = require('../controllers/sessionController')
 
 router.post('/createPost',
+    sessionController.verifySession,
     postController.createPost,
     (req, res) => {
         return res.status(200).json({});
@@ -11,6 +13,7 @@ router.post('/createPost',
 )
 
 router.delete('/deletePost',
+    sessionController.verifySession,
     postController.deletePost,
     (req, res) => {
         return res.status(200).json({})
@@ -18,6 +21,7 @@ router.delete('/deletePost',
 )
 
 router.get('/getAllPosts',
+    sessionController.verifySession,
     postController.getAllPosts,
     (req, res) => {
         return res.status(200).json(res.locals);

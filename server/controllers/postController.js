@@ -15,9 +15,19 @@ postController.createPost = (req, res, next) => {
 
 postController.deletePost = (req, res, next) => {
     try {
-        models.Post.findOneAndDelete({_id: `${req.body.postId}`})
-        .then(()=> {
-            return next();
+        // first make sure the user is the user who created that post
+        models.Post.findOne({_id: `${req.body.postId}`, by: `${req.cookies.ssid}`})
+        .then((data)=> {
+            // if the post id matches the user id of the person who posted, delete it
+            if(data!== null){
+                models.Post.findOneAndDelete({_id: `${req.body.postId}`})
+                .then(()=> {
+                    return next();
+                })
+            }
+            else{
+                return next('Not authorized to delete that post')
+            }
         })
     } catch {
         return next('Error deleting post')
