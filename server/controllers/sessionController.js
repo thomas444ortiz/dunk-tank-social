@@ -29,7 +29,6 @@ sessionController.verifySession = (req, res, next) => {
             // but if the data is null, there is no session so we must redirect to the /login page
             else return next('No valid session')
         });
-        return next(); 
     } catch {
         return next('Failure to verify session')
     }

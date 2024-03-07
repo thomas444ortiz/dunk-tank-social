@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles.css'
 import { Input, Button } from '@chakra-ui/react'
 import { newPostInputStyle } from '../chakra-styles/LoginAndSignupStyles';
-import { updatePostBody } from '../redux/slices/postSlice';
+import { updatePostBody, updateNeedsRerender } from '../redux/slices/postSlice';
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function CreatePostContainer() {
@@ -21,6 +21,7 @@ export default function CreatePostContainer() {
     })
     .then(()=>{
       dispatch(updatePostBody(''))
+      dispatch(updateNeedsRerender(true));
     })
   }
 

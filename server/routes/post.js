@@ -1,25 +1,34 @@
 // require in Express, router, and controllers
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/postController')
-const models = require('../models/models');
 const postController = require('../controllers/postController');
+const sessionController = require('../controllers/sessionController')
 
 router.post('/createPost',
-    userController.createPost,
+    sessionController.verifySession,
+    postController.createPost,
     (req, res) => {
         return res.status(200).json({});
     }
 )
 
-router.get('/getAllPosts',
-    userController.getAllPosts,
+router.delete('/deletePost',
+    sessionController.verifySession,
+    postController.deletePost,
+    (req, res) => {
+        return res.status(200).json({})
+    }
+)
+
+router.get('/allPosts',
+    sessionController.verifySession,
+    postController.getAllPosts,
     (req, res) => {
         return res.status(200).json(res.locals);
     }
 )
 
-router.delete('/deleteAllPosts',
+router.delete('/allPosts',
     postController.deleteAllPosts,
     (req, res) => {
         return res.status(200).json(res.locals);

@@ -79,7 +79,21 @@ html, body {
     margin-bottom: 20px;
 }
 
-.post-container{
+.post-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    background-color: rgb(255, 117, 202);
+    border-radius: 5px;
+    border: 2px solid gray;
+    padding: 10px;
+    overflow: scroll;
+}
+
+.post-component {
+    border-radius: 5px;
+    border: 2px solid gray;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-bottom: 10px;
 }
