@@ -11,7 +11,16 @@ cookieController.setSSIDCookie = (req, res, next) => {
           return next();    
         })
     } catch {
-        next('Error setting cookie');
+        next('Error setting ssid cookie');
+    }
+}
+
+cookieController.removeSSIDCookie = (req, res, next) => {
+    try {
+        res.clearCookie('ssid');
+        return next();
+    } catch {
+        return next('Error removing ssid cookie');
     }
 }
 
