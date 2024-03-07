@@ -22,7 +22,6 @@ sessionController.createSession = (req, res, next) => {
 
 sessionController.verifySession = (req, res, next) => {
     try {
-        console.log('verify session');
         models.Session.findOne({cookieId: `${req.cookies.ssid}`})
         .then((data) =>{
             // if the data is not null, then there is a valid session and we can move on
@@ -36,5 +35,15 @@ sessionController.verifySession = (req, res, next) => {
     }
 }
 
+sessionController.endSession = (req, res, next) => {
+    try {
+        models.Session.findOneAndDelete({cookieId: `${req.cookies.ssid}`})
+        .then(()=>{
+            return next()
+        })
+    } catch {
+        return next('Error ending session')
+    }
+}
 
 module.exports = sessionController;

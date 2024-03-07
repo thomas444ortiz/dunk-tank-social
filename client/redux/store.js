@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 // import my slices here
-import signupSlice from './signupSlice'
-import loginSlice from './loginSlice'
-import authSlice from './authSlice'
+import signupSlice from './slices/signupSlice'
+import loginSlice from './slices/loginSlice'
+import authSlice from './slices/authSlice'
 
 export const store = configureStore({
   reducer: {

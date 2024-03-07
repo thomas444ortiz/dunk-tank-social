@@ -24,6 +24,14 @@ router.post('/login',
     }
 )
 
+router.post('/logout',
+    sessionController.endSession,
+    cookieController.removeSSIDCookie,
+    (req, res) => {
+        return res.status(200).json({})
+    }
+)
+
 router.get('/allUsers',
     authController.getAllUsers,
     (req, res) => {

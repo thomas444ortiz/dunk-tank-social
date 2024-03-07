@@ -4,8 +4,8 @@ import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-s
 import '../styles.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUsername, updateEmail, updatePassword } from '../redux/signupSlice';
-import { updateAuthStatus } from '../redux/authSlice';
+import { updateUsername, updateEmail, updatePassword } from '../redux/slices/signupSlice';
+import { updateAuthStatus } from '../redux/slices/authSlice';
 
 export default function SignupContainer() {
   const store = useSelector((state) => state.signup);
