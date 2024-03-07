@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react'
 import '../styles.css'
 import { useDispatch } from 'react-redux';
-import { updateAuthStatus } from '../redux/authSlice';
+import { updateAuthStatus } from '../redux/slices/authSlice';
 
 export default function App() {
   const dispatch = useDispatch();
