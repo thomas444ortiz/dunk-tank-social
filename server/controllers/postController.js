@@ -13,6 +13,17 @@ postController.createPost = (req, res, next) => {
     }
 }
 
+postController.deletePost = (req, res, next) => {
+    try {
+        models.Post.findOneAndDelete({_id: `${req.body.postId}`})
+        .then(()=> {
+            return next();
+        })
+    } catch {
+        return next('Error deleting post')
+    }
+}
+
 postController.getAllPosts = (req,res, next) => {
     try {
         models.Post.find()

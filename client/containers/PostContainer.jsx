@@ -28,8 +28,7 @@ export default function PostContainer() {
   const posts = [];
   
   for(const post of store.postsArray){
-    // console.log(post)
-    posts.push(<Post key={post._id} body={post.body} postedBy = {post.by}/>)
+    posts.push(<Post key={post._id} id={post._id} body={post.body} postedBy={post.by} timestamp={post.updatedAt}/>)
   }
 
   return (
