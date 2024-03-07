@@ -13,3 +13,8 @@ export const buttonStyle = {
   "backgroundColor": "red",
   "marginTop": "20px"
 }
+
+export const newPostInputStyle = {
+  "backgroundColor": "white",
+  "marginRight": "20px"
+}

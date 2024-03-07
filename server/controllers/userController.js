@@ -28,7 +28,6 @@ userController.getAllUsers = (req, res, next) => {
 
 // function to delete all users 
 userController.deleteAllUsers = (req, res, next) => {
-    console.log('delete all users invoked')
     models.User.deleteMany({})
     .then(()=> {
         res.locals.status = 'All Users Dropped'
