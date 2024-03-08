@@ -19,6 +19,7 @@ Near Term:
 - Location based feed
 - Throttle requests
 - Styling
+- Update routing to make returning smoother for returning users (right now you see a flash of the login page before it redirects you)
 
 Stretch:
 - Testing

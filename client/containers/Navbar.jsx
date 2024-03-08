@@ -11,6 +11,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state) => state.user)
+
   // going to fetch user data here
   useEffect(() => {
     fetch('/user/userInfo', {
