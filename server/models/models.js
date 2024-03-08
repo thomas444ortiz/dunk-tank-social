@@ -11,7 +11,9 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    //Storing the profile picture as a url, the BLOB format takes too much space in the DB
+    profilePicture: { type: String }
 });
 
 const User = mongoose.model('User', userSchema);

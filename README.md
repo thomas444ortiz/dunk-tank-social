@@ -16,13 +16,10 @@ Near Term:
 - Ability to like posts
 - Comments
 - Ability to expose posts + algorithm
-- Delete your account
 - Extensive user error checking on frontend and backend (email format, no empty strings, etc)
 - Location based feed
 - Styling
-- Enhanced user profile data (profile pic, etc.)
-- User page
-- Update username and other profile data
+
 Stretch:
 - Connect instagram or linkedin in order to post
 - CI / CD with Github Actions

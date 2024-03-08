@@ -4,7 +4,7 @@ import '../styles.css'
 
 export default function SignupPage() {
   return (
-    <div className="center">
+    <div className="page-container">
       <SignupContainer />
     </div>
   );
