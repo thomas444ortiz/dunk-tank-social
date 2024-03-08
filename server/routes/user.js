@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const postController = require('../controllers/postController');
+const sessionController = require('../controllers/sessionController')
+const cookieController = require('../controllers/cookieController')
 
 router.get('/userInfo',
     userController.getUserInfo,
@@ -40,12 +43,13 @@ router.patch('/updateProfilePicture',
 )
 
 router.delete('/deleteAccount',
-    // delete all posts the user made
-    // delete all other info the user made
-    // delete the user account
-    // remove the cookies
-    // end the session
+    postController.deleteAllPostsByUser,
+    // delete all other info the user made (likes, comments, etc)
+    userController.deleteAccount,
+    sessionController.endSession,
+    cookieController.removeSSIDCookie,
     (req, res) => {
+        console.log('delete account invoked')
         return res.status(200).json(res.locals);
     }
 )

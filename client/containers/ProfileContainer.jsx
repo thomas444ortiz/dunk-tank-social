@@ -4,10 +4,13 @@ import { useSelector, useDispatch} from 'react-redux'
 import { updateNewUsername, updateNewPassword, updateNewProfilePicture, updateNeedsRefresh } from '../redux/slices/userSlice'
 import { Input, Button } from '@chakra-ui/react'
 import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
+import { useNavigate } from 'react-router-dom';
+import { updateAuthStatus } from '../redux/slices/authSlice';
 
 export default function ProfileContainer() {
   const store = useSelector((state)=> state.user)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function updateInputField(text, callback){
     dispatch(callback(text));
@@ -30,6 +33,19 @@ export default function ProfileContainer() {
     })
   }
 
+  function deleteAccount(){
+    fetch('/user/deleteAccount',{
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(()=>{ 
+      dispatch(updateAuthStatus(true))
+      navigate('/')
+    })
+  }
+
   return (
     <div className="outer-profile-container"> 
       <div className="inner-profile-container">
@@ -47,7 +63,7 @@ export default function ProfileContainer() {
           <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>
           <Button onClick={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)} sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
         </div>
-        <Button>Delete Account</Button>  
+        <Button onClick={deleteAccount} >Delete Account</Button>  
       </div>
     </div>
   );

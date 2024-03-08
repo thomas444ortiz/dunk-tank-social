@@ -73,10 +73,13 @@ userController.updateProfilePicture = (req, res, next) => {
 
 userController.deleteAccount = (req, res, next) => {
     try {
-        console.log('Delete account invoked')
-        return next()
+        models.User.findOneAndDelete({_id: `${req.cookies.ssid}`})
+        .then((data)=> {
+            console.log('Deleted user', data)
+            return next();
+        })
     } catch {
-        return next('Delete account invoked')
+        return next('Failed to delete user')
     }
 }
 
