@@ -49,7 +49,6 @@ router.delete('/deleteAccount',
     sessionController.endSession,
     cookieController.removeSSIDCookie,
     (req, res) => {
-        console.log('delete account invoked')
         return res.status(200).json(res.locals);
     }
 )

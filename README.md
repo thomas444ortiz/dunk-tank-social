@@ -16,12 +16,15 @@ Near Term:
 - Ability to like posts
 - Comments
 - Ability to expose posts + algorithm
-- Extensive user error checking on frontend and backend (email format, no empty strings, etc)
 - Location based feed
+- Throttle requests
 - Styling
-- Have users navigate to home automatically when they have cookies
+- Update routing to make returning smoother for returning users (right now you see a flash of the login page before it redirects you)
 
 Stretch:
+- Testing
+- User content moderation
 - Connect instagram or linkedin in order to post
 - CI / CD with Github Actions
 - Hosting on AWS & Containerization
+- Email validation

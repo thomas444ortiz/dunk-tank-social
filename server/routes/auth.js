@@ -6,6 +6,13 @@ const cookieController = require('../controllers/cookieController')
 const sessionController = require('../controllers/sessionController')
 const userController = require('../controllers/userController')
 
+router.get('/validateSession',
+    sessionController.verifySession,
+    (req, res) => {
+        return res.status(200).json(res.locals)
+    }
+)
+
 router.post('/signup', 
     authController.hashPassword,
     userController.createUser,
