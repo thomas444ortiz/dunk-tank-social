@@ -59,9 +59,9 @@ export default function SignupContainer() {
   return (
       <Box sx={signupContainerStyle}>
           <h1 className="login-header" >Signup</h1>
-          <Input placeholder='Username' value={store.username} onChange={(e)=> dispatch(updateUsername(e.target.value))} sx={signupInputStyle}/>
+          <Input placeholder='Username (3-20 chars, a-z or _)' value={store.username} onChange={(e)=> dispatch(updateUsername(e.target.value))} sx={signupInputStyle}/>
           <Input placeholder='Email' value={store.email} onChange={(e)=> dispatch(updateEmail(e.target.value))} sx={signupInputStyle}/>
-          <Input placeholder='Password' value={store.password} onChange={(e)=> dispatch(updatePassword(e.target.value))} type={'password'} sx={signupInputStyle}/>
+          <Input placeholder='Password (8-64 chars)' value={store.password} onChange={(e)=> dispatch(updatePassword(e.target.value))} type={'password'} sx={signupInputStyle}/>
           <Button colorScheme='gray' onClick={signup} sx={buttonStyle}>Sign Up</Button>
           <div className="login-link-text">Already have an account?
             <Link to="/" className="login-link">Log in</Link>

@@ -17,7 +17,7 @@ utils.isValidPassword = (password) => {
 
 utils.isValidUsername = (username) => {
     // Validates username: 3-20 chars, allows letters, underscores, dots, @, and dashes.
-    const regex = /^[a-zA-Z_@-]{3,20}$/;
+    const regex = /^[a-zA-Z_]{3,20}$/;
     return regex.test(username);
 }
 
