@@ -21,6 +21,7 @@ userController.getUserInfo = (req, res, next) => {
         models.User.findOne({_id: `${req.cookies.ssid}`})
         .then((data)=>{
             res.locals.username = data.username;
+            res.locals.profilePicture = data.profilePicture;
             return next()
         })
     } catch {
@@ -40,7 +41,7 @@ userController.getAllUsers = (req, res, next) => {
 userController.updateUsername = (req, res, next) => {
     try {
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {username: `${req.body.newUsername}`}})
-        .then((data) => {
+        .then(() => {
             return next()
         })
     } catch {
@@ -51,7 +52,7 @@ userController.updateUsername = (req, res, next) => {
 userController.updatePassword = (req, res, next) => {
     try {
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {password: `${res.locals.password}`}})
-        .then((data) => {
+        .then(() => {
             return next()
         })
     } catch {
@@ -62,7 +63,7 @@ userController.updatePassword = (req, res, next) => {
 userController.updateProfilePicture = (req, res, next) => {
     try {
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {profilePicture: `${req.body.newProfilePicture}`}})
-        .then((data) => {
+        .then(() => {
             return next()
         })
     } catch {

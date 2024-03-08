@@ -19,6 +19,7 @@ Near Term:
 - Extensive user error checking on frontend and backend (email format, no empty strings, etc)
 - Location based feed
 - Styling
+- Have users navigate to home automatically when they have cookies
 
 Stretch:
 - Connect instagram or linkedin in order to post
