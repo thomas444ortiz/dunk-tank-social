@@ -5,7 +5,7 @@ const userController = {};
 userController.createUser = (req, res, next) => {
     try {
         if(req.body.username === '' || req.body.password === '' || req.body.email==='') return next('username or password not provided');
-        models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, email: `${req.body.email}`})
+        models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, email: `${req.body.email}`, profilePicture: ''})
         .then((data) => {
             res.locals.data = data;
             return next();
@@ -52,7 +52,6 @@ userController.updatePassword = (req, res, next) => {
     try {
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {password: `${res.locals.password}`}})
         .then((data) => {
-            console.log('this is the data', data)
             return next()
         })
     } catch {
@@ -62,8 +61,10 @@ userController.updatePassword = (req, res, next) => {
 
 userController.updateProfilePicture = (req, res, next) => {
     try {
-        console.log('Update profile picture invoked')
-        return next()
+        models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {profilePicture: `${req.body.newProfilePicture}`}})
+        .then((data) => {
+            return next()
+        })
     } catch {
         return next('Error updating profile picture')
     }

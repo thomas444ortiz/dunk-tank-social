@@ -44,7 +44,7 @@ export default function ProfileContainer() {
         </div>
         <div className="update-profile-info">
           <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>
-          <Button sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
+          <Button onClick={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)} sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
         </div>
         <Button>Delete Account</Button>  
       </div>
