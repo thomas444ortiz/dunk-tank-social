@@ -4,7 +4,8 @@ const initialState = {
   username: '',
   newUsername: '',
   newPassword: '',
-  newProfilePicture: ''
+  newProfilePicture: '',
+  needsRefresh: false
 }
 
 export const userSlice = createSlice({
@@ -23,11 +24,14 @@ export const userSlice = createSlice({
     updateNewProfilePicture: (state, action )=> {
       state.newProfilePicture = action.payload;
     },
+    updateNeedsRefresh: (state, action) => {
+      state.needsRefresh = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
 export const { updateUsername, updateNewPassword, updateNewProfilePicture, 
-               updateNewUsername } = userSlice.actions
+               updateNewUsername, updateNeedsRefresh } = userSlice.actions
 
 export default userSlice.reducer

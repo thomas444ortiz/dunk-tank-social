@@ -19,13 +19,13 @@ export const newPostInputStyle = {
   "marginRight": "20px"
 }
 
-export const updateProfileInfoInputStyle = {
+export const profileInfoInputStyle = {
   "backgroundColor": "white",
   "marginTop": "5px",
   "marginBottom": "5px", 
 }
 
-export const updateProfileInfoButtonStyle = {
+export const profileInfoButtonStyle = {
   "width": "25%",
   "marginLeft": "5px",
   "padding": "3px"

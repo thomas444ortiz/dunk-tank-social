@@ -24,7 +24,7 @@ export default function Navbar() {
     .then((data) =>{
       dispatch(updateUsername(data.username))
     })
-  }, [])
+  }, [store.needsRefresh])
 
 
   function logout(){

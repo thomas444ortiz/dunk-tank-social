@@ -2,7 +2,6 @@ const models = require('../models/models');
 
 const userController = {};
 
-// function to create user
 userController.createUser = (req, res, next) => {
     try {
         if(req.body.username === '' || req.body.password === '' || req.body.email==='') return next('username or password not provided');
@@ -29,7 +28,6 @@ userController.getUserInfo = (req, res, next) => {
     }
 }
 
-//function to get all users
 userController.getAllUsers = (req, res, next) => {
     models.User.find()
     .then((data)=> {
@@ -39,7 +37,46 @@ userController.getAllUsers = (req, res, next) => {
     .catch(err => next(err));
 }
 
-// function to delete all users 
+userController.updateUsername = (req, res, next) => {
+    try {
+        console.log('Update username invoked', req.body.newUsername, req.cookies.ssid)
+        models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {username: `${req.body.newUsername}`}})
+        .then((data) => {
+            console.log('this is the data', data)
+            return next()
+        })
+    } catch {
+        return next('Error updating username')
+    }
+}
+
+userController.updatePassword = (req, res, next) => {
+    try {
+        console.log('Update password invoked')
+        return next()
+    } catch {
+        return next('Error updating password')
+    }
+}
+
+userController.updateProfilePicture = (req, res, next) => {
+    try {
+        console.log('Update profile picture invoked')
+        return next()
+    } catch {
+        return next('Error updating profile picture')
+    }
+}
+
+userController.deleteAccount = (req, res, next) => {
+    try {
+        console.log('Delete account invoked')
+        return next()
+    } catch {
+        return next('Delete account invoked')
+    }
+}
+
 userController.deleteAllUsers = (req, res, next) => {
     models.User.deleteMany({})
     .then(()=> {
