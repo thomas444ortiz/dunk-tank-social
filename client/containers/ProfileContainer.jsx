@@ -13,28 +13,22 @@ export default function ProfileContainer() {
     dispatch(callback(text));
   }
 
-  // function to update username
-  function updateUsername(){
-    fetch('/user/updateUsername',{
+  // function to update user information
+  function updateUserData(route, field, slice){
+    const reqBody = {}
+    reqBody[field] = store[field]
+    fetch(route, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        newUsername: store.newUsername
-      })
+      body: JSON.stringify(reqBody)
     })
     .then(() => {
-      dispatch(updateNewUsername(''))
+      dispatch(slice(''))
       dispatch(updateNeedsRefresh(true))
     })
   }
-  // function to update password
-
-  // function to update profile picture
-
-  //function to delete account
-
 
   return (
     <div className="outer-profile-container"> 
@@ -42,11 +36,11 @@ export default function ProfileContainer() {
         <div>{store.username}'s account information</div>
         <div className="update-profile-info">
           <Input value={store.newUsername} onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={profileInfoInputStyle}/>
-          <Button onClick={updateUsername} sx={profileInfoButtonStyle}>Update Username</Button>  
+          <Button onClick={() => updateUserData('/user/updateUsername', 'newUsername', updateNewUsername)} sx={profileInfoButtonStyle}>Update Username</Button>  
         </div>
         <div className="update-profile-info">
-          <Input value={store.newPassword} onChange={(e) => updateInputField(e.target.value, updateNewPassword)} sx={profileInfoInputStyle}/>
-          <Button sx={profileInfoButtonStyle}>Update Password</Button>  
+          <Input value={store.password} onChange={(e) => updateInputField(e.target.value, updateNewPassword)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updatePassword', 'password', updateNewPassword)} sx={profileInfoButtonStyle}>Update Password</Button>  
         </div>
         <div className="update-profile-info">
           <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>

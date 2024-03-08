@@ -39,10 +39,8 @@ userController.getAllUsers = (req, res, next) => {
 
 userController.updateUsername = (req, res, next) => {
     try {
-        console.log('Update username invoked', req.body.newUsername, req.cookies.ssid)
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {username: `${req.body.newUsername}`}})
         .then((data) => {
-            console.log('this is the data', data)
             return next()
         })
     } catch {
@@ -52,8 +50,11 @@ userController.updateUsername = (req, res, next) => {
 
 userController.updatePassword = (req, res, next) => {
     try {
-        console.log('Update password invoked')
-        return next()
+        models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {password: `${res.locals.password}`}})
+        .then((data) => {
+            console.log('this is the data', data)
+            return next()
+        })
     } catch {
         return next('Error updating password')
     }

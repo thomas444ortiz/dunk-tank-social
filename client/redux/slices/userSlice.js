@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   username: '',
   newUsername: '',
-  newPassword: '',
+  password: '',
   newProfilePicture: '',
   needsRefresh: false
 }
@@ -19,7 +19,7 @@ export const userSlice = createSlice({
       state.newUsername = action.payload;
     },
     updateNewPassword: (state, action )=> {
-      state.newPassword = action.payload;
+      state.password = action.payload;
     },
     updateNewProfilePicture: (state, action )=> {
       state.newProfilePicture = action.payload;

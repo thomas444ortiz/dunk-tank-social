@@ -4,7 +4,7 @@ import { Button } from '@chakra-ui/react'
 import '../styles.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthStatus } from '../redux/slices/authSlice';
-import { updateUsername } from '../redux/slices/userSlice';
+import { updateUsername, updateNeedsRefresh } from '../redux/slices/userSlice';
 import { useEffect } from 'react'
 
 export default function Navbar() {
@@ -23,6 +23,7 @@ export default function Navbar() {
     .then((data) => data.json())
     .then((data) =>{
       dispatch(updateUsername(data.username))
+      dispatch(updateNeedsRefresh(false))
     })
   }, [store.needsRefresh])
 
