@@ -17,6 +17,18 @@ userController.createUser = (req, res, next) => {
     }
 }
 
+userController.getUserInfo = (req, res, next) => {
+    try {
+        models.User.findOne({_id: `${req.cookies.ssid}`})
+        .then((data)=>{
+            res.locals.username = data.username;
+            return next()
+        })
+    } catch {
+        return next('Error fetching user data')
+    }
+}
+
 //function to get all users
 userController.getAllUsers = (req, res, next) => {
     models.User.find()
