@@ -4,16 +4,16 @@ import { Button } from '@chakra-ui/react'
 import '../styles.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthStatus } from '../redux/slices/authSlice';
-import { updateUsername } from '../redux/slices/userSlice';
+import { updateUsername, updateNeedsRefresh, updateProfilePicture } from '../redux/slices/userSlice';
 import { useEffect } from 'react'
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state) => state.user)
-
+  console.log(store)
   // going to fetch user data here
-  useEffect(()=>{
+  useEffect(() => {
     fetch('/user/userInfo', {
       method: 'GET',
       headers: {
@@ -22,10 +22,12 @@ export default function Navbar() {
     })
     .then((data) => data.json())
     .then((data) =>{
+      // console.log('this is the data for the navbar', data)
       dispatch(updateUsername(data.username))
+      dispatch(updateProfilePicture(data.profilePicture))
+      dispatch(updateNeedsRefresh(false))
     })
-  }, [])
-
+  }, [store.needsRefresh])
 
   function logout(){
     fetch('/auth/logout',{

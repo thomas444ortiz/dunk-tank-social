@@ -1,44 +1,69 @@
 import React from 'react';
 import '../styles.css'
 import { useSelector, useDispatch} from 'react-redux'
-import { updateNewUsername, updateNewPassword, updateNewProfilePicture } from '../redux/slices/userSlice'
+import { updateNewUsername, updateNewPassword, updateNewProfilePicture, updateNeedsRefresh } from '../redux/slices/userSlice'
 import { Input, Button } from '@chakra-ui/react'
-import { updateProfileInfoInputStyle, updateProfileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
+import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
+import { useNavigate } from 'react-router-dom';
+import { updateAuthStatus } from '../redux/slices/authSlice';
 
 export default function ProfileContainer() {
   const store = useSelector((state)=> state.user)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function updateInputField(text, callback){
     dispatch(callback(text));
   }
 
-  // function to update username
-  
-  // function to update password
+  // function to update user information
+  function updateUserData(route, field, slice){
+    const reqBody = {}
+    reqBody[field] = store[field]
+    fetch(route, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(() => {
+      dispatch(slice(''))
+      dispatch(updateNeedsRefresh(true))
+    })
+  }
 
-  // function to update profile picture
-
-  //function to delete account
-
+  function deleteAccount(){
+    fetch('/user/deleteAccount',{
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(()=>{ 
+      dispatch(updateAuthStatus(true))
+      navigate('/')
+    })
+  }
 
   return (
     <div className="outer-profile-container"> 
       <div className="inner-profile-container">
         <div>{store.username}'s account information</div>
+        <img src={store.profilePicture} />
         <div className="update-profile-info">
-          <Input onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={updateProfileInfoInputStyle}/>
-          <Button sx={updateProfileInfoButtonStyle}>Update Username</Button>  
+          <Input value={store.newUsername} onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updateUsername', 'newUsername', updateNewUsername)} sx={profileInfoButtonStyle}>Update Username</Button>  
         </div>
         <div className="update-profile-info">
-          <Input onChange={(e) => updateInputField(e.target.value, updateNewPassword)} sx={updateProfileInfoInputStyle}/>
-          <Button sx={updateProfileInfoButtonStyle}>Update Password</Button>  
+          <Input value={store.password} onChange={(e) => updateInputField(e.target.value, updateNewPassword)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updatePassword', 'password', updateNewPassword)} sx={profileInfoButtonStyle}>Update Password</Button>  
         </div>
         <div className="update-profile-info">
-          <Input onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={updateProfileInfoInputStyle}/>
-          <Button sx={updateProfileInfoButtonStyle}>Update Profile Picture</Button>  
+          <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)} sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
         </div>
-        <Button>Delete Account</Button>  
+        <Button onClick={deleteAccount} >Delete Account</Button>  
       </div>
     </div>
   );

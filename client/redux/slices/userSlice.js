@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   username: '',
+  profilePicture: '',
   newUsername: '',
-  newPassword: '',
-  newProfilePicture: ''
+  password: '',
+  newProfilePicture: '',
+  needsRefresh: false
 }
 
 export const userSlice = createSlice({
@@ -14,20 +16,26 @@ export const userSlice = createSlice({
     updateUsername: (state, action )=> {
       state.username = action.payload;
     },
+    updateProfilePicture: (state, action) => {
+      state.profilePicture = action.payload;
+    },
     updateNewUsername: (state, action )=> {
       state.newUsername = action.payload;
     },
     updateNewPassword: (state, action )=> {
-      state.newPassword = action.payload;
+      state.password = action.payload;
     },
     updateNewProfilePicture: (state, action )=> {
       state.newProfilePicture = action.payload;
     },
+    updateNeedsRefresh: (state, action) => {
+      state.needsRefresh = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { updateUsername, updateNewPassword, updateNewProfilePicture, 
-               updateNewUsername } = userSlice.actions
+export const { updateUsername, updateProfilePicture, updateNewPassword, updateNewProfilePicture, 
+               updateNewUsername, updateNeedsRefresh } = userSlice.actions
 
 export default userSlice.reducer

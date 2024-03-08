@@ -17,6 +17,23 @@ postController.createPost = (req, res, next) => {
     }
 }
 
+postController.getAllPosts = (req,res, next) => {
+    try {
+        models.Post.find()
+        .then((data)=> {
+            // remove the userids before sending back to frontend
+            for(const post of data){
+                post.userId = null;
+            }
+            res.locals = data;
+            return next();
+        })
+        .catch(err => next(err));
+    } catch {
+        return next('Error getting all posts')
+    }
+}
+
 postController.deletePost = (req, res, next) => {
     try {
         // first make sure the user is the user who created that post
@@ -38,22 +55,18 @@ postController.deletePost = (req, res, next) => {
     }
 }
 
-postController.getAllPosts = (req,res, next) => {
-    try {
-        models.Post.find()
-        .then((data)=> {
-            // remove the userids before sending back to frontend
-            for(const post of data){
-                post.userId = null;
-            }
-            res.locals = data;
-            return next();
+postController.deleteAllPostsByUser = (req, res, next) => {
+    try{
+        models.Post.deleteMany({userId: `${req.cookies.ssid}`})
+        .then((data)=>{
+            console.log('deleted posts', data)
+            return next()
         })
-        .catch(err => next(err));
     } catch {
-        return next('Error getting all posts')
+        return next('Error deleting all of users posts');
     }
 }
+
 
 // function to delete all posts 
 postController.deleteAllPosts = (req, res, next) => {
