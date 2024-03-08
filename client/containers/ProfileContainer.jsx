@@ -6,6 +6,7 @@ import { Input, Button } from '@chakra-ui/react'
 import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
 import { useNavigate } from 'react-router-dom';
 import { updateAuthStatus } from '../redux/slices/authSlice';
+const utils = require('../../shared/utils')
 
 export default function ProfileContainer() {
   const store = useSelector((state)=> state.user)
@@ -18,6 +19,15 @@ export default function ProfileContainer() {
 
   // function to update user information
   function updateUserData(route, field, slice){
+    // validate the password
+    if(field === 'password'){
+      if(!utils.isValidPassword(store.password)) console.log('Invalid password')
+    }
+    // validate the username 
+    if(field === 'newUsername'){
+      if(!utils.isValidUsername(store.newUsername)) console.log('Invalid username')
+    }
+
     const reqBody = {}
     reqBody[field] = store[field]
     fetch(route, {

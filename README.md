@@ -14,8 +14,6 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 # Feature Pipeline
 Next:
 - Have users navigate to home automatically when they have cookies
-- Extensive user error checking on frontend 
-- Extensive error checking on backend and backend (email format, no empty strings, etc)
 
 Near Term:
 - Ability to like posts
@@ -27,6 +25,7 @@ Near Term:
 
 Stretch:
 - Testing
+- User content moderation
 - Connect instagram or linkedin in order to post
 - CI / CD with Github Actions
 - Hosting on AWS & Containerization

@@ -1,10 +1,13 @@
 const models = require('../models/models');
+const utils = require('../../shared/utils')
 
 const userController = {};
 
 userController.createUser = (req, res, next) => {
     try {
-        if(req.body.username === '' || req.body.password === '' || req.body.email==='') return next('username or password not provided');
+        // validate username, and email. Password was validated when it was hashed.
+        if(!utils.isValidEmail(req.body.email)) return next('Invalid email format');
+        if(!utils.isValidUsername(req.body.username)) return next('Invalid username format');
         models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, email: `${req.body.email}`, profilePicture: ''})
         .then((data) => {
             res.locals.data = data;
@@ -40,6 +43,8 @@ userController.getAllUsers = (req, res, next) => {
 
 userController.updateUsername = (req, res, next) => {
     try {
+        // validate the format of the username
+        if(!utils.isValidUsername(req.body.username)) return next('Invalid username format')
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {username: `${req.body.newUsername}`}})
         .then(() => {
             return next()
@@ -51,6 +56,7 @@ userController.updateUsername = (req, res, next) => {
 
 userController.updatePassword = (req, res, next) => {
     try {
+        // Password validation happens before it is hashed
         models.User.updateOne({_id: `${req.cookies.ssid}`}, { $set: {password: `${res.locals.password}`}})
         .then(() => {
             return next()

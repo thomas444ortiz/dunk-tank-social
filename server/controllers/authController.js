@@ -1,10 +1,13 @@
 const bcrypt = require('bcryptjs');
 const models = require('../models/models');
+const utils = require('../../shared/utils')
 
 const authController = {};
 
 authController.hashPassword = (req, res, next) => {
     try {
+        // validate the password format
+        if(!utils.isValidPassword(req.body.password)) return next('Invalid password format');
         // hash the password
         var salt = bcrypt.genSaltSync(10);
         var hash = bcrypt.hashSync(req.body.password, salt);

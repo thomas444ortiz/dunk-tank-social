@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateUsername, updateEmail, updatePassword } from '../redux/slices/signupSlice';
 import { updateAuthStatus } from '../redux/slices/authSlice';
+const utils = require('../../shared/utils')
 
 export default function SignupContainer() {
   const store = useSelector((state) => state.signup);
@@ -13,6 +14,19 @@ export default function SignupContainer() {
   const navigate = useNavigate();
 
   function signup() {
+    // validate email, username, password
+    if(!utils.isValidEmail(store.email)) {
+      alert('Invalid email');
+      return;
+    };
+    if(!utils.isValidUsername(store.username)) {
+      alert('Usernames must be between 3 and 20 characters, and only include letters or the following characters: @, _, -');
+      return;
+    };
+    if(!utils.isValidPassword(store.password)) {
+      alert('Passwords must be between 8 and 64 characters');
+      return;
+    };
     // make post request with the email, username, and password in the request body
     fetch('/auth/signup',{
       method: 'POST',
