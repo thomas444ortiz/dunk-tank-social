@@ -11,6 +11,13 @@ router.post('/createComment',
     }
 )
 
+router.post('/postComments', 
+    commentController.getAllCommentsFromPost,
+    (req, res) => {
+        return res.status(200).json(res.locals)
+    }
+)
+
 router.get('/allComments', 
     commentController.getAllComments,
     (req, res) => {

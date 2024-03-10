@@ -13,10 +13,13 @@ export const commentSlice = createSlice({
     updateCommentBody: (state, action ) => {
       state.commentBody = action.payload;
     },
+    updateCommentsArray: (state, action) => {  
+      state.commentsArray[action.payload.postId] = action.payload.comments;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { updateCommentBody } = commentSlice.actions
+export const { updateCommentBody, updateCommentsArray } = commentSlice.actions
 
 export default commentSlice.reducer

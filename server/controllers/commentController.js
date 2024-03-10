@@ -18,12 +18,24 @@ commentController.createComment = (req, res, next) =>{
     }
 }
 
+commentController.getAllCommentsFromPost = (req, res, next) => {
+    try {
+        models.Comment.find({postId: `${req.body.postId}`})
+        .then((data)=>{
+            res.locals = data;
+            return next();
+        })
+    }
+    catch {
+        return next('Error getting all comments from post')
+    }
+}
+
 commentController.getAllComments = (req, res, next) => {
     try {
         models.Comment.find({})
         .then((data) => {
             res.locals = data;
-            console.log('Getting all comments')
             return next()
         })
     }
