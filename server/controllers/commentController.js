@@ -21,6 +21,9 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
     try {
         models.Comment.find({postId: `${req.body.postId}`})
         .then((data)=>{
+            for(const comment of data){
+                comment.userId = null;
+            }
             res.locals = data;
             return next();
         })
