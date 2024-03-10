@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Button } from '@chakra-ui/react'
 import { newPostInputStyle } from '../chakra-styles/LoginAndSignupStyles';
-import { updateCommentBody, updateCommentsArray } from '../redux/slices/commentSlice';
+import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../redux/slices/commentSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react'
 import Comment from './Comment'
@@ -17,12 +17,13 @@ export default function CreateCommentArea(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          commentBody: store.commentBody,
+          commentBody: store.commentBody[props.id],
           postId: props.id
         })
       })
       .then(()=>{
-        dispatch(updateCommentBody(''))
+        dispatch(updateCommentBody({postId: props.id, text: ''}))
+        dispatch(updateNeedsRerender({postId: props.id, value: true}))
       })
   }
 
@@ -40,9 +41,10 @@ export default function CreateCommentArea(props) {
       return data.json()
     })
     .then((data) => {
-      return dispatch(updateCommentsArray({postId: props.id, comments: data}))
+      dispatch(updateCommentsArray({postId: props.id, comments: data}))
+      dispatch(updateNeedsRerender({postId: props.id, value: false}))
     })
-  }, [])
+  }, [store.needsRerender[props.id]])
 
   const comments = [];
 
@@ -55,8 +57,8 @@ export default function CreateCommentArea(props) {
   return (
     <div>
       <div className="create-post-container">
-        <Input value={store.commentBody} onChange={(e)=> dispatch(updateCommentBody(e.target.value))}placeholder='Add a comment...' sx={newPostInputStyle}/>
-        <Button onClick={createComment}>Create Post</Button>    
+        <Input value={store.commentBody[props.id] ? store.commentBody[props.id] : '' } onChange={(e)=> dispatch(updateCommentBody({postId: props.id, text: e.target.value}))}placeholder='Add a comment...' sx={newPostInputStyle}/>
+        <Button onClick={createComment}>Comment</Button>    
       </div>
       <div>
         {comments}

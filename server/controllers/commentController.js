@@ -9,7 +9,6 @@ commentController.createComment = (req, res, next) =>{
         .then(()=>{
             models.Comment.create({body: `${req.body.commentBody}`, postId: `${req.body.postId}`, userId: `${req.cookies.ssid}`})
             .then((data)=>{
-                console.log('Creating comment', data)
                 return next();
             })
         })
