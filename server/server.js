@@ -4,6 +4,7 @@ const app = express();
 const authRouter = require ('./routes/auth')
 const userRouter = require('./routes/user')
 const postRouter = require('./routes/post')
+const commentRouter = require('./routes/comment')
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
@@ -14,8 +15,9 @@ app.use(express.static(path.join(__dirname, "../build")));
 
 // handle logic
 app.use('/auth', authRouter);
-app.use('/user', userRouter)
-app.use('/post', postRouter)
+app.use('/user', userRouter);
+app.use('/post', postRouter);
+app.use('/comment', commentRouter);
 
 // handle all other routes by serving the index.html file
 app.use('*', (req, res) => {
