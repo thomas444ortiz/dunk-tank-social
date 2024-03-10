@@ -20,7 +20,7 @@ const User = mongoose.model('User', userSchema);
 
 const sessionSchema = new Schema({
     cookieId: { type: String, required: true, unique: true },
-    createdAt: { type: Date, expires: 300, default: Date.now }
+    createdAt: { type: Date, expires: 604800, default: Date.now }
 });
 
 const Session = mongoose.model('Session', sessionSchema);
@@ -29,15 +29,49 @@ const postSchema = new Schema({
     body: String,
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     username: String
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);
 
+const commentSchema = new Schema({
+    body: String,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    postId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+        required: true
+    },
+    username: String
+}, { timestamps: true })
+
+const Comment = mongoose.model('Comment', commentSchema)
+
+const postLikeSchema = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    postId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    },
+    username: String
+})
+
+const PostLike = mongoose.model('PostLike', postLikeSchema)
+
 module.exports = {
     User,
     Session,
-    Post
+    Post,
+    Comment,
+    PostLike
   };
