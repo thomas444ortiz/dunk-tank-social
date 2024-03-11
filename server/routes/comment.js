@@ -25,6 +25,13 @@ router.get('/allComments',
     }
 )
 
+router.delete('/deleteComment',
+    commentController.deleteComment,
+    (req, res) =>{
+        return res.status(200).json(res.locals);
+    }
+)
+
 router.delete('/allComments', 
     commentController.deleteAllComments,
     (req, res) => {

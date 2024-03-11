@@ -46,6 +46,18 @@ commentController.getAllComments = (req, res, next) => {
     }
 }
 
+commentController.deleteComment = (req, res, next) => {
+    try{
+        models.Comment.findOneAndDelete({userId: req.cookies.ssid, _id: req.body.commentId})
+        .then((data)=>{            
+            return next();
+        })
+    }
+    catch {
+        return next('Error deleting comment');
+    }
+}
+
 commentController.deleteAllComments = (req, res, next) => {
     try{
         models.Comment.deleteMany({})
