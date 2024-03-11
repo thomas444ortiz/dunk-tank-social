@@ -62,7 +62,6 @@ postController.deleteAllPostsByUser = (req, res, next) => {
     try{
         models.Post.deleteMany({userId: `${req.cookies.ssid}`})
         .then((data)=>{
-            console.log('deleted posts', data)
             return next()
         })
     } catch {

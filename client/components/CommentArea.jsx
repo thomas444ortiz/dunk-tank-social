@@ -50,7 +50,7 @@ export default function CreateCommentArea(props) {
 
   if(store.commentsArray[props.id]){
     for(const comment of store.commentsArray[props.id]){
-      comments.push(<Comment key={comment._id} body={comment.body}/>)
+      comments.push(<Comment key={comment._id} id={comment._id} body={comment.body}/>)
     }
   }
 

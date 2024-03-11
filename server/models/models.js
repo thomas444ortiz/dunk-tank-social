@@ -57,11 +57,13 @@ const Comment = mongoose.model('Comment', commentSchema)
 const postLikeSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     postId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post'
+        ref: 'Post',
+        required: true
     },
     username: String
 })
