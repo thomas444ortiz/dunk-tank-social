@@ -5,6 +5,7 @@ import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react'
 import Comment from './Comment'
+import utils from '../../shared/utils.js';
 
 export default function CreateCommentArea(props) {
   const store = useSelector((state)=> state.comment)
@@ -13,6 +14,10 @@ export default function CreateCommentArea(props) {
   const comments = [];
 
   function createComment(){
+      if(!utils.isValidPostContent(store.commentBody[props.id])) {
+        window.alert('Comments must be between 5 and 500 characters');
+        return;
+      }
       fetch('/comment/createComment',{
         method: 'POST',
         headers: {

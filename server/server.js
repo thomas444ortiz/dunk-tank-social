@@ -7,9 +7,17 @@ const postRouter = require('./routes/post')
 const commentRouter = require('./routes/comment')
 const likeRouter = require('./routes/like')
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
+
+// Create rate limit rule, max 50 request per 10 mins
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(limiter);
 
 // serve everything from the build folder
 app.use(express.static(path.join(__dirname, "../build")));
