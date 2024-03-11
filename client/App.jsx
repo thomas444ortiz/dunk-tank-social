@@ -15,6 +15,7 @@ export default function App() {
   const dispatch = useDispatch()
 
   useEffect(()=>{
+    console.log('going to validate session')
     fetch('/auth/validateSession', {
       method: "GET",
       headers: {
