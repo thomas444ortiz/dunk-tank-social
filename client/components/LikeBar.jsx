@@ -18,6 +18,13 @@ export default function LikeBar(props) {
           postId: props.id
         })
       })
+      .then((response)=>{
+        if(response.ok){
+          // if the like is successful, we can update the frontend to show it
+          const bool = store.isLiked[props.id] ? false: true;
+          dispatch(updateIsLiked({postId: props.id, isLiked: bool}))
+        }
+      })
   }
 
     fetch('/like/likesFromPost',{
