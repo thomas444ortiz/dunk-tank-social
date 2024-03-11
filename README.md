@@ -4,21 +4,22 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Technical Features
 - Password encrpytion using Bcrypt
-- Cookies and expiring session tokens in MongoDB for authentication
+- Rate limiting using express-rate-limit (learned this the hard way)
+- Cookies and expiring session tokens in MongoDB for authentication, with autoredirect for authenticated users
 - React and React Router for reusable components, dynamic page rendering, protected routes
 - Express server with express router in NodeJS environment
 - Chakra UI components with custom CSS
 - Redux Toolkit for centralized state management
 - Transpiliation with Webpack
+- MongoDB schemas for users, sessions, posts, comments, likes
+- All the functionality of a full stack social media app you would expect!
 
 # Feature Pipeline
 Near Term:
-- Update routing to make returning smoother for returning users (right now you see a flash of the login page before it redirects you)
-- Styling
+- Styling, a lot of it
 
-- Ability to expose posts + algorithm
+- Ability to expose posts + algorithm, upvotes / downvotes
 - Location based feed
-- Throttle requests, protect backend
 
 Stretch:
 - Pagination of posts
