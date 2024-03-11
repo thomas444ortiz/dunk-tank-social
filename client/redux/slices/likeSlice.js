@@ -10,7 +10,7 @@ export const likeSlice = createSlice({
   initialState,
   reducers: {
     updateIsLiked: (state, action) => {
-        state.isLiked[action.payload.postId] = action.payload.isLiked;
+      state.isLiked[action.payload.postId] = action.payload.isLiked;
     },
     updateNumLikes: (state, action) => {
         state.numLikes[action.payload.postId] = action.payload.numLikes;

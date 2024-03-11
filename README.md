@@ -14,13 +14,11 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 # Feature Pipeline
 Near Term:
 - Update routing to make returning smoother for returning users (right now you see a flash of the login page before it redirects you)
-- Ability to like posts
-- Ability to delete comments
+- Styling
+
 - Ability to expose posts + algorithm
 - Location based feed
-- Styling
 - Throttle requests, protect backend
-- Only show delete button if its your post / comment
 
 Stretch:
 - Pagination of posts

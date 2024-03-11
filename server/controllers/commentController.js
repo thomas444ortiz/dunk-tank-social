@@ -5,12 +5,10 @@ const commentController = {};
 
 commentController.createComment = (req, res, next) =>{
     try{
-        models.Post.findOne({id: `${req.body.postId}`, userId: `${req.cookies.ssid}`})
-        .then(()=>{
-            models.Comment.create({body: `${req.body.commentBody}`, postId: `${req.body.postId}`, userId: `${req.cookies.ssid}`})
-            .then((data)=>{
-                return next();
-            })
+        models.Comment.create({body: `${req.body.commentBody}`, postId: `${req.body.postId}`, 
+        userId: `${req.cookies.ssid}`, username: res.locals.username})
+        .then(() => {
+            return next();
         })
     } catch {
         return next('Error creating comment')
@@ -21,10 +19,17 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
     try {
         models.Comment.find({postId: `${req.body.postId}`})
         .then((data)=>{
-            for(const comment of data){
-                comment.userId = null;
-            }
-            res.locals = data;
+            // Initialize an empty object to hold the modified comments
+            const modifiedData = {};
+            data.forEach(comment => {
+                // Clone the comment object to avoid modifying the original data
+                const clonedComment = { ...comment._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
+                // Compare the userId and set it to true or false
+                clonedComment.userId = comment.userId == req.cookies.ssid;
+                // Use the comment's _id as the key for the modifiedData object
+                modifiedData[comment._id] = clonedComment;
+            });
+            res.locals = modifiedData;
             return next();
         })
     }
@@ -43,6 +48,18 @@ commentController.getAllComments = (req, res, next) => {
     }
     catch {
         return next('Error getting all comments')
+    }
+}
+
+commentController.deleteComment = (req, res, next) => {
+    try{
+        models.Comment.findOneAndDelete({userId: req.cookies.ssid, _id: req.body.commentId})
+        .then((data)=>{            
+            return next();
+        })
+    }
+    catch {
+        return next('Error deleting comment');
     }
 }
 

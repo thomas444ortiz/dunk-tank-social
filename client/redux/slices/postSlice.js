@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   postBody: '',
-  postsArray: [],
+  posts: {},
   needsRerender: false
 }
 
@@ -13,8 +13,8 @@ export const postSlice = createSlice({
     updatePostBody: (state, action ) => {
       state.postBody = action.payload;
     },
-    updatePostsArray: (state, action) => {
-      state.postsArray = action.payload
+    updateAllPosts: (state, action) => {
+      state.posts = action.payload
     },
     updateNeedsRerender: (state, action) => {
       state.needsRerender = action.payload;
@@ -23,6 +23,6 @@ export const postSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updatePostBody, updatePostsArray, updateNeedsRerender } = postSlice.actions
+export const { updatePostBody, updateAllPosts, updateNeedsRerender } = postSlice.actions
 
 export default postSlice.reducer

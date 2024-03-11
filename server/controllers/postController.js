@@ -20,15 +20,36 @@ postController.createPost = (req, res, next) => {
     }
 }
 
+postController.validatePost = (req, res, next) => {
+    try {
+        models.Post.findOne({_id: req.body.postId})
+        .then(() => {
+            return next();
+        })
+    }
+    catch {
+        return next('Unable to validate post');
+    }
+}
+
 postController.getAllPosts = (req,res, next) => {
     try {
         models.Post.find()
         .then((data)=> {
-            // remove the userids before sending back to frontend
-            for(const post of data){
-                post.userId = null;
-            }
-            res.locals = data;
+            // Initialize an empty object to hold the modified posts
+            const modifiedData = {};
+
+            data.forEach(post => {
+                // Clone the post object to avoid modifying the original data
+                const clonedPost = { ...post._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
+                // Compare the userId and set it to true or false
+                clonedPost.userId = post.userId == req.cookies.ssid;
+
+                // Use the post's _id as the key for the modifiedData object
+                modifiedData[post._id] = clonedPost;
+            });
+
+            res.locals = modifiedData;
             return next();
         })
         .catch(err => next(err));
@@ -39,19 +60,18 @@ postController.getAllPosts = (req,res, next) => {
 
 postController.deletePost = (req, res, next) => {
     try {
-        // first make sure the user is the user who created that post
-        models.Post.findOne({_id: `${req.body.postId}`, userId: `${req.cookies.ssid}`})
-        .then((data)=> {
-            // if the post id matches the user id of the person who posted, delete it
-            if(data!== null){
-                models.Post.findOneAndDelete({_id: `${req.body.postId}`})
-                .then(()=> {
+        // first delete the post
+        models.Post.findOneAndDelete({_id: `${req.body.postId}`, userId: req.cookies.ssid})
+        .then(()=> {
+            // then delete the comments
+            models.Comment.deleteMany({postID: `${req.body.postId}`})
+            .then(()=>{
+                //then delete the likes
+                models.PostLike.deleteMany({postId: `${req.body.postId}`})
+                .then(()=>{
                     return next();
                 })
-            }
-            else{
-                return next('Not authorized to delete that post')
-            }
+            })
         })
     } catch {
         return next('Error deleting post')
