@@ -2,12 +2,15 @@ import React from 'react';
 import '../styles.css'
 import Post from '../components/Post'
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePostsArray, updateNeedsRerender } from '../redux/slices/postSlice';
+import { updateAllPosts, updateNeedsRerender } from '../redux/slices/postSlice';
 import { useEffect } from 'react'
 
 export default function PostContainer() {
   const store = useSelector((state) => state.post)
+  // console.log(store.posts)
   const dispatch = useDispatch();
+
+  const posts = [];
 
   useEffect(() => {
     // fetch request to get all posts
@@ -19,16 +22,20 @@ export default function PostContainer() {
       return data.json()
     })
     .then((data) => {
-      dispatch(updatePostsArray(data))
+      console.log('these are the posts', data)
+      dispatch(updateAllPosts(data))
       // reset the needs rerender boolean back to false
       dispatch(updateNeedsRerender(false))
     })
+    .then(()=>{
+
+    })
   }, [store.needsRerender])
   
-  const posts = [];
-  
-  for(const post of store.postsArray){
-    posts.push(<Post key={post._id} id={post._id} body={post.body} postedBy={post.username} timestamp={post.updatedAt}/>)
+  if (Object.keys(store.posts).length > 0){
+    for(const postId in store.posts){
+      posts.push(<Post key={store.posts[postId]._id} id={store.posts[postId]._id} body={store.posts[postId].body} postedBy={store.posts[postId].username} timestamp={store.posts[postId].updatedAt} userPost={store.posts[postId].userId}/>)
+    }
   }
 
   return (

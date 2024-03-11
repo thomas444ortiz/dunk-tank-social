@@ -10,6 +10,8 @@ export default function CreateCommentArea(props) {
   const store = useSelector((state)=> state.comment)
   const dispatch = useDispatch();
 
+  const comments = [];
+
   function createComment(){
       fetch('/comment/createComment',{
         method: 'POST',
@@ -46,11 +48,11 @@ export default function CreateCommentArea(props) {
     })
   }, [store.needsRerender[props.id]])
 
-  const comments = [];
-
   if(store.commentsArray[props.id]){
-    for(const comment of store.commentsArray[props.id]){
-      comments.push(<Comment key={comment._id} id={comment._id} body={comment.body}/>)
+    for(const commentID in store.commentsArray[props.id]){
+      comments.push(<Comment key={store.commentsArray[props.id][commentID]._id} id={store.commentsArray[props.id][commentID]._id} 
+        body={store.commentsArray[props.id][commentID].body} userPost={store.commentsArray[props.id][commentID].userId} 
+        username={store.commentsArray[props.id][commentID].username} postId={props.id}/>)
     }
   }
 

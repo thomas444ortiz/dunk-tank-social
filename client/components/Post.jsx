@@ -29,7 +29,7 @@ export default function Post(props) {
             <div>Posted by: {props.postedBy}</div>         
             <div>Timestamp: {props.timestamp}</div>
         </div>
-        <Button onClick={(e)=> deletePost(props.id)}>Delete Post</Button>
+        {props.userPost? <Button onClick={(e)=> deletePost(props.id)}>Delete Post</Button> : null}
         <LikeBar key={`${props.id}`+ 'likebar'} id={props.id}/>
         <CommentArea key={props.id} id={props.id}/>
     </div>

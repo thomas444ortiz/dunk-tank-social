@@ -18,7 +18,6 @@ Near Term:
 - Location based feed
 - Styling
 - Throttle requests, protect backend
-- Only show delete button if its your post / comment
 
 Stretch:
 - Pagination of posts
