@@ -16,22 +16,30 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Feature Pipeline
 Near Term:
-- Ability to expose posts + algorithm (need to brainstorm)
-
 - Styling, a lot of it
 
-Stretch:
-- Add upvote and downvote property to post to make loading faster
-- Location based feed
+# Stretch Features:
+### Optimizations:
+- Update redux store to rerender only a single post instead of all of them
 - Pagination of posts
-- Mobile responsive design
+
+### New Features:
+- Location based feed
 - See all your posts and comments on user profile page
-- Testing
+- Mobile responsive design
 - User content moderation
 - Connect instagram or linkedin in order to post
-- CI / CD with Github Actions
-- Hosting on AWS & Containerization
 - Email validation
 - Add in text size that fluctuates based on downvotes
 - Add in cancellation features and other fun features
 - Karma / Social credit score? 
+
+### Other
+- Testing
+- CI / CD with Github Actions
+- Hosting on AWS & Containerization
+
+
+Features
+- Make upvote and downvote property of post feed props
+

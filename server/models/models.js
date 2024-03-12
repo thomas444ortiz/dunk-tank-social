@@ -33,7 +33,9 @@ const postSchema = new Schema({
         required: true
     },
     username: String,
-    usernameExposed: Boolean
+    usernameExposed: Boolean,
+    upvotes: Number,
+    downvotes: Number
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);

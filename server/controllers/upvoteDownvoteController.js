@@ -5,6 +5,9 @@ const upvoteDownvoteController = {};
 upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
     try{
         const downvote = !req.body.upvote;
+        if(downvote){
+            res.locals.exposed = true;
+        }
         // look for an existing upvote or downvote
         models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
         .then((data)=>{
@@ -13,13 +16,13 @@ upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
                 models.PostUpvoteDownvote.updateOne({_id: data._id}, {$set: {upvoted: req.body.upvote, downvoted: downvote }})
                 .then(()=>{
                     return next();
-
                 })
             }
             else{
                 // if it doesnt, make a new one
                 models.PostUpvoteDownvote.create({userId: req.cookies.ssid, postId: req.body.postId, upvoted: req.body.upvote, downvoted: downvote})
                 .then(() => {
+                    res.locals.isNew = true;
                     return next()
                 })
             }
