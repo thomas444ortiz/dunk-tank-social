@@ -12,7 +12,9 @@ upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
         models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
         .then((data)=>{
             // if it exists, update whether its an upvote or a downvote
-            if(data){
+            if(data){        
+                // if they are already upvoted / downvoted and trying to do the same thing again, return
+                if(data.upvoted === req.body.upvote) return next('You have already done that');
                 models.PostUpvoteDownvote.updateOne({_id: data._id}, {$set: {upvoted: req.body.upvote, downvoted: downvote }})
                 .then(()=>{
                     return next();
@@ -35,7 +37,7 @@ upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
 upvoteDownvoteController.getAllUpvotesDownvotesFromPost = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.find({postId: `${req.body.postId}`})
-        .then((data)=>{   
+        .then((data)=> {   
             res.locals.numUpvotes = 0;
             res.locals.numDownvotes = 0;
             for(const element of data){

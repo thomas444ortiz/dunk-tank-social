@@ -2,34 +2,38 @@ import React, { useEffect } from 'react';
 import '../styles.css'
 import { Button } from '@chakra-ui/react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateIsDownvotedByUser, updateIsUpvotedByUser, updateNumUpvotes, updateNumDownvotes } from '../redux/slices/upvoteDownvoteSlice';
+import { updateIsDownvotedByUser, updateIsUpvotedByUser } from '../redux/slices/upvoteDownvoteSlice';
 import { updateNeedsRerender } from '../redux/slices/postSlice';
 
 export default function UpvoteDownvoteBar(props) {
   const store = useSelector((state) => state.upvoteDownvote)
-
+  const postStore = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
   function handleLike(isUpvote){
-      fetch('/upvoteDownvote/toggleUpvoteDownvote',{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          postId: props.id,
-          upvote: isUpvote
-        })
+    if(store.isUpvotedByUser[props.id] || store.isDownvotedByUser[props.id]){
+      if(isUpvote && store.isUpvotedByUser[props.id] === isUpvote) return;
+      else if(store.isDownvotedByUser[props.id] === !isUpvote) return; 
+    }
+    fetch('/upvoteDownvote/toggleUpvoteDownvote',{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        postId: props.id,
+        upvote: isUpvote
       })
-      .then((data)=> data.json())
-      .then((response)=> {
-        dispatch(updateIsUpvotedByUser({postId: props.id, value: isUpvote}))
-        dispatch(updateIsDownvotedByUser({postId: props.id, value: !isUpvote}))
-        if(response.exposed){
-          dispatch(updateNeedsRerender(true));
-          window.alert('Congrats, you have just exposed a post!')
-        }
-      })
+    })
+    .then((data)=> data.json())
+    .then((response)=> {
+      dispatch(updateIsUpvotedByUser({postId: props.id, value: isUpvote}))
+      dispatch(updateIsDownvotedByUser({postId: props.id, value: !isUpvote}))
+      dispatch(updateNeedsRerender(true));
+      if(response.exposed){
+        window.alert('Congrats, you have just exposed a post!')
+      }
+    })
   }
 
   fetch('/upvoteDownvote/upvotesDownvotesFromPost',{
@@ -39,14 +43,10 @@ export default function UpvoteDownvoteBar(props) {
     },
     body: JSON.stringify({
       postId: props.id,
-      upvotes: store.numUpvotes[props.id],
-      downvotes: store.numDownvotes[props.id],     
     })
   })
   .then((data)=> data.json())
   .then((data)=> {
-    dispatch(updateNumUpvotes({postId: props.id, value: data.numUpvotes}))
-    dispatch(updateNumDownvotes({postId: props.id, value: data.numDownvotes}))
     dispatch(updateIsUpvotedByUser({postId: props.id, value: data.isUpvotedByUser}))
     dispatch(updateIsDownvotedByUser({postId: props.id, value: data.isDownvotedByUser}))
   })
@@ -54,9 +54,9 @@ export default function UpvoteDownvoteBar(props) {
   return (
     <div>
         <Button onClick={()=> handleLike(true)}>{ store.isUpvotedByUser[props.id] ? null: 'Upvote'}</Button>
-        <div>Number of upvotes: {store.numUpvotes[props.id]}</div>
+        <div>Number of upvotes: {postStore.posts[props.id].upvotes}</div>
         <Button onClick={()=>handleLike(false)}>{ store.isDownvotedByUser[props.id] ? null: 'Downvote'}</Button>
-        <div>Number of downvotes: {store.numDownvotes[props.id]}</div>
+        <div>Number of downvotes: {postStore.posts[props.id].downvotes}</div>
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 
 export default function PostContainer() {
   const store = useSelector((state) => state.post)
-  // console.log(store.posts)
   const dispatch = useDispatch();
 
   const posts = [];
@@ -39,7 +38,7 @@ export default function PostContainer() {
 
   return (
     <div className="post-container">
-       {posts}
+       {posts.length ? posts: "No posts yet..."}
     </div>
   );
 }
