@@ -1,11 +1,13 @@
 import React from 'react';
 import '../styles.css'
 import { Button } from '@chakra-ui/react'
-// import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateIsDownvotedByUser, updateIsUpvotedByUser, updateNumUpvotes, updateNumDownvotes } from '../redux/slices/upvoteDownvoteSlice';
 
 export default function UpvoteDownvoteBar(props) {
-  // const store = useSelector((state) => state.like)
-  // const dispatch = useDispatch();
+  const store = useSelector((state) => state.upvoteDownvote)
+
+  const dispatch = useDispatch();
 
   function handleLike(isUpvote){
       fetch('/upvoteDownvote/toggleUpvoteDownvote',{
@@ -20,7 +22,8 @@ export default function UpvoteDownvoteBar(props) {
       })
       .then((data)=> data.json())
       .then((response)=>{
-          console.log('this is the response', response);
+          dispatch(updateIsUpvotedByUser({postId: props.id, value: isUpvote}))
+          dispatch(updateIsDownvotedByUser({postId: props.id, value: !isUpvote}))
       })
   }
 
@@ -35,15 +38,18 @@ export default function UpvoteDownvoteBar(props) {
     })
     .then((data)=> data.json())
     .then((data)=> {
-      console.log('this is the data', data)
-      // dispatch(updateNumLikes({postId: props.id, numLikes: data.numLikes}))
-      // dispatch(updateIsLiked({postId: props.id, isLiked: data.isLikedByUser}))
+      dispatch(updateNumUpvotes({postId: props.id, value: data.numUpvotes}))
+      dispatch(updateNumDownvotes({postId: props.id, value: data.numDownvotes}))
+      dispatch(updateIsUpvotedByUser({postId: props.id, value: data.isUpvotedByUser}))
+      dispatch(updateIsDownvotedByUser({postId: props.id, value: data.isDownvotedByUser}))
     })
 
   return (
     <div>
-        <Button onClick={()=> handleLike(true)}>Upvote</Button>
-        <Button onClick={()=>handleLike(false)}>Downvote</Button>
+        <Button onClick={()=> handleLike(true)}>{ store.isUpvotedByUser[props.id] ? null: 'Upvote'}</Button>
+        <div>Number of upvotes: {store.numUpvotes[props.id]}</div>
+        <Button onClick={()=>handleLike(false)}>{ store.isDownvotedByUser[props.id] ? null: 'Downvote'}</Button>
+        <div>Number of downvotes: {store.numDownvotes[props.id]}</div>
     </div>
   );
 }

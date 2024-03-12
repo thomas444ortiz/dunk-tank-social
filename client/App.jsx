@@ -15,7 +15,6 @@ export default function App() {
   const store = useSelector((state)=> state.auth);
 
   useEffect(()=>{
-    console.log('going to validate session')
     fetch('/auth/validateSession', {
       method: "GET",
       headers: {

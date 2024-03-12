@@ -33,10 +33,9 @@ upvoteDownvoteController.getAllUpvotesDownvotesFromPost = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.find({postId: `${req.body.postId}`})
         .then((data)=>{   
-            console.log('this is to find the num upvotes', data)
             res.locals.numUpvotes = 0;
             res.locals.numDownvotes = 0;
-            for(const datapoint of data){
+            for(const element of data){
                 if(element.upvoted) res.locals.numUpvotes++;
                 if(element.downvoted) res.locals.numDownvotes++;
             }
@@ -52,8 +51,14 @@ upvoteDownvoteController.checkIfUserUpvotedDownvotedPost = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.findOne({postId: `${req.body.postId}`, userId: `${req.cookies.ssid}`})
         .then((data)=>{
-            res.locals.isUpvotedByUser = data.upvoted;
-            res.locals.isDownvotedByUser = data.downvoted;
+            if(data){
+                res.locals.isUpvotedByUser = data.upvoted;
+                res.locals.isDownvotedByUser = data.downvoted;
+            }
+            else {
+                res.locals.isUpvotedByUser = false;
+                res.locals.isDownvotedByUser = false;  
+            }
             return next()
         })
     }

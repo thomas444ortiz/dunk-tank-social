@@ -11,8 +11,8 @@ const rateLimit = require('express-rate-limit');
 
 // Create rate limit rule, max 50 request per 10 mins
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 500, // limit each IP to 500 requests per windowMs
 });
 
 app.use(cookieParser());

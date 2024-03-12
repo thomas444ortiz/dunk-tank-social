@@ -6,6 +6,7 @@ import authSlice from './slices/authSlice'
 import postSlice from './slices/postSlice'
 import userSlice from './slices/userSlice'
 import commentSlice from './slices/commentSlice'
+import upvoteDownvoteSlice from './slices/upvoteDownvoteSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,5 +16,6 @@ export const store = configureStore({
     post: postSlice,
     user: userSlice,
     comment: commentSlice,
+    upvoteDownvote: upvoteDownvoteSlice
   },
 })
