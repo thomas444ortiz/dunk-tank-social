@@ -10,7 +10,8 @@ postController.createPost = (req, res, next) => {
         // first get the username of the poster
         models.User.findOne({_id: `${req.cookies.ssid}`})
         .then((data) => {
-            models.Post.create({body: `${req.body.body}`, userId: `${req.cookies.ssid}`, username: `${data.username}`})
+            models.Post.create({body: `${req.body.body}`, userId: `${req.cookies.ssid}`, 
+            username: `${data.username}`, isExposed: false})
             .then(()=> {
                 return next();
             })
@@ -44,7 +45,7 @@ postController.getAllPosts = (req,res, next) => {
                 const clonedPost = { ...post._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
                 // Compare the userId and set it to true or false
                 clonedPost.userId = post.userId == req.cookies.ssid;
-
+                if(!clonedPost.isExposed) clonedPost.username = 'Anonymous';
                 // Use the post's _id as the key for the modifiedData object
                 modifiedData[post._id] = clonedPost;
             });

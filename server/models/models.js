@@ -32,7 +32,8 @@ const postSchema = new Schema({
         ref: 'User',
         required: true
     },
-    username: String
+    username: String,
+    usernameExposed: Boolean
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);
