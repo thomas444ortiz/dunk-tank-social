@@ -4,19 +4,21 @@ const upvoteDownvoteController = {};
 
 upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
     try{
-        // look for the upvoteDownvote
+        const downvote = !req.body.upvote;
+        // look for an existing upvote or downvote
         models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
         .then((data)=>{
-            // if it exists, delete it
+            // if it exists, update whether its an upvote or a downvote
             if(data){
-                models.PostUpvoteDownvote.deleteMany({userId: req.cookies.ssid, postId: req.body.postId})
-                .then(() => {
+                models.PostUpvoteDownvote.updateOne({_id: data._id}, {$set: {upvoted: req.body.upvote, downvoted: downvote }})
+                .then(()=>{
                     return next();
+
                 })
             }
             else{
-                // if it doesnt, make it
-                models.PostUpvoteDownvote.create({userId: req.cookies.ssid, postId: req.body.postId})
+                // if it doesnt, make a new one
+                models.PostUpvoteDownvote.create({userId: req.cookies.ssid, postId: req.body.postId, upvoted: req.body.upvote, downvoted: downvote})
                 .then(() => {
                     return next()
                 })
@@ -30,9 +32,14 @@ upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
 upvoteDownvoteController.getAllUpvotesDownvotesFromPost = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.find({postId: `${req.body.postId}`})
-        .then((data)=>{            
-            res.locals.numUpvotes = data.length;
-            res.locals.numDownvotes = data.length
+        .then((data)=>{   
+            console.log('this is to find the num upvotes', data)
+            res.locals.numUpvotes = 0;
+            res.locals.numDownvotes = 0;
+            for(const datapoint of data){
+                if(element.upvoted) res.locals.numUpvotes++;
+                if(element.downvoted) res.locals.numDownvotes++;
+            }
             return next();
         })
     }
@@ -45,8 +52,8 @@ upvoteDownvoteController.checkIfUserUpvotedDownvotedPost = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.findOne({postId: `${req.body.postId}`, userId: `${req.cookies.ssid}`})
         .then((data)=>{
-            res.locals.isUpvotedByUser = true;
-            res.locals.isDownvotedByUser = false;
+            res.locals.isUpvotedByUser = data.upvoted;
+            res.locals.isDownvotedByUser = data.downvoted;
             return next()
         })
     }

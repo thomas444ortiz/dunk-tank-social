@@ -81,7 +81,6 @@ userController.deleteAccount = (req, res, next) => {
     try {
         models.User.findOneAndDelete({_id: `${req.cookies.ssid}`})
         .then((data)=> {
-            console.log('Deleted user', data)
             return next();
         })
     } catch {

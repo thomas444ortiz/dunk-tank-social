@@ -4,7 +4,7 @@ import { Text, Button } from '@chakra-ui/react'
 import { updateNeedsRerender } from '../redux/slices/postSlice';
 import { useDispatch } from 'react-redux'
 import CommentArea from './CommentArea';
-import LikeBar from './LikeBar';
+import UpvoteDownvoteBar from './UpvoteDownvoteBar';
 
 export default function Post(props) {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export default function Post(props) {
             <div>Timestamp: {props.timestamp}</div>
         </div>
         {props.userPost? <Button onClick={(e)=> deletePost(props.id)}>Delete Post</Button> : null}
-        <LikeBar key={`${props.id}`+ 'likebar'} id={props.id}/>
+        <UpvoteDownvoteBar key={`${props.id}`+ 'upvotedownvotebar'} id={props.id}/>
         <CommentArea key={props.id} id={props.id}/>
     </div>
   );

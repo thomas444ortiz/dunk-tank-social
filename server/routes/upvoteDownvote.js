@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const upvoteDownvoteController = require('../controllers/upvoteDownvoteController')
 
-console.log(upvoteDownvoteController);
-
 router.post('/toggleUpvoteDownvote', 
     upvoteDownvoteController.toggleUpvoteDownvote,
     (req, res) =>{
@@ -19,6 +17,7 @@ router.post('/upvotesDownvotesFromPost',
         return res.status(200).json(res.locals)
     }
 )
+
 
 router.get('/allUpvotesDownvotes', 
     upvoteDownvoteController.getAllUpvotesDownvotes,

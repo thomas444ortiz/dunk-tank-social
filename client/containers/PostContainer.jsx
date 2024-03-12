@@ -22,7 +22,6 @@ export default function PostContainer() {
       return data.json()
     })
     .then((data) => {
-      console.log('these are the posts', data)
       dispatch(updateAllPosts(data))
       // reset the needs rerender boolean back to false
       dispatch(updateNeedsRerender(false))

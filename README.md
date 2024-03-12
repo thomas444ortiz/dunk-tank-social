@@ -24,6 +24,7 @@ Near Term:
 - Styling, a lot of it
 
 Stretch:
+- Add upvote and downvote property to post to make loading faster
 - Location based feed
 - Pagination of posts
 - Mobile responsive design
