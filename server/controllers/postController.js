@@ -1,5 +1,6 @@
 const models = require('../models/models');
-const utils = require('../../shared/utils')
+const utils = require('../../shared/utils');
+const { model } = require('mongoose');
 
 const postController = {};
 
@@ -10,13 +11,72 @@ postController.createPost = (req, res, next) => {
         // first get the username of the poster
         models.User.findOne({_id: `${req.cookies.ssid}`})
         .then((data) => {
-            models.Post.create({body: `${req.body.body}`, userId: `${req.cookies.ssid}`, username: `${data.username}`})
+            models.Post.create({body: `${req.body.body}`, userId: `${req.cookies.ssid}`, 
+            username: `${data.username}`, isExposed: false, upvotes: 0, downvotes: 0})
             .then(()=> {
                 return next();
             })
         })
     } catch {
         return next('Error creating post')
+    }
+}
+
+postController.exposeUsername = (req, res, next) =>{
+    try{
+        if(res.locals.exposed){
+        // find the post and see if its already exposed
+        models.Post.findOne({_id: req.body.postId})
+        .then((data)=> {
+            // only update the status if the username is not already exposed
+            if(!data.usernameExposed){
+                models.Post.updateOne({_id: req.body.postId}, {$set: {usernameExposed: true}})
+                .then((data)=>{
+                    return next();
+                })
+            }
+            else{
+                res.locals.exposed = false;
+                return next();
+            }
+        })
+        }
+        else{
+            return next();
+        }
+    }
+    catch{
+        return next('Error exposing username');
+    }
+}
+
+postController.updateUpvotesDownvotes = (req, res, next) => {
+    try{
+        let upvote;
+        let downvote;
+        // if its a new upvote downvote, just add to either
+        if(res.locals.isNew){
+          if(req.body.upvote){
+            upvote = 1;
+            downvote = 0;
+          }
+          else{
+            upvote = 0;
+            downvote = 1;
+          }
+        }
+        // if its not new, we can increment one and decrement the other
+        else {
+            upvote = req.body.upvote? 1: -1;
+            downvote = -1 * upvote;
+        }
+
+        models.Post.updateOne({_id: req.body.postId}, {$inc: {upvotes: upvote , downvotes: downvote}})
+        .then((data)=>{
+            return next();
+        })
+    } catch {
+        return next('Error updating upvotes / downvotes')
     }
 }
 
@@ -44,7 +104,7 @@ postController.getAllPosts = (req,res, next) => {
                 const clonedPost = { ...post._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
                 // Compare the userId and set it to true or false
                 clonedPost.userId = post.userId == req.cookies.ssid;
-
+                if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
                 // Use the post's _id as the key for the modifiedData object
                 modifiedData[post._id] = clonedPost;
             });
@@ -66,8 +126,8 @@ postController.deletePost = (req, res, next) => {
             // then delete the comments
             models.Comment.deleteMany({postID: `${req.body.postId}`})
             .then(()=>{
-                //then delete the likes
-                models.PostLike.deleteMany({postId: `${req.body.postId}`})
+                //then delete the upvotes and downvotes
+                models.PostUpvoteDownvote.deleteMany({postId: `${req.body.postId}`})
                 .then(()=>{
                     return next();
                 })

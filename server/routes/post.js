@@ -21,7 +21,7 @@ router.delete('/deletePost',
 )
 
 router.get('/allPosts',
-    sessionController.verifySession,
+    // sessionController.verifySession,
     postController.getAllPosts,
     (req, res) => {
         return res.status(200).json(res.locals);

@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 
 export default function PostContainer() {
   const store = useSelector((state) => state.post)
-  // console.log(store.posts)
   const dispatch = useDispatch();
 
   const posts = [];
@@ -22,7 +21,6 @@ export default function PostContainer() {
       return data.json()
     })
     .then((data) => {
-      console.log('these are the posts', data)
       dispatch(updateAllPosts(data))
       // reset the needs rerender boolean back to false
       dispatch(updateNeedsRerender(false))
@@ -40,7 +38,7 @@ export default function PostContainer() {
 
   return (
     <div className="post-container">
-       {posts}
+       {posts.length ? posts: "No posts yet..."}
     </div>
   );
 }
