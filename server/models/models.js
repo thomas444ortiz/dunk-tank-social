@@ -54,7 +54,7 @@ const commentSchema = new Schema({
 
 const Comment = mongoose.model('Comment', commentSchema)
 
-const postLikeSchema = new Schema({
+const postUpvoteDownvoteSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -65,15 +65,16 @@ const postLikeSchema = new Schema({
         ref: 'Post',
         required: true
     },
-    username: String
+    upvoted: Boolean,
+    downvoted: Boolean,
 })
 
-const PostLike = mongoose.model('PostLike', postLikeSchema)
+const PostUpvoteDownvote = mongoose.model('PostLike', postUpvoteDownvoteSchema)
 
 module.exports = {
     User,
     Session,
     Post,
     Comment,
-    PostLike
+    PostUpvoteDownvote
   };

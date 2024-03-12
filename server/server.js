@@ -5,7 +5,7 @@ const authRouter = require ('./routes/auth')
 const userRouter = require('./routes/user')
 const postRouter = require('./routes/post')
 const commentRouter = require('./routes/comment')
-const likeRouter = require('./routes/like')
+const upvoteDownvoteRouter = require('./routes/upvoteDownvote')
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
@@ -27,7 +27,7 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
-app.use('/like', likeRouter);
+app.use('/upvoteDownvote', upvoteDownvoteRouter);
 
 // handle all other routes by serving the index.html file
 app.use('*', (req, res) => {
