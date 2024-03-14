@@ -124,3 +124,20 @@ html, body {
     padding: 5px;
     width: 90%;
 }
+
+.post-info-post {
+    display: flex;
+    align-items: center;
+}
+
+.post-top-bar{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.upvotedownvote-bar{
+    display: flex;
+}

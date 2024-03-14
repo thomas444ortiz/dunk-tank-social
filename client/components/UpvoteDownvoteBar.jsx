@@ -4,6 +4,8 @@ import { Button } from '@chakra-ui/react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIsDownvotedByUser, updateIsUpvotedByUser } from '../redux/slices/upvoteDownvoteSlice';
 import { updateNeedsRerender } from '../redux/slices/postSlice';
+import { IconButton } from '@chakra-ui/react'
+import { ChevronUpIcon, ChevronDownIcon, TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons'
 
 export default function UpvoteDownvoteBar(props) {
   const store = useSelector((state) => state.upvoteDownvote)
@@ -52,10 +54,20 @@ export default function UpvoteDownvoteBar(props) {
   })
 
   return (
-    <div>
-        <Button onClick={()=> handleLike(true)}>{ store.isUpvotedByUser[props.id] ? null: 'Upvote'}</Button>
+    <div className="upvotedownvote-bar">
+        <IconButton 
+          icon={ store.isUpvotedByUser[props.id] ? <TriangleUpIcon color="red"/> : <ChevronUpIcon/> } 
+          onClick={()=> handleLike(true)}
+        />
+
+        {/* <Button onClick={()=> handleLike(true)}>{ store.isUpvotedByUser[props.id] ? null: 'Upvote'}</Button> */}
         <div>Number of upvotes: {postStore.posts[props.id].upvotes}</div>
-        <Button onClick={()=>handleLike(false)}>{ store.isDownvotedByUser[props.id] ? null: 'Downvote'}</Button>
+        {/* <Button onClick={()=>handleLike(false)}>{ store.isDownvotedByUser[props.id] ? null: 'Downvote'}</Button> */}
+        <IconButton 
+          icon={ store.isDownvotedByUser[props.id] ? <TriangleDownIcon color="red"/> : <ChevronDownIcon/> } 
+          onClick={()=> handleLike(false)}
+        />
+        
         <div>Number of downvotes: {postStore.posts[props.id].downvotes}</div>
     </div>
   );
