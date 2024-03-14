@@ -32,7 +32,6 @@ const postSchema = new Schema({
         ref: 'User',
         required: true
     },
-    username: String,
     usernameExposed: Boolean,
     upvotes: Number,
     downvotes: Number

@@ -30,7 +30,7 @@ export default function Post(props) {
       <div className="post-top-bar">
         <div className="post-info-post">
             <Image 
-              src='https://image.made-in-china.com/2f0j00rknuUpYzYlbd/Mini-Yellow-Rubber-Duck-Bath-Toy-Sound-Floating-Ducks.webp' 
+              src={props.usernameExposed ? props.profilePicture : 'https://image.made-in-china.com/2f0j00rknuUpYzYlbd/Mini-Yellow-Rubber-Duck-Bath-Toy-Sound-Floating-Ducks.webp'} 
               alt='Rubber Duck'
               borderRadius='full'
               boxSize='50px'

@@ -51,28 +51,39 @@ postController.exposeUsername = (req, res, next) =>{
 
 postController.updateUpvotesDownvotes = (req, res, next) => {
     try{
-        let upvote;
-        let downvote;
-        // if its a new upvote downvote, just add to either
-        if(res.locals.isNew){
-          if(req.body.upvote){
-            upvote = 1;
-            downvote = 0;
-          }
-          else{
-            upvote = 0;
-            downvote = 1;
-          }
-        }
-        // if its not new, we can increment one and decrement the other
-        else {
-            upvote = req.body.upvote? 1: -1;
-            downvote = -1 * upvote;
-        }
-
-        models.Post.updateOne({_id: req.body.postId}, {$inc: {upvotes: upvote , downvotes: downvote}})
+        console.log(req.body, res.locals)
+        models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
         .then((data)=>{
-            return next();
+            // create an object
+            let update = {upvotes: 0, downvotes: 0}
+            // if its an upvote
+            if(req.body.upvote) {
+                // if its already upvoted, decrement upvotes
+                if(data.upvoted) update={upvotes: -1, downvotes: 0}
+                // if its not
+                else{
+                    // if its downvoted increment upvotes
+                    if(data.downvoted) update={upvotes: 1, downvotes: -1}
+                    // if its not downvoted, decrement downvotes
+                    else update={upvotes: 1, downvotes: -1}
+                }
+            }
+            // if its a downvote
+            else {
+                // if its already downvoted, decrement downvotes
+                if(data.downvoted) update={upvotes: 0, downvotes: -1}
+                // if its not
+                else{
+                    // if its upvoted increment downvotes and decrement upvotes
+                    if(data.upvoted) update={upvotes: -1, downvotes: 1}
+                    // if its not downvoted, decrement downvotes
+                    else update={upvotes: -1, downvotes: 1}
+                }
+            }
+            models.Post.updateOne({_id: req.body.postId}, {$inc: update})
+            .then(()=>{
+                return next();
+            })
         })
     } catch {
         return next('Error updating upvotes / downvotes')
@@ -94,6 +105,10 @@ postController.validatePost = (req, res, next) => {
 postController.getAllPosts = (req,res, next) => {
     try {
         models.Post.find()
+        .populate({
+            path: 'userId',
+            select: 'profilePicture username -_id'
+        })
         .then((data)=> {
             // Initialize an empty object to hold the modified posts
             const modifiedData = {};
@@ -104,12 +119,13 @@ postController.getAllPosts = (req,res, next) => {
                 // Compare the userId and set it to true or false
                 clonedPost.userId = post.userId == req.cookies.ssid;
                 if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                else clonedPost.username = post.userId.username;
+                clonedPost.profilePicture = post.userId.profilePicture;
                 // decode timestamp
                 clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
                 // Use the post's _id as the key for the modifiedData object
                 modifiedData[post._id] = clonedPost;
             });
-
             res.locals = modifiedData;
             return next();
         })
@@ -162,3 +178,28 @@ postController.deleteAllPosts = (req, res, next) => {
 }
 
 module.exports = postController;
+
+
+       // let upvote;
+        // let downvote;
+        // // if its a new upvote downvote, just add to either
+        // if(res.locals.isNew){
+        //   if(req.body.upvote){
+        //     upvote = 1;
+        //     downvote = 0;
+        //   }
+        //   else{
+        //     upvote = 0;
+        //     downvote = 1;
+        //   }
+        // }
+        // // if its not new, we can increment one and decrement the other
+        // else {
+        //     upvote = req.body.upvote? 1: -1;
+        //     downvote = -1 * upvote;
+        // }
+
+        // models.Post.updateOne({_id: req.body.postId}, {$inc: {upvotes: upvote , downvotes: downvote}})
+        // .then((data)=>{
+        //     return next();
+        // })
