@@ -17,6 +17,7 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 # Feature Pipeline
 ## Near Term:
 - Styling, a lot of it
+- Update upvote dwonvote behavior if you click again
 
 # Stretch Features:
 ## Optimizations:

@@ -53,9 +53,10 @@ export default function Post(props) {
           </Menu>
         : null}
       </div>
+              
+      <Text fontSize='2xl'>{props.body}</Text>
+      <div>{props.timestamp}</div>
 
-      <Text>{props.body}</Text>
-      <div>Timestamp: {props.timestamp}</div>
       <UpvoteDownvoteBar key={`${props.id}`+ 'upvotedownvotebar'} id={props.id}/>
       <CommentArea key={props.id} id={props.id}/>
     </div>
