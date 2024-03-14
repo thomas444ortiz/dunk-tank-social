@@ -1,6 +1,5 @@
 const models = require('../models/models');
 const utils = require('../../shared/utils');
-const { model } = require('mongoose');
 
 const postController = {};
 
@@ -105,6 +104,8 @@ postController.getAllPosts = (req,res, next) => {
                 // Compare the userId and set it to true or false
                 clonedPost.userId = post.userId == req.cookies.ssid;
                 if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                // decode timestamp
+                clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
                 // Use the post's _id as the key for the modifiedData object
                 modifiedData[post._id] = clonedPost;
             });

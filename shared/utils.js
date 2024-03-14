@@ -26,4 +26,35 @@ utils.isValidPostContent = (content) => {
     return content.length >= 5 && content.length <= 500;
 }
 
+utils.formatElapsedTime = (date, currentDate) => {
+    const timestampDate = new Date(date);
+    const now = new Date(currentDate);
+    const diffTime = Math.abs(now - timestampDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+
+    if (diffDays >= 1) {
+        if (diffDays < 7) {
+            return `${diffDays}d`;
+        } else if (diffDays < 30) {
+            const weeks = Math.floor(diffDays / 7);
+            return `${weeks}w`;
+        } else if (diffDays < 365) {
+            const months = Math.floor(diffDays / 30);
+            return `${months}m`;
+        } else {
+            const years = Math.floor(diffDays / 365);
+            return `${years}y`;
+        }
+    } else {
+        if(diffHours < 1){
+            return('Less than 1h')
+        }
+        else{
+            return `${diffHours}h`;
+        }
+    }
+}
+
+
 module.exports = utils;
