@@ -20,6 +20,13 @@ router.post('/upvotesDownvotesFromPost',
     }
 )
 
+router.get('/allUpvotesDownvotes',
+    upvoteDownvoteController.getAllUpvotesDownvotes,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
+
 router.delete('/allUpvotesDownvotes',
     upvoteDownvoteController.deleteAllUpvotesDownvotes,
     (req, res) => {

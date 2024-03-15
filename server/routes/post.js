@@ -2,7 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
-const sessionController = require('../controllers/sessionController')
+const sessionController = require('../controllers/sessionController');
+const commentController = require('../controllers/commentController');
+const upvoteDownvoteController = require('../controllers/upvoteDownvoteController');
 
 router.post('/createPost',
     sessionController.verifySession,
@@ -15,6 +17,8 @@ router.post('/createPost',
 router.delete('/deletePost',
     sessionController.verifySession,
     postController.deletePost,
+    commentController.deleteAllCommentsFromPost,
+    upvoteDownvoteController.deleteAllUpvotesDownvotesFromPost,
     (req, res) => {
         return res.status(200).json({})
     }

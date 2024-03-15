@@ -172,15 +172,16 @@ postController.deletePost = (req, res, next) => {
         // first delete the post
         models.Post.findOneAndDelete({_id: `${req.body.postId}`, userId: req.cookies.ssid})
         .then(()=> {
+            return next();
             // then delete the comments
-            models.Comment.deleteMany({postID: `${req.body.postId}`})
-            .then(()=>{
-                //then delete the upvotes and downvotes
-                models.PostUpvoteDownvote.deleteMany({postId: `${req.body.postId}`})
-                .then(()=>{
-                    return next();
-                })
-            })
+            // models.Comment.deleteMany({postID: `${req.body.postId}`})
+            // .then(()=>{
+            //     //then delete the upvotes and downvotes
+            //     models.PostUpvoteDownvote.deleteMany({postId: `${req.body.postId}`})
+            //     .then(()=>{
+            //         return next();
+            //     })
+            // })
         })
     } catch {
         return next('Error deleting post')

@@ -88,6 +88,18 @@ commentController.deleteComment = (req, res, next) => {
     }
 }
 
+commentController.deleteAllCommentsFromPost = (req, res, next) => {
+    try{
+        models.Comment.deleteMany({postId: req.body.postId})
+        .then((data)=>{
+            return next()
+        })
+    }
+    catch {
+        return next('Error deleting all comments from post')
+    }
+}
+
 commentController.deleteAllComments = (req, res, next) => {
     try{
         models.Comment.deleteMany({})
