@@ -36,7 +36,7 @@ export default function UserPostContainer() {
   }
 
   return (
-    <div className="post-container">
+    <div className='user-post-inner'>
        {posts.length ? posts: "No posts yet..."}
     </div>
   );

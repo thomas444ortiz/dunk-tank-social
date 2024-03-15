@@ -54,7 +54,7 @@ export default function Post(props) {
       </div>
               
       <Text fontSize='2xl'>{props.body}</Text>
-      <div>{props.timestamp}</div>
+      <div className='post-timestamp'>{props.timestamp}</div>
 
       <UpvoteDownvoteBar key={`${props.id}`+ 'upvotedownvotebar'} id={props.id}/>
       <CommentArea key={props.id} id={props.id}/>

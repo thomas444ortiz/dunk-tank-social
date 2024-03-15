@@ -57,7 +57,9 @@ export default function CreateCommentArea(props) {
     for(const commentID in store.commentsArray[props.id]){
       comments.push(<Comment key={store.commentsArray[props.id][commentID]._id} id={store.commentsArray[props.id][commentID]._id} 
         body={store.commentsArray[props.id][commentID].body} userPost={store.commentsArray[props.id][commentID].userId} 
-        username={store.commentsArray[props.id][commentID].username} postId={props.id}/>)
+        username={store.commentsArray[props.id][commentID].username} postId={props.id}
+        profilePicture={store.commentsArray[props.id][commentID].profilePicture}
+        />) 
     }
   }
 

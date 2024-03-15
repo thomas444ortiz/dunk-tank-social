@@ -97,6 +97,19 @@ upvoteDownvoteController.getAllUpvotesDownvotes = (req, res, next) => {
     }
 }
 
+upvoteDownvoteController.deleteAllUpvotesDownvotesFromPost = (req, res, next) => {
+    try{
+        models.PostUpvoteDownvote.deleteMany({postId: req.body.postId})
+        .then((data)=>{
+            res.locals.status = 'All upvotes downvotes deleted from that post'
+            return next()
+        })
+    }
+    catch {
+        return next('Error deleting all upvotes / downvotes from a post')
+    }
+}
+
 upvoteDownvoteController.deleteAllUpvotesDownvotes = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.deleteMany({})

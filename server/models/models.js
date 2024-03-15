@@ -51,7 +51,6 @@ const commentSchema = new Schema({
         ref: 'Post',
         required: true
     },
-    username: String
 }, { timestamps: true })
 
 const Comment = mongoose.model('Comment', commentSchema)

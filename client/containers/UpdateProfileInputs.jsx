@@ -6,15 +6,10 @@ import { Input, Button, Image, Box } from '@chakra-ui/react'
 import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
 import { useNavigate } from 'react-router-dom';
 import { updateAuthStatus } from '../redux/slices/authSlice';
-import UserPostContainer  from './UserPostContainer'
-import UserCommentContainer  from './UserCommentContainer'
-import ProfileContainerNav from '../components/ProfileContainerNav';
-import UpdateProfileInputs from './UpdateProfileInputs';
 const utils = require('../../shared/utils')
 
-export default function ProfileContainer() {
+export default function UpdateProfileInputs() {
   const store = useSelector((state)=> state.user)
-  const view = useSelector((state)=> state.view);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,45 +58,20 @@ export default function ProfileContainer() {
   }
   
   return (
-    <div className="outer-profile-container"> 
-      <div className="inner-profile-container">
-        <Box className="navbar-user-info">
-          <Image 
-            src={store.userInfo.profilePicture} 
-            alt='Profile Picture'
-            borderRadius='full'
-            boxSize='100px'
-            marginRight='5px'
-            />
-          <div className='profile-page-username'>{store.userInfo.username}'s Account Information</div>
-        </Box>
-
-        <ProfileContainerNav />
-          
-        {view.userProfileView === 'posts' ? 
-          <div className='user-post-inner'>
-            <h1>Your Posts</h1>
-            <UserPostContainer />
-          </div>
-          :
-          null
-        }
-
-        {view.userProfileView === 'comments' ? 
-          <div className='userpost-inner'>
-            <h1>Your Comments</h1>
-            <UserCommentContainer />
-          </div>   
-          :
-          null
-        }
-        
-        {view.userProfileView === 'update' ? 
-          <UpdateProfileInputs />
-          :
-          null
-        }
-      </div>
+    <div className='update-user-info-inner'> 
+        <div className="update-profile-info">
+          <Input value={store.newUsername} onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updateUsername', 'newUsername', updateNewUsername)} sx={profileInfoButtonStyle}>Update Username</Button>  
+        </div>
+        <div className="update-profile-info">
+          <Input value={store.password} onChange={(e) => updateInputField(e.target.value, updateNewPassword)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updatePassword', 'password', updateNewPassword)} sx={profileInfoButtonStyle}>Update Password</Button>  
+        </div>
+        <div className="update-profile-info">
+          <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>
+          <Button onClick={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)} sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
+        </div>
+        <Button onClick={deleteAccount} >Delete Account</Button> 
     </div>
   );
 }

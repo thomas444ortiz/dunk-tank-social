@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@chakra-ui/react'
+import { Button, Image } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux';
 import { updateNeedsRerender, updateUsersCommentsNeedsRerender } from '../redux/slices/commentSlice';
 
@@ -7,7 +7,6 @@ export default function Comment(props) {
   const dispatch = useDispatch();
 
   function deleteComment(){
-    console.log('delete invoked with', props.id)
     fetch('/comment/deleteComment',{
       method: 'DELETE',
       headers: {"Content-Type": "application/json"},
@@ -22,10 +21,21 @@ export default function Comment(props) {
   }
 
   return (
-    <div>
-        <div>{props.body}</div>
-        <div>Posted by: {props.username}</div>
-        {props.userPost? <Button onClick={deleteComment}>Delete Comment</Button>: null}
+    <div className='comment-component'>
+      <div className='comment-top-bar'>
+        <div className='comment-user-info'>
+          <Image 
+            src={props.profilePicture} 
+            alt='Profile Picture'
+            borderRadius='full'
+            boxSize='30px'
+            marginRight='5px'
+          />
+          <div className="comment-username">{props.username}</div>
+        </div>
+        {props.userPost? <Button size='s' onClick={deleteComment}>Delete Comment</Button>: null}
+      </div>
+        <div className="comment-body">{props.body}</div>
     </div>
   );
 }

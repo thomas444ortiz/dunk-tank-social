@@ -19,22 +19,25 @@ export default function UserCommentContainer(props) {
             return data.json()
         })
         .then((data)=>{
-            dispatch(updateUsersComments(data))
-            dispatch(updateUsersCommentsNeedsRerender(false));
+          dispatch(updateUsersComments(data))
+          dispatch(updateUsersCommentsNeedsRerender(false));
         })
     },[store.usersCommentsNeedsRerender])
 
   for(const comment of store.usersComments){
-    comments.push(<Comment key={comment.key} 
+    console.log(comment)
+    comments.push(<Comment key={'userComment'+comment.key} 
         id={comment._id} 
         body={comment.body} 
         userPost={true} 
         username={comment.username} 
-        postId={comment.postId}/>)
+        postId={comment.userId.postId}
+        profilePicture={comment.userId.profilePicture}
+      />)
   }
 
   return (
-    <div>
+    <div className="user-comment-container">
         {comments.length ? comments : 'No comments yet...'}
     </div>
   );

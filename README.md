@@ -16,12 +16,11 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Feature Pipeline
 ## Near Term:
-- See all your posts and comments on user profile page
-- Style profile page
 - Have posts feed in reverse chronological order
 - Pagination of posts
+- Edit posts
+- Edit comments
 
-# Stretch Features:
 ## Optimizations:
 - Lots of styling
 - Add in a message broker
