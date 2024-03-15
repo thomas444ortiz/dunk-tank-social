@@ -6,8 +6,8 @@ const postController = require('../controllers/postController');
 
 router.post('/toggleUpvoteDownvote', 
     upvoteDownvoteController.toggleUpvoteDownvote,
-    postController.exposeUsername,
     postController.updateUpvotesDownvotes,
+    postController.exposeUsername,
     (req, res) =>{
         return res.status(200).json(res.locals)
     }

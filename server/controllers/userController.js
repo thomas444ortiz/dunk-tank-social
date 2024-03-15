@@ -8,7 +8,8 @@ userController.createUser = (req, res, next) => {
         // validate username, and email. Password was validated when it was hashed.
         if(!utils.isValidEmail(req.body.email)) return next('Invalid email format');
         if(!utils.isValidUsername(req.body.username)) return next('Invalid username format');
-        models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, email: `${req.body.email}`, profilePicture: ''})
+        models.User.create({username: `${req.body.username}`, password: `${res.locals.password}`, 
+        email: `${req.body.email}`, profilePicture: 'https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.1269040533.1710374400&semt=ais'})
         .then((data) => {
             res.locals.data = data;
             return next();

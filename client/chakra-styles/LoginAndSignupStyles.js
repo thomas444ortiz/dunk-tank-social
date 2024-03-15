@@ -15,9 +15,9 @@ export const buttonStyle = {
 }
 
 export const newPostInputStyle = {
-  "backgroundColor": "white",
+  "backgroundColor": "rgb(245, 250, 255)",
   "marginRight": "20px"
-}
+} 
 
 export const profileInfoInputStyle = {
   "backgroundColor": "white",

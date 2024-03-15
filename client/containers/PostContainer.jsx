@@ -32,7 +32,10 @@ export default function PostContainer() {
   
   if (Object.keys(store.posts).length > 0){
     for(const postId in store.posts){
-      posts.push(<Post key={store.posts[postId]._id} id={store.posts[postId]._id} body={store.posts[postId].body} postedBy={store.posts[postId].username} timestamp={store.posts[postId].updatedAt} userPost={store.posts[postId].userId}/>)
+      posts.push(<Post key={store.posts[postId]._id} id={store.posts[postId]._id} 
+        body={store.posts[postId].body} postedBy={store.posts[postId].username} timestamp={store.posts[postId].updatedAt} 
+        userPost={store.posts[postId].userId} usernameExposed={store.posts[postId].usernameExposed}
+        profilePicture={store.posts[postId].profilePicture}/>)
     }
   }
 

@@ -12,10 +12,6 @@ export default function UpvoteDownvoteBar(props) {
   const dispatch = useDispatch();
 
   function handleLike(isUpvote){
-    if(store.isUpvotedByUser[props.id] || store.isDownvotedByUser[props.id]){
-      if(isUpvote && store.isUpvotedByUser[props.id] === isUpvote) return;
-      else if(store.isDownvotedByUser[props.id] === !isUpvote) return; 
-    }
     fetch('/upvoteDownvote/toggleUpvoteDownvote',{
       method: "POST",
       headers: {

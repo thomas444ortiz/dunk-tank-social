@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom';
+import { Button, Box, Image } from '@chakra-ui/react'
 import '../styles.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthStatus } from '../redux/slices/authSlice';
-import { updateUsername, updateNeedsRefresh, updateProfilePicture } from '../redux/slices/userSlice';
+import { updateUserInfo, updateNeedsRefresh } from '../redux/slices/userSlice';
 import { useEffect } from 'react'
+import { IoHome } from "react-icons/io5";
+import { RiUserSettingsFill } from "react-icons/ri";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -22,9 +24,7 @@ export default function Navbar() {
     })
     .then((data) => data.json())
     .then((data) =>{
-      // console.log('this is the data for the navbar', data)
-      dispatch(updateUsername(data.username))
-      dispatch(updateProfilePicture(data.profilePicture))
+      dispatch(updateUserInfo(data))
       dispatch(updateNeedsRefresh(false))
     })
   }, [store.needsRefresh])
@@ -52,9 +52,32 @@ export default function Navbar() {
   
   return (
     <div className="navbar">
-      <Link to="/home">Home</Link>
-      <Link to="/profile">Profile</Link>
-      <div>Logged in as: {store.username}</div>
+      <Box
+        className="navbar-link-container"
+        onClick={()=> navigate('/home')}
+        cursor="pointer"
+      >
+        <IoHome />
+        Home
+      </Box>
+      <Box
+        className="navbar-link-container"
+        onClick={()=> navigate('/profile')}
+        cursor="pointer"
+      >
+        <RiUserSettingsFill />
+        Profile
+      </Box>
+      <Box className="navbar-user-info">
+        <Image 
+          src={store.userInfo.profilePicture} 
+          alt='Profile Picture'
+          borderRadius='full'
+          boxSize='40px'
+          marginRight='5px'
+        />
+        <div className="navbar-username">{store.userInfo.username}</div>
+      </Box>
       <Button colorScheme='blue' onClick={logout}>Logout</Button>
     </div>
   );

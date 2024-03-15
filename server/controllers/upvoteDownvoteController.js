@@ -11,21 +11,33 @@ upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
         // look for an existing upvote or downvote
         models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
         .then((data)=>{
-            // if it exists, update whether its an upvote or a downvote
-            if(data){        
-                // if they are already upvoted / downvoted and trying to do the same thing again, return
-                if(data.upvoted === req.body.upvote) return next('You have already done that');
-                models.PostUpvoteDownvote.updateOne({_id: data._id}, {$set: {upvoted: req.body.upvote, downvoted: downvote }})
-                .then(()=>{
-                    return next();
-                })
-            }
-            else{
-                // if it doesnt, make a new one
-                models.PostUpvoteDownvote.create({userId: req.cookies.ssid, postId: req.body.postId, upvoted: req.body.upvote, downvoted: downvote})
+            // store the data for later
+            res.locals.postUpvoteDownvoteInfo = data;
+            if(!data){
+                // if upvote/ downvote data for this post & user doesnt already exist, make a new one
+                models.PostUpvoteDownvote.create({userId: req.cookies.ssid, postId: req.body.postId, 
+                    upvoted: req.body.upvote, downvoted: downvote})
                 .then(() => {
                     res.locals.isNew = true;
                     return next()
+                })
+            }
+            // if it exists, update whether its an upvote or a downvote
+            else{  
+                let update = {};
+                // if its an upvote
+                if (req.body.upvote) {
+                    if(data.upvoted) update = {upvoted: false, downvoted: false};
+                    else update = {upvoted: true, downvoted: false};
+                } 
+                // if its a downvote
+                else if (downvote) {
+                    if(data.downvoted) update = {upvoted: false, downvoted: false};
+                    else update = {upvoted: false, downvoted: true};
+                }
+                models.PostUpvoteDownvote.updateOne({_id: data._id}, {$set: update})
+                .then(()=>{
+                    return next();
                 })
             }
         })
