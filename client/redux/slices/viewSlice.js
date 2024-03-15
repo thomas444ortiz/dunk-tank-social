@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    userProfileView: 'post'
+    userProfileView: 'posts'
 }
 
 export const viewSlice = createSlice({

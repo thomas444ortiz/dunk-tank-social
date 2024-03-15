@@ -198,3 +198,37 @@ html, body {
 .user-post-inner{
     width: 100%;
 }
+
+.comment-component{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.comment-top-bar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-username {
+    font-size: large;
+    font-weight: 500;
+}
+
+.comment-body{
+    margin-top: 10px;
+}
+
+.comment-user-info{
+    display: flex;
+    align-items: center;
+}
+
+.post-timestamp{
+    margin-top: 5px;
+    font-style: italic;
+}

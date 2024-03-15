@@ -19,14 +19,21 @@ commentController.createComment = (req, res, next) =>{
 commentController.getAllCommentsFromPost = (req, res, next) => {
     try {
         models.Comment.find({postId: `${req.body.postId}`})
+        .populate({
+            path: 'userId',
+            select: 'profilePicture username _id'
+        })
         .then((data)=>{
             // Initialize an empty object to hold the modified comments
             const modifiedData = {};
             data.forEach(comment => {
                 // Clone the comment object to avoid modifying the original data
                 const clonedComment = { ...comment._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
+                // get the username and pro pic
+                clonedComment.username = clonedComment.userId.username;
+                clonedComment.profilePicture = clonedComment.userId.profilePicture;
                 // Compare the userId and set it to true or false
-                clonedComment.userId = comment.userId == req.cookies.ssid;
+                clonedComment.userId = comment.userId._id == req.cookies.ssid;
                 // Use the comment's _id as the key for the modifiedData object
                 modifiedData[comment._id] = clonedComment;
             });
@@ -42,6 +49,10 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
 commentController.getAllOfUsersComments = (req, res, next) => {
     try {
         models.Comment.find({userId: req.cookies.ssid})
+        .populate({
+            path: 'userId',
+            select: 'profilePicture username _id'
+        })
         .then((data) => {
             res.locals = data;
             return next()

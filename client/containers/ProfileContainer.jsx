@@ -79,7 +79,7 @@ export default function ProfileContainer() {
         <ProfileContainerNav />
           
         {view.userProfileView === 'posts' ? 
-          <div >
+          <div className='user-post-inner'>
             <h1>Your Posts</h1>
             <UserPostContainer />
           </div>
