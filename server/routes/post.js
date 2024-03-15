@@ -14,6 +14,13 @@ router.post('/createPost',
     }
 )
 
+router.patch('/updatePost',
+    postController.updateBody,
+    (req, res) => {
+        return res.status(200).json({})
+    }
+)
+
 router.delete('/deletePost',
     sessionController.verifySession,
     postController.deletePost,

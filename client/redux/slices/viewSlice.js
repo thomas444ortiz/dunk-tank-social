@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    userProfileView: 'posts'
+    userProfileView: 'posts',
+    currentPage: 1
 }
 
 export const viewSlice = createSlice({
@@ -9,13 +10,15 @@ export const viewSlice = createSlice({
   initialState,
   reducers: {
     updateUserProfileView: (state, action )=> {
-      console.log(action.payload)
       state.userProfileView = action.payload;
     },
+    updateCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { updateUserProfileView } = viewSlice.actions
+export const { updateUserProfileView, updateCurrentPage } = viewSlice.actions
 
 export default viewSlice.reducer

@@ -21,6 +21,19 @@ postController.createPost = (req, res, next) => {
     }
 }
 
+postController.updateBody = (req, res, next) => {
+    try{
+        models.Post.updateOne({_id: req.body.postId, userId: req.cookies.ssid}, { $set: {body: req.body.newBody}})
+        .then(() => {
+            return next()
+        })
+        return next();
+    }
+    catch{
+        return next('Error updating post body')
+    }
+}
+
 postController.exposeUsername = (req, res, next) =>{
     try{
         if(res.locals.exposed){
@@ -108,6 +121,7 @@ postController.getAllPosts = (req,res, next) => {
             path: 'userId',
             select: 'profilePicture username _id'
         })
+        .sort({createdAt: -1}) // This will sort the posts in descending order of creation
         .then((data)=> {
             // Initialize an empty object to hold the modified posts
             const modifiedData = {};
@@ -141,6 +155,7 @@ postController.getAllPostsByUser = (req, res, next) => {
             path: 'userId',
             select: 'profilePicture username _id'
         })
+        .sort({createdAt: -1}) // This will sort the posts in descending order of creation
         .then((data)=> {
             // Initialize an empty object to hold the modified posts
             const modifiedData = {};
@@ -202,28 +217,3 @@ postController.deleteAllPosts = (req, res, next) => {
 }
 
 module.exports = postController;
-
-
-       // let upvote;
-        // let downvote;
-        // // if its a new upvote downvote, just add to either
-        // if(res.locals.isNew){
-        //   if(req.body.upvote){
-        //     upvote = 1;
-        //     downvote = 0;
-        //   }
-        //   else{
-        //     upvote = 0;
-        //     downvote = 1;
-        //   }
-        // }
-        // // if its not new, we can increment one and decrement the other
-        // else {
-        //     upvote = req.body.upvote? 1: -1;
-        //     downvote = -1 * upvote;
-        // }
-
-        // models.Post.updateOne({_id: req.body.postId}, {$inc: {upvotes: upvote , downvotes: downvote}})
-        // .then((data)=>{
-        //     return next();
-        // })

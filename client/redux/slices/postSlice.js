@@ -4,6 +4,7 @@ const initialState = {
   postBody: '',
   posts: {},
   needsRerender: false,
+  newPostsLoading: false
 }
 
 export const postSlice = createSlice({
@@ -19,10 +20,14 @@ export const postSlice = createSlice({
     updateNeedsRerender: (state, action) => {
       state.needsRerender = action.payload;
     },
+    updateNewPostsLoading: (state, action) => {
+      state.newPostsLoading = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { updatePostBody, updateAllPosts, updateNeedsRerender } = postSlice.actions
+export const { updatePostBody, updateAllPosts, updateNeedsRerender, 
+               updateNewPostsLoading } = postSlice.actions
 
 export default postSlice.reducer

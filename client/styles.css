@@ -236,3 +236,8 @@ html, body {
 .user-comment-container{
     width: 100%;
 }
+
+.edit-post-button-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
