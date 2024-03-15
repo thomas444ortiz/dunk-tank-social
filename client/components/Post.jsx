@@ -9,7 +9,6 @@ import { Heading, Image, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 export default function Post(props) {
-  console.log('these are props', props)
   const dispatch = useDispatch();
   
   function deletePost(){

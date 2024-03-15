@@ -38,11 +38,12 @@ html, body {
 }
 
 .navbar{
-    background-color: red;
-    height: 10%;
+    background-color: white;
+    border-bottom: 1px solid gray;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    padding: 10px;
 }
 
 .page-container{
@@ -62,19 +63,20 @@ html, body {
     align-items: center;
     height: 100%;
     width: 80%;
-    background-color: rgb(204, 204, 248);
-    border-left: 2px solid gray;
-    border-right: 2px solid gray;
-    padding: 10px;
+    background-color: rgb(181, 217, 255);
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    padding: 40px;
 }
 
 .create-post-container{
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
     width: 100%;
-    border: 2px solid gray;
+    border: 1px solid gray;
     border-radius: 5px;
     margin-bottom: 20px;
 }
@@ -84,14 +86,13 @@ html, body {
     flex-direction: column;
     width: 100%;
     border-radius: 5px;
-    border: 2px solid gray;
-    padding: 10px;
     overflow: scroll;
-}
+} 
 
 .post-component {
     border-radius: 5px;
-    border: 2px solid gray;
+    background-color: white;
+    border: 1px solid gray;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -155,4 +156,20 @@ html, body {
     margin-right: 5px;
     font-size: large;
     font-weight: 600;
+}
+
+.navbar-link-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar-user-info{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-username{
+    font-size: large;
+    font-weight: 500;
 }

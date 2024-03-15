@@ -59,7 +59,7 @@ export default function ProfileContainer() {
   return (
     <div className="outer-profile-container"> 
       <div className="inner-profile-container">
-        <div>{store.username}'s account information</div>
+        <div>{store.userInfo.username}'s account information</div>
         <img src={store.profilePicture} />
         <div className="update-profile-info">
           <Input value={store.newUsername} onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={profileInfoInputStyle}/>

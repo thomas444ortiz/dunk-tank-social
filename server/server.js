@@ -9,7 +9,7 @@ const upvoteDownvoteRouter = require('./routes/upvoteDownvote')
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
-// Create rate limit rule, max 50 request per 10 mins
+// Create rate limit rule, max 500 request per 5 mins
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
   max: 500, // limit each IP to 500 requests per windowMs
