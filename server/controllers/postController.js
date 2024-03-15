@@ -21,6 +21,19 @@ postController.createPost = (req, res, next) => {
     }
 }
 
+postController.updateBody = (req, res, next) => {
+    try{
+        models.Post.updateOne({_id: req.body.postId, userId: req.cookies.ssid}, { $set: {body: req.body.newBody}})
+        .then(() => {
+            return next()
+        })
+        return next();
+    }
+    catch{
+        return next('Error updating post body')
+    }
+}
+
 postController.exposeUsername = (req, res, next) =>{
     try{
         if(res.locals.exposed){

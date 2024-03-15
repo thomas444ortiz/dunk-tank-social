@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles.css'
-import { Text, Button } from '@chakra-ui/react'
+import { Text, Button, Input } from '@chakra-ui/react'
 import { updateNeedsRerender } from '../redux/slices/postSlice';
 import { useDispatch } from 'react-redux'
 import CommentArea from './CommentArea';
@@ -10,7 +10,9 @@ import { HamburgerIcon } from '@chakra-ui/icons'
 
 export default function Post(props) {
   const dispatch = useDispatch();
-  
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableBody, setEditableBody] = useState(props.body);
+
   function deletePost(){
     fetch('/post/deletePost',{
       method: 'DELETE',
@@ -20,6 +22,33 @@ export default function Post(props) {
       })
     })
     .then(() => {
+      dispatch(updateNeedsRerender(true));
+    })
+  }
+
+  function handleEditChange(e) {
+    setEditableBody(e.target.value);
+  }
+
+  function editPost(){
+    setIsEditing(!isEditing);
+    // Reset editable content if cancelling edit
+    if (isEditing) setEditableBody(props.body);
+  }
+
+  function saveChanges(){
+    fetch('/post/updatePost',{
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        postId: props.id,
+        newBody: editableBody
+      })
+    })
+    .then((data)=> data.json())
+    .then((data)=> console.log(data))
+    .then(()=>{
+      setIsEditing(false);
       dispatch(updateNeedsRerender(true));
     })
   }
@@ -37,7 +66,7 @@ export default function Post(props) {
             />
           <Heading>{props.postedBy}</Heading>
         </div>
-        {props.userPost ? 
+        {props.userPost && 
           <Menu>
             {({ isOpen }) => (
               <>
@@ -46,14 +75,27 @@ export default function Post(props) {
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={deletePost}>Delete Post</MenuItem>
+                  <MenuItem onClick={editPost}>{isEditing ? 'Discard Changes' : 'Edit'}</MenuItem>
+                  {isEditing && <MenuItem onClick={saveChanges}>Save Changes</MenuItem>}
                 </MenuList>
               </>
             )}
           </Menu>
-        : null}
+        }
       </div>
               
-      <Text fontSize='2xl'>{props.body}</Text>
+      {isEditing ? (
+        <Input
+          value={editableBody}
+          onChange={handleEditChange}
+          placeholder="Edit post body"
+          size="md"
+        />
+      ) : (
+        <Text fontSize='2xl'>{props.body}</Text>
+      )}
+
+      {/* <Text fontSize='2xl'>{props.body}</Text> */}
       <div className='post-timestamp'>{props.timestamp}</div>
 
       <UpvoteDownvoteBar key={`${props.id}`+ 'upvotedownvotebar'} id={props.id}/>
