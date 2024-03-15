@@ -85,12 +85,18 @@ export default function Post(props) {
       </div>
               
       {isEditing ? (
-        <Input
-          value={editableBody}
-          onChange={handleEditChange}
-          placeholder="Edit post body"
-          size="md"
-        />
+        <div>
+          <Input
+            value={editableBody}
+            onChange={handleEditChange}
+            placeholder="Edit post body"
+            size="md"
+          />
+          <div className="edit-post-button-container">
+            <Button mr="10px" onClick={editPost}>Discard Changes</Button>
+            <Button onClick={saveChanges}>Save Changes</Button>
+          </div>
+        </div>
       ) : (
         <Text fontSize='2xl'>{props.body}</Text>
       )}
