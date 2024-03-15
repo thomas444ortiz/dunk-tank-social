@@ -11,6 +11,8 @@ upvoteDownvoteController.toggleUpvoteDownvote = (req, res, next) => {
         // look for an existing upvote or downvote
         models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
         .then((data)=>{
+            // store the data for later
+            res.locals.postUpvoteDownvoteInfo = data;
             if(!data){
                 // if upvote/ downvote data for this post & user doesnt already exist, make a new one
                 models.PostUpvoteDownvote.create({userId: req.cookies.ssid, postId: req.body.postId, 

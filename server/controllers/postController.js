@@ -51,39 +51,38 @@ postController.exposeUsername = (req, res, next) =>{
 
 postController.updateUpvotesDownvotes = (req, res, next) => {
     try{
-        console.log(req.body, res.locals)
-        models.PostUpvoteDownvote.findOne({userId: req.cookies.ssid, postId: req.body.postId})
-        .then((data)=>{
+/*------ Note: because this middleware function runs after the one that changes the upvote/downvote
+         status, all the logic of updting the numbers is reversed ------------*/
             // create an object
-            let update = {upvotes: 0, downvotes: 0}
+        let update = {upvotes: 1, downvotes: 1}
+        // if a new post was created, just increment the upvote or downvote
+        if(!res.locals.postUpvoteDownvoteInfo){
+            if(req.body.upvote) update = {upvotes: 1, downvotes: 0}
+            else update = {upvotes: 0, downvotes: 1}
+        }
+        else {
             // if its an upvote
-            if(req.body.upvote) {
-                // if its already upvoted, decrement upvotes
-                if(data.upvoted) update={upvotes: -1, downvotes: 0}
-                // if its not
-                else{
-                    // if its downvoted increment upvotes
-                    if(data.downvoted) update={upvotes: 1, downvotes: -1}
-                    // if its not downvoted, decrement downvotes
-                    else update={upvotes: 1, downvotes: -1}
-                }
+            if(req.body.upvote){
+                // if preexisting upvote
+                if(res.locals.postUpvoteDownvoteInfo.upvoted) update = {upvotes: -1, downvotes: 0}
+                // if preexisting downvote
+                else if(res.locals.postUpvoteDownvoteInfo.downvoted) update = {upvotes: 1, downvotes: -1}
+                // if neither
+                else update = {upvotes: 1, downvotes: 0}
             }
             // if its a downvote
-            else {
-                // if its already downvoted, decrement downvotes
-                if(data.downvoted) update={upvotes: 0, downvotes: -1}
-                // if its not
-                else{
-                    // if its upvoted increment downvotes and decrement upvotes
-                    if(data.upvoted) update={upvotes: -1, downvotes: 1}
-                    // if its not downvoted, decrement downvotes
-                    else update={upvotes: -1, downvotes: 1}
-                }
+            else{
+                // if preexisting upvote
+                if(res.locals.postUpvoteDownvoteInfo.upvoted) update={upvotes: -1, downvotes: 1}
+                // if preexisting downvote
+                else if(res.locals.postUpvoteDownvoteInfo.downvoted) update={upvotes: 0, downvotes: -1}
+                // if neither
+                else update = {upvotes: 0, downvotes: 1}
             }
-            models.Post.updateOne({_id: req.body.postId}, {$inc: update})
-            .then(()=>{
-                return next();
-            })
+        }
+        models.Post.updateOne({_id: req.body.postId}, {$inc: update})
+        .then(()=>{
+            return next();
         })
     } catch {
         return next('Error updating upvotes / downvotes')
@@ -107,7 +106,7 @@ postController.getAllPosts = (req,res, next) => {
         models.Post.find()
         .populate({
             path: 'userId',
-            select: 'profilePicture username -_id'
+            select: 'profilePicture username _id'
         })
         .then((data)=> {
             // Initialize an empty object to hold the modified posts
@@ -117,7 +116,7 @@ postController.getAllPosts = (req,res, next) => {
                 // Clone the post object to avoid modifying the original data
                 const clonedPost = { ...post._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
                 // Compare the userId and set it to true or false
-                clonedPost.userId = post.userId == req.cookies.ssid;
+                clonedPost.userId = post.userId._id == req.cookies.ssid;
                 if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
                 else clonedPost.username = post.userId.username;
                 clonedPost.profilePicture = post.userId.profilePicture;

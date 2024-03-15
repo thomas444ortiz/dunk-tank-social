@@ -9,6 +9,7 @@ import { Heading, Image, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 export default function Post(props) {
+  console.log('these are props', props)
   const dispatch = useDispatch();
   
   function deletePost(){
@@ -26,7 +27,6 @@ export default function Post(props) {
 
   return (
     <div className="post-component">
-
       <div className="post-top-bar">
         <div className="post-info-post">
             <Image 
@@ -38,7 +38,7 @@ export default function Post(props) {
             />
           <Heading>{props.postedBy}</Heading>
         </div>
-        {props.userPost? 
+        {props.userPost ? 
           <Menu>
             {({ isOpen }) => (
               <>
