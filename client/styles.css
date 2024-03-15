@@ -173,3 +173,45 @@ html, body {
     font-size: large;
     font-weight: 500;
 }
+
+.signup-container {
+  padding: 30px;
+  width: 30%;
+  border: 1px solid gray;
+  margin: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(235, 246, 255);
+  flex-direction: column;
+}
+
+.signup-input {
+  background-color: rgb(252, 240, 223);
+  border: 1px solid gray;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.button {
+  background-color: red;
+  margin-top: 20px;
+}
+
+.new-post-input {
+  background-color: rgb(245, 250, 255);
+  margin-right: 20px;
+}
+
+.profile-info-input {
+  background-color: white;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.profile-info-button {
+  width: 25%;
+  margin-left: 5px;
+  padding: 3px;
+}

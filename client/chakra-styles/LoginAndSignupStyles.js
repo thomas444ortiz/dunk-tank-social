@@ -7,7 +7,7 @@ export const signupContainerStyle = {"padding": "30px", "width": "30%",
 export const signupInputStyle = {
   "backgroundColor": "rgb(252, 240, 223)", "border": "1px solid gray", "width": "80%",
   "marginTop": "20px"
-}
+}  
 
 export const buttonStyle = {
   "backgroundColor": "red",
