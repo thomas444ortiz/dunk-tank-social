@@ -124,7 +124,7 @@ html, body {
     border: 2px solid gray;
     margin: 5px;
     padding: 5px;
-    width: 90%;
+    width: 100%;
 }
 
 .post-info-post {
@@ -178,4 +178,23 @@ html, body {
 .profile-page-username{
     font-weight: 500;
     font-size: x-large;
+}
+
+.profile-container-navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid gray;
+    margin: 10px;
+    padding: 10px;
+}
+
+.update-user-info-inner{
+    width: 100%;
+}
+
+.user-post-inner{
+    width: 100%;
 }

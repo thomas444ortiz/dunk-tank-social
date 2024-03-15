@@ -7,7 +7,6 @@ export default function Comment(props) {
   const dispatch = useDispatch();
 
   function deleteComment(){
-    console.log('delete invoked with', props.id)
     fetch('/comment/deleteComment',{
       method: 'DELETE',
       headers: {"Content-Type": "application/json"},
