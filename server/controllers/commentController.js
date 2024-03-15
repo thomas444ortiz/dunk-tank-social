@@ -39,6 +39,19 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
     }
 }
 
+commentController.getAllOfUsersComments = (req, res, next) => {
+    try {
+        models.Comment.find({userId: req.cookies.ssid})
+        .then((data) => {
+            res.locals = data;
+            return next()
+        })
+    }
+    catch {
+        return next('Error getting all comments')
+    }
+}
+
 commentController.getAllComments = (req, res, next) => {
     try {
         models.Comment.find({})

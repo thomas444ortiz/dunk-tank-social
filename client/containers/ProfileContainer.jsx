@@ -2,10 +2,12 @@ import React from 'react';
 import '../styles.css'
 import { useSelector, useDispatch} from 'react-redux'
 import { updateNewUsername, updateNewPassword, updateNewProfilePicture, updateNeedsRefresh } from '../redux/slices/userSlice'
-import { Input, Button } from '@chakra-ui/react'
+import { Input, Button, Image, Box } from '@chakra-ui/react'
 import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
 import { useNavigate } from 'react-router-dom';
 import { updateAuthStatus } from '../redux/slices/authSlice';
+import UserPostContainer  from './UserPostContainer'
+import UserCommentContainer  from './UserCommentContainer'
 const utils = require('../../shared/utils')
 
 export default function ProfileContainer() {
@@ -55,12 +57,27 @@ export default function ProfileContainer() {
       navigate('/')
     })
   }
-
+  
   return (
     <div className="outer-profile-container"> 
       <div className="inner-profile-container">
-        <div>{store.userInfo.username}'s account information</div>
-        <img src={store.profilePicture} />
+        
+        <Box className="navbar-user-info">
+          <Image 
+            src={store.userInfo.profilePicture} 
+            alt='Profile Picture'
+            borderRadius='full'
+            boxSize='100px'
+            marginRight='5px'
+          />
+          <div className='profile-page-username'>{store.userInfo.username}'s Account Information</div>
+        </Box>
+        
+        <h1>Your Posts</h1>
+        <UserPostContainer />
+        <h1>Your Comments</h1>
+        <UserCommentContainer />
+
         <div className="update-profile-info">
           <Input value={store.newUsername} onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={profileInfoInputStyle}/>
           <Button onClick={() => updateUserData('/user/updateUsername', 'newUsername', updateNewUsername)} sx={profileInfoButtonStyle}>Update Username</Button>  
@@ -73,7 +90,7 @@ export default function ProfileContainer() {
           <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>
           <Button onClick={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)} sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
         </div>
-        <Button onClick={deleteAccount} >Delete Account</Button>  
+        <Button onClick={deleteAccount} >Delete Account</Button> 
       </div>
     </div>
   );

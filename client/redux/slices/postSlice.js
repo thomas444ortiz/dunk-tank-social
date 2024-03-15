@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   postBody: '',
   posts: {},
-  needsRerender: false
+  needsRerender: false,
 }
 
 export const postSlice = createSlice({
@@ -18,7 +18,7 @@ export const postSlice = createSlice({
     },
     updateNeedsRerender: (state, action) => {
       state.needsRerender = action.payload;
-    }
+    },
   },
 })
 

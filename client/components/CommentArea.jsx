@@ -64,7 +64,10 @@ export default function CreateCommentArea(props) {
   return (
     <div>
       <div className="create-post-container">
-        <Input value={store.commentBody[props.id] ? store.commentBody[props.id] : '' } onChange={(e)=> dispatch(updateCommentBody({postId: props.id, text: e.target.value}))}placeholder='Add a comment...' sx={newPostInputStyle}/>
+        <Input value={store.commentBody[props.id] ? store.commentBody[props.id] : '' } 
+               onChange={(e)=> dispatch(updateCommentBody({postId: props.id, text: e.target.value}))}
+               placeholder='Add a comment...' sx={newPostInputStyle}
+        />
         <Button onClick={createComment}>Comment</Button>    
       </div>
       <div>

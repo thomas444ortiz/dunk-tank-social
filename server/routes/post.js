@@ -20,6 +20,13 @@ router.delete('/deletePost',
     }
 )
 
+router.get('/allPostsByUser',
+    postController.getAllPostsByUser,
+    (req, res) =>{
+        return res.status(200).json(res.locals);
+    }
+)
+
 router.get('/allPosts',
     // sessionController.verifySession,
     postController.getAllPosts,

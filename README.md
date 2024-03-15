@@ -16,8 +16,6 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Feature Pipeline
 ## Near Term:
-- Make multiple css files, and move all chakra styles to css
-
 - See all your posts and comments on user profile page
 - Style profile page
 - Have posts feed in reverse chronological order
