@@ -48,7 +48,6 @@ export default function CreateCommentArea(props) {
       return data.json()
     })
     .then((data) => {
-      console.log('this is the data', data)
       dispatch(updateCommentsArray({postId: props.id, comments: data}))
       dispatch(updateNeedsRerender({postId: props.id, value: false}))
     })

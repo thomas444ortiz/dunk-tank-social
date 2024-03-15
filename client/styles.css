@@ -203,7 +203,7 @@ html, body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(238, 235, 235);
     border-radius: 5px;
     padding: 10px;
     margin: 5px;
@@ -231,4 +231,8 @@ html, body {
 .post-timestamp{
     margin-top: 5px;
     font-style: italic;
+}
+
+.user-comment-container{
+    width: 100%;
 }
