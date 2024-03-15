@@ -16,25 +16,24 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Feature Pipeline
 ## Near Term:
-- Make multiple css files, and move all chakra styles to css
 - See all your posts and comments on user profile page
 - Style profile page
+- Have posts feed in reverse chronological order
+- Pagination of posts
 
 # Stretch Features:
 ## Optimizations:
-- Have posts feed in reverse chronological order
-- Pagination of posts
 - Lots of styling
+- Add in a message broker
 
 ### New Features:
 - Location based feed
-
 - Mobile responsive design
 - User content moderation
 - Connect instagram or linkedin in order to post
 - Email validation
-- Add in text size that fluctuates based on downvotes
-- Add in cancellation features and other fun features
+- Add in text size that fluctuates based on downvotes?
+- Add in cancellation features and other fun features?
 - Karma / Social credit score? 
 
 ### Other

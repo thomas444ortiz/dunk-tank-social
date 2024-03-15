@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateAllPosts, updateNeedsRerender } from '../redux/slices/postSlice';
 import { useEffect } from 'react'
 
-export default function PostContainer() {
+export default function UserPostContainer() {
   const store = useSelector((state) => state.post)
   const dispatch = useDispatch();
 
@@ -13,7 +13,7 @@ export default function PostContainer() {
 
   useEffect(() => {
     // fetch request to get all posts
-    fetch('/post/allPosts', {
+    fetch('/post/allPostsByUser', {
       method: 'GET',
       headers: {"Content-Type": "application/json"}
     })
@@ -21,9 +21,8 @@ export default function PostContainer() {
       return data.json()
     })
     .then((data) => {
-      dispatch(updateAllPosts(data))
-      // reset the needs rerender boolean back to false
-      dispatch(updateNeedsRerender(false))
+        dispatch(updateAllPosts(data))
+        dispatch(updateNeedsRerender(false))
     })
   }, [store.needsRerender])
   

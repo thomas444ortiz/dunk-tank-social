@@ -134,6 +134,39 @@ postController.getAllPosts = (req,res, next) => {
     }
 }
 
+postController.getAllPostsByUser = (req, res, next) => {
+    try {
+        models.Post.find({userId: req.cookies.ssid})
+        .populate({
+            path: 'userId',
+            select: 'profilePicture username _id'
+        })
+        .then((data)=> {
+            // Initialize an empty object to hold the modified posts
+            const modifiedData = {};
+
+            data.forEach(post => {
+                // Clone the post object to avoid modifying the original data
+                const clonedPost = { ...post._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
+                // Compare the userId and set it to true or false
+                clonedPost.userId = post.userId._id == req.cookies.ssid;
+                if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                else clonedPost.username = post.userId.username;
+                clonedPost.profilePicture = post.userId.profilePicture;
+                // decode timestamp
+                clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+                // Use the post's _id as the key for the modifiedData object
+                modifiedData[post._id] = clonedPost;
+            });
+            res.locals = modifiedData;
+            return next();
+        })
+        .catch(err => next(err));
+    } catch {
+        return next('Error getting all posts')
+    }
+}
+
 postController.deletePost = (req, res, next) => {
     try {
         // first delete the post

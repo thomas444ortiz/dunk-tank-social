@@ -11,7 +11,7 @@ router.get('/validateSession',
     (req, res) => {
         return res.status(200).json(res.locals)
     }
-)
+) 
 
 router.post('/signup', 
     authController.hashPassword,

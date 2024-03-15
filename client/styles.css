@@ -113,7 +113,8 @@ html, body {
     background-color: rgb(173, 173, 245);
     height: 100%;
     width: 80%;
-    padding: 10px;
+    padding: 40px;
+    overflow: scroll;
 }
 
 .update-profile-info{
@@ -172,4 +173,9 @@ html, body {
 .navbar-username{
     font-size: large;
     font-weight: 500;
+}
+
+.profile-page-username{
+    font-weight: 500;
+    font-size: x-large;
 }
