@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles.css'
 import Post from '../components/Post'
 import { useSelector, useDispatch } from 'react-redux';
 import { updateAllPosts, updateNeedsRerender } from '../redux/slices/postSlice';

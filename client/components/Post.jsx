@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../styles.css'
 import { Text, Button, Input } from '@chakra-ui/react'
 import { updateNeedsRerender } from '../redux/slices/postSlice';
 import { useDispatch } from 'react-redux'
@@ -100,8 +99,6 @@ export default function Post(props) {
       ) : (
         <Text fontSize='2xl'>{props.body}</Text>
       )}
-
-      {/* <Text fontSize='2xl'>{props.body}</Text> */}
       <div className='post-timestamp'>{props.timestamp}</div>
 
       <UpvoteDownvoteBar key={`${props.id}`+ 'upvotedownvotebar'} id={props.id}/>

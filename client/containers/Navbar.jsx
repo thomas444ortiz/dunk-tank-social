@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Image } from '@chakra-ui/react'
-import '../styles.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthStatus } from '../redux/slices/authSlice';
 import { updateUserInfo, updateNeedsRefresh } from '../redux/slices/userSlice';

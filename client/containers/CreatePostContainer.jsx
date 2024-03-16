@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles.css'
 import { Input, Button } from '@chakra-ui/react'
 import { newPostInputStyle } from '../chakra-styles/LoginAndSignupStyles';
 import { updatePostBody, updateNeedsRerender } from '../redux/slices/postSlice';

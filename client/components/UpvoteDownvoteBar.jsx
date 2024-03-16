@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import '../styles.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIsDownvotedByUser, updateIsUpvotedByUser } from '../redux/slices/upvoteDownvoteSlice';
 import { updateNeedsRerender } from '../redux/slices/postSlice';

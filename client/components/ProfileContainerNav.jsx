@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '@chakra-ui/react'
-import '../styles.css'
 import { useDispatch } from 'react-redux'
 import { updateUserProfileView } from '../redux/slices/viewSlice';
 
