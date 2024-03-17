@@ -21,6 +21,22 @@ router.patch('/updatePost',
     }
 )
 
+router.post('/loadPosts',
+    sessionController.verifySession,
+    postController.loadPosts,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
+
+router.post('/loadPostsByUser',
+    sessionController.verifySession,
+    postController.loadPostsByUser,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
+
 router.delete('/deletePost',
     sessionController.verifySession,
     postController.deletePost,
@@ -39,7 +55,6 @@ router.get('/allPostsByUser',
 )
 
 router.get('/allPosts',
-    // sessionController.verifySession,
     postController.getAllPosts,
     (req, res) => {
         return res.status(200).json(res.locals);

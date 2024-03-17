@@ -1,29 +1,43 @@
 import React from 'react';
 import Post from '../components/Post'
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAllPosts, updateNeedsRerender } from '../redux/slices/postSlice';
+import { updateAllPosts, updateNeedsRerender, updateAddPosts, updatePage, updateIsLoading } from '../redux/slices/postSlice';
 import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer';
+import { Spinner } from '@chakra-ui/react'
 
 export default function UserPostContainer() {
   const store = useSelector((state) => state.post)
   const dispatch = useDispatch();
+  const [ref, inView, entry] = useInView();
 
   const posts = [];
 
+  useEffect(()=>{
+    dispatch(updateAllPosts({}))
+    dispatch(updatePage(1));
+    dispatch(updateIsLoading(false))
+  },[])
+
   useEffect(() => {
-    // fetch request to get all posts
-    fetch('/post/allPostsByUser', {
-      method: 'GET',
-      headers: {"Content-Type": "application/json"}
+    dispatch(updateIsLoading(true))
+    // send a post request
+    fetch('/post/loadPostsByUser',{
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        page: store.page,
+      })
     })
-    .then((data)=>{
-      return data.json()
+    .then((data)=> data.json())
+    // then, update the posts object
+    // then update the page number
+    .then((data)=> {
+      dispatch(updateAddPosts(data));
+      dispatch(updatePage(store.page+1));
+      dispatch(updateIsLoading(false))
     })
-    .then((data) => {
-        dispatch(updateAllPosts(data))
-        dispatch(updateNeedsRerender(false))
-    })
-  }, [store.needsRerender])
+  },[inView])
   
   if (Object.keys(store.posts).length > 0){
     for(const postId in store.posts){
@@ -36,7 +50,8 @@ export default function UserPostContainer() {
 
   return (
     <div className='user-post-inner'>
-       {posts.length ? posts: "No posts yet..."}
+      {!store.isLoading && posts.length === 0 ? "No posts yet..." : posts}
+      {store.isLoading ? <Spinner/> :<div ref={ref} ></div>}
     </div>
   );
 }

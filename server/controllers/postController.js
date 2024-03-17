@@ -114,6 +114,49 @@ postController.validatePost = (req, res, next) => {
     }
 }
 
+postController.loadPosts = (req, res, next) => {
+    try {
+        // Extract the page number from the request. Default to page 1 if not specified.
+        const page = parseInt(req.body.page) || 1;
+        const postsPerPage = 4;
+        
+        // Calculate the number of posts to skip based on the page number
+        const skip = (page - 1) * postsPerPage;
+        
+        // Perform the query with pagination
+        models.Post.find()
+            .populate({
+                path: 'userId',
+                select: 'profilePicture username _id'
+            })
+            .sort({createdAt: -1}) // Sort in descending order of creation
+            .skip(skip) // Skip posts based on the current page
+            .limit(postsPerPage) // Limit the number of posts to 5
+            .then((data) => {
+                // Initialize an empty object to hold the modified posts
+                const modifiedData = {};
+
+                data.forEach(post => {
+                    // Clone the post object to avoid modifying the original data
+                    const clonedPost = { ...post._doc };
+                    // Compare the userId and set it to true or false
+                    clonedPost.userId = post.userId._id == req.cookies.ssid;
+                    if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                    else clonedPost.username = post.userId.username;
+                    clonedPost.profilePicture = post.userId.profilePicture;
+                    // Optionally adjust or format other fields as needed
+                    // Use the post's _id as the key for the modifiedData object
+                    modifiedData[post._id] = clonedPost;
+                });
+                res.locals = modifiedData;
+                return next();
+            })
+            .catch(err => next(err));
+    } catch (error) {
+        return next('Error loading posts');
+    }
+}
+
 postController.getAllPosts = (req,res, next) => {
     try {
         models.Post.find()
@@ -145,6 +188,49 @@ postController.getAllPosts = (req,res, next) => {
         .catch(err => next(err));
     } catch {
         return next('Error getting all posts')
+    }
+}
+
+postController.loadPostsByUser = (req, res, next) => {
+    try {
+        // Extract the page number from the request. Default to page 1 if not specified.
+        const page = parseInt(req.body.page) || 1;
+        const postsPerPage = 4;
+        
+        // Calculate the number of posts to skip based on the page number
+        const skip = (page - 1) * postsPerPage;
+        
+        // Perform the query with pagination
+        models.Post.find({userId: req.cookies.ssid})
+            .populate({
+                path: 'userId',
+                select: 'profilePicture username _id'
+            })
+            .sort({createdAt: -1}) // Sort in descending order of creation
+            .skip(skip) // Skip posts based on the current page
+            .limit(postsPerPage) // Limit the number of posts to 5
+            .then((data) => {
+                // Initialize an empty object to hold the modified posts
+                const modifiedData = {};
+
+                data.forEach(post => {
+                    // Clone the post object to avoid modifying the original data
+                    const clonedPost = { ...post._doc };
+                    // Compare the userId and set it to true or false
+                    clonedPost.userId = post.userId._id == req.cookies.ssid;
+                    if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                    else clonedPost.username = post.userId.username;
+                    clonedPost.profilePicture = post.userId.profilePicture;
+                    // Optionally adjust or format other fields as needed
+                    // Use the post's _id as the key for the modifiedData object
+                    modifiedData[post._id] = clonedPost;
+                });
+                res.locals = modifiedData;
+                return next();
+            })
+            .catch(err => next(err));
+    } catch (error) {
+        return next('Error loading posts');
     }
 }
 

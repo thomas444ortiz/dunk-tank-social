@@ -1,31 +1,44 @@
 import React from 'react';
 import Post from '../components/Post'
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAllPosts, updateNeedsRerender } from '../redux/slices/postSlice';
+import { updateAllPosts, updateNeedsRerender, updateAddPosts, updatePage, updateIsLoading } from '../redux/slices/postSlice';
 import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer';
+import { Spinner } from '@chakra-ui/react'
 
 export default function PostContainer() {
   const store = useSelector((state) => state.post)
   const dispatch = useDispatch();
+  const [ref, inView, entry] = useInView();
 
   const posts = [];
+  
+  useEffect(()=>{
+    // reset the posts to an empty object when you first load the page
+    dispatch(updateAllPosts({}))
+    dispatch(updatePage(1));
+  },[])
 
   useEffect(() => {
-    // fetch request to get all posts
-    fetch('/post/allPosts', {
-      method: 'GET',
-      headers: {"Content-Type": "application/json"}
+    dispatch(updateIsLoading(true))
+    // send a post request
+    fetch('/post/loadPosts',{
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        page: store.page,
+      })
     })
-    .then((data)=>{
-      return data.json()
+    .then((data)=> data.json())
+    // then, update the posts object
+    // then update the page number
+    .then((data)=> {
+      dispatch(updateAddPosts(data));
+      dispatch(updatePage(store.page+1));
+      dispatch(updateIsLoading(false))
     })
-    .then((data) => {
-      dispatch(updateAllPosts(data))
-      // reset the needs rerender boolean back to false
-      dispatch(updateNeedsRerender(false))
-    })
-  }, [store.needsRerender])
-  
+  },[inView])
+
   if (Object.keys(store.posts).length > 0){
     for(const postId in store.posts){
       posts.push(<Post key={store.posts[postId]._id} id={store.posts[postId]._id} 
@@ -37,7 +50,8 @@ export default function PostContainer() {
 
   return (
     <div className="post-container">
-       {posts.length ? posts: "No posts yet..."}
+      {!store.isLoading && posts.length === 0 ? "No posts yet..." : posts}
+      {store.isLoading ? <Spinner/> :<div ref={ref} ></div>}
     </div>
   );
 }
