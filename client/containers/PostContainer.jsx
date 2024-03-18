@@ -1,7 +1,8 @@
 import React from 'react';
 import Post from '../components/Post'
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAllPosts, updateNeedsRerender, updateAddPosts, updatePage, updateIsLoading, updateHasMore } from '../redux/slices/postSlice';
+import { updateAllPosts, updateNeedsRerender, updateAddPosts, updatePage, updateIsLoading, 
+         updateHasMore, updateSinglePost } from '../redux/slices/postSlice';
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer';
 import { Spinner } from '@chakra-ui/react'
@@ -40,10 +41,32 @@ export default function PostContainer() {
         dispatch(updateAddPosts(data.posts));
         dispatch(updatePage(store.page+1));
         dispatch(updateIsLoading(false))
+        dispatch(updateNeedsRerender(false))
       })
     }
   },[inView])
-// },[inView])
+
+  // a useEffect to be invoked whenever a post is edited
+  useEffect(() => {
+    if(store.needsRerender){
+      // fetch the latest data for the post
+      fetch('/post/getOnePost',{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          postId: store.needsRerender,
+        })
+      })
+      .then((data)=> data.json())
+      // then, update the posts object
+      // then update the page number
+      .then((data)=> { 
+        // now take the response and update the appropriate post
+        dispatch(updateSinglePost({postId: store.needsRerender, data: data}))
+        dispatch(updateNeedsRerender(false))
+      })
+    }
+  }, [store.needsRerender])
 
   if (Object.keys(store.posts).length > 0){
     for(const postId in store.posts){

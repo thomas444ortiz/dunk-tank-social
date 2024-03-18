@@ -25,7 +25,7 @@ export default function UpvoteDownvoteBar(props) {
     .then((response)=> {
       dispatch(updateIsUpvotedByUser({postId: props.id, value: isUpvote}))
       dispatch(updateIsDownvotedByUser({postId: props.id, value: !isUpvote}))
-      dispatch(updateNeedsRerender(true));
+      dispatch(updateNeedsRerender(props.id));
       if(response.exposed){
         window.alert('Congrats, you have just exposed a post!')
       }

@@ -23,9 +23,10 @@ export default function CreatePostContainer() {
         body: store.postBody,
       })
     })
-    .then(()=>{
+    .then((data)=> data.json())
+    .then((data)=>{
       dispatch(updatePostBody(''))
-      dispatch(updateNeedsRerender(true));
+      dispatch(updateNeedsRerender(data));
     })
   }
 

@@ -20,8 +20,9 @@ export default function Post(props) {
         postId: props.id,
       })
     })
-    .then(() => {
-      dispatch(updateNeedsRerender(true));
+    .then((data)=> data.json())
+    .then((data) => {
+      dispatch(updateNeedsRerender(data));
     })
   }
 
@@ -48,7 +49,7 @@ export default function Post(props) {
     .then((data)=> console.log(data))
     .then(()=>{
       setIsEditing(false);
-      dispatch(updateNeedsRerender(true));
+      dispatch(updateNeedsRerender(props.id));
     })
   }
 

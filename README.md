@@ -15,9 +15,6 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 - All the functionality of a full stack social media app you would expect!
 
 # Pre-Launch Feature Pipeline
-- Infinite scroll
-    -- Make it update posts automatically when you add or delete or create
-
 - Lots of styling
 - Hosting on AWS & Containerization
 
