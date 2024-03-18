@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles.css'
 import CreatePostContainer from './CreatePostContainer';
 import PostContainer from './PostContainer';
 

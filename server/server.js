@@ -13,7 +13,7 @@ const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
   max: 5000, // limit each IP to 500 requests per windowMs
-});
+}); 
 
 app.use(cookieParser());
 app.use(express.json());

@@ -7,7 +7,7 @@ import ProfilePage from './pages/ProfilePage'
 import PrivateRoutes from './PrivateRoutes'
 import { updateAuthStatus, updateIsLoading } from './redux/slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux'
-import './styles.css'
+import './styles/styles.css';
 
 export default function App() {
   const navigate = useNavigate()

@@ -1,0 +1,28 @@
+.login-header{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.login-link-text{
+    display: flex;
+    margin-top: 20px;
+}
+
+.login-link{
+    color: #0000EE;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid gray;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    z-index: 1000;
+}

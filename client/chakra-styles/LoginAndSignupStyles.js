@@ -10,7 +10,7 @@ export const signupInputStyle = {
 }  
 
 export const buttonStyle = {
-  "backgroundColor": "red",
+  "backgroundColor": "lightBlue",
   "marginTop": "20px"
 }
 
