@@ -16,10 +16,7 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Pre-Launch Feature Pipeline
 - Infinite scroll
-
-    -- Figure out loading wheel bug / make sure posts rerender still when you change them
-    -- Add error checking to make sure it doesnt error when there are none left to fetch
-    -- Make it look prettier when switching between
+    -- Make it update posts automatically when you add or delete or create
 
 - Lots of styling
 - Hosting on AWS & Containerization

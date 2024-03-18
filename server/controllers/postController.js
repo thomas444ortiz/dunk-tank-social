@@ -131,10 +131,13 @@ postController.loadPosts = (req, res, next) => {
             })
             .sort({createdAt: -1}) // Sort in descending order of creation
             .skip(skip) // Skip posts based on the current page
-            .limit(postsPerPage) // Limit the number of posts to 5
+            .limit(postsPerPage + 1) // Limit the number of posts to 5
             .then((data) => {
                 // Initialize an empty object to hold the modified posts
                 const modifiedData = {};
+                // If we have more posts than needed, slice the array to the correct size
+                const hasMore = data.length > postsPerPage;
+                const postsToSend = hasMore ? data.slice(0, postsPerPage) : data;
 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data
@@ -148,7 +151,7 @@ postController.loadPosts = (req, res, next) => {
                     // Use the post's _id as the key for the modifiedData object
                     modifiedData[post._id] = clonedPost;
                 });
-                res.locals = modifiedData;
+                res.locals = {posts: modifiedData, hasMore};
                 return next();
             })
             .catch(err => next(err));
@@ -208,10 +211,14 @@ postController.loadPostsByUser = (req, res, next) => {
             })
             .sort({createdAt: -1}) // Sort in descending order of creation
             .skip(skip) // Skip posts based on the current page
-            .limit(postsPerPage) // Limit the number of posts to 5
+            .limit(postsPerPage + 1) // Limit the number of posts to 5
             .then((data) => {
                 // Initialize an empty object to hold the modified posts
                 const modifiedData = {};
+
+                // If we have more posts than needed, slice the array to the correct size
+                const hasMore = data.length > postsPerPage;
+                const postsToSend = hasMore ? data.slice(0, postsPerPage) : data;
 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data
@@ -225,7 +232,7 @@ postController.loadPostsByUser = (req, res, next) => {
                     // Use the post's _id as the key for the modifiedData object
                     modifiedData[post._id] = clonedPost;
                 });
-                res.locals = modifiedData;
+                res.locals = { posts: modifiedData, hasMore };
                 return next();
             })
             .catch(err => next(err));
