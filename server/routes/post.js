@@ -10,7 +10,7 @@ router.post('/createPost',
     sessionController.verifySession,
     postController.createPost,
     (req, res) => {
-        return res.status(200).json({});
+        return res.status(200).json(res.locals);
     }
 )
 
@@ -21,14 +21,38 @@ router.patch('/updatePost',
     }
 )
 
+router.post('/loadPosts',
+    sessionController.verifySession,
+    postController.loadPosts,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
+
+router.post('/getOnePost',
+    sessionController.verifySession,
+    postController.getOnePost,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
+
+router.post('/loadPostsByUser',
+    sessionController.verifySession,
+    postController.loadPostsByUser,
+    (req, res) => {
+        return res.status(200).json(res.locals);
+    }
+)
+
 router.delete('/deletePost',
     sessionController.verifySession,
     postController.deletePost,
     commentController.deleteAllCommentsFromPost,
     upvoteDownvoteController.deleteAllUpvotesDownvotesFromPost,
     (req, res) => {
-        return res.status(200).json({})
-    }
+        return res.status(200).json(res.locals);
+    } 
 )
 
 router.get('/allPostsByUser',
@@ -39,7 +63,6 @@ router.get('/allPostsByUser',
 )
 
 router.get('/allPosts',
-    // sessionController.verifySession,
     postController.getAllPosts,
     (req, res) => {
         return res.status(200).json(res.locals);

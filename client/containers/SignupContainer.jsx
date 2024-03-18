@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Input, Button } from '@chakra-ui/react'
 import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-styles/LoginAndSignupStyles'
-import '../styles.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateUsername, updateEmail, updatePassword } from '../redux/slices/signupSlice';

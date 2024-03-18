@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles.css'
 import { useSelector, useDispatch} from 'react-redux'
 import { updateNewUsername, updateNewPassword, updateNewProfilePicture, updateNeedsRefresh } from '../redux/slices/userSlice'
 import { Input, Button, Image, Box } from '@chakra-ui/react'

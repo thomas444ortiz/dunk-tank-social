@@ -12,7 +12,8 @@ postController.createPost = (req, res, next) => {
         .then((data) => {
             models.Post.create({body: `${req.body.body}`, userId: `${req.cookies.ssid}`, 
             username: `${data.username}`, isExposed: false, upvotes: 0, downvotes: 0})
-            .then(()=> {
+            .then((data)=> {
+                res.locals = data._id
                 return next();
             })
         })
@@ -114,6 +115,81 @@ postController.validatePost = (req, res, next) => {
     }
 }
 
+postController.getOnePost = (req, res, next) => {
+    try{
+        models.Post.findOne({_id: req.body.postId})
+        .populate({
+            path: 'userId',
+            select: 'profilePicture username _id'
+        })
+        .then((data) => {
+            if(!data){
+                return next();
+            }
+            // Clone the post object to avoid modifying the original data
+            const clonedPost = { ...data._doc };
+            // Compare the userId and set it to true or false
+            clonedPost.userId = data.userId._id == req.cookies.ssid;
+            if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+            else clonedPost.username = data.userId.username;
+            clonedPost.profilePicture = data.userId.profilePicture;
+            clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+            res.locals = clonedPost;
+            return next();
+        })
+    }
+    catch{
+        return next('Error getting one post')
+    }
+}
+
+postController.loadPosts = (req, res, next) => {
+    try {
+        // Extract the page number from the request. Default to page 1 if not specified.
+        const page = parseInt(req.body.page) || 1;
+        const postsPerPage = 4;
+        
+        // Calculate the number of posts to skip based on the page number
+        const skip = (page - 1) * postsPerPage;
+        
+        // Perform the query with pagination
+        models.Post.find()
+            .populate({
+                path: 'userId',
+                select: 'profilePicture username _id'
+            })
+            .sort({createdAt: -1}) // Sort in descending order of creation
+            .skip(skip) // Skip posts based on the current page
+            .limit(postsPerPage + 1) // Limit the number of posts to 5
+            .then((data) => {
+                // Initialize an empty object to hold the modified posts
+                const modifiedData = {};
+                // If we have more posts than needed, slice the array to the correct size
+                const hasMore = data.length > postsPerPage;
+                const postsToSend = hasMore ? data.slice(0, postsPerPage) : data;
+
+                data.forEach(post => {
+                    // Clone the post object to avoid modifying the original data
+                    const clonedPost = { ...post._doc };
+                    // Compare the userId and set it to true or false
+                    clonedPost.userId = post.userId._id == req.cookies.ssid;
+                    if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                    else clonedPost.username = post.userId.username;
+                    clonedPost.profilePicture = post.userId.profilePicture;
+                    clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+                    // Optionally adjust or format other fields as needed
+                    // Use the post's _id as the key for the modifiedData object
+                    modifiedData[post._id] = clonedPost;
+                });
+                res.locals = {posts: modifiedData, hasMore};
+                return next();
+            })
+            .catch(err => next(err));
+    } catch (error) {
+        return next('Error loading posts');
+    }
+}
+
 postController.getAllPosts = (req,res, next) => {
     try {
         models.Post.find()
@@ -145,6 +221,54 @@ postController.getAllPosts = (req,res, next) => {
         .catch(err => next(err));
     } catch {
         return next('Error getting all posts')
+    }
+}
+
+postController.loadPostsByUser = (req, res, next) => {
+    try {
+        // Extract the page number from the request. Default to page 1 if not specified.
+        const page = parseInt(req.body.page) || 1;
+        const postsPerPage = 4;
+        
+        // Calculate the number of posts to skip based on the page number
+        const skip = (page - 1) * postsPerPage;
+        
+        // Perform the query with pagination
+        models.Post.find({userId: req.cookies.ssid})
+            .populate({
+                path: 'userId',
+                select: 'profilePicture username _id'
+            })
+            .sort({createdAt: -1}) // Sort in descending order of creation
+            .skip(skip) // Skip posts based on the current page
+            .limit(postsPerPage + 1) // Limit the number of posts to 5
+            .then((data) => {
+                // Initialize an empty object to hold the modified posts
+                const modifiedData = {};
+
+                // If we have more posts than needed, slice the array to the correct size
+                const hasMore = data.length > postsPerPage;
+                const postsToSend = hasMore ? data.slice(0, postsPerPage) : data;
+
+                data.forEach(post => {
+                    // Clone the post object to avoid modifying the original data
+                    const clonedPost = { ...post._doc };
+                    // Compare the userId and set it to true or false
+                    clonedPost.userId = post.userId._id == req.cookies.ssid;
+                    if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
+                    else clonedPost.username = post.userId.username;
+                    clonedPost.profilePicture = post.userId.profilePicture;
+                    clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+                    // Optionally adjust or format other fields as needed
+                    // Use the post's _id as the key for the modifiedData object
+                    modifiedData[post._id] = clonedPost;
+                });
+                res.locals = { posts: modifiedData, hasMore };
+                return next();
+            })
+            .catch(err => next(err));
+    } catch (error) {
+        return next('Error loading posts');
     }
 }
 
@@ -186,7 +310,8 @@ postController.deletePost = (req, res, next) => {
     try {
         // first delete the post
         models.Post.findOneAndDelete({_id: `${req.body.postId}`, userId: req.cookies.ssid})
-        .then(()=> {
+        .then((data)=> {
+            res.locals = data._id;
             return next();
         })
     } catch {
