@@ -80,7 +80,13 @@ export default function PostContainer() {
   return (
     <div className="post-container">
       {!store.isLoading && posts.length === 0 ? "No posts yet..." : posts}
-      {store.isLoading ? <Spinner/> : <div ref={ref} ></div>}
+      {store.isLoading ? (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Spinner size="xl"/>
+        </div>
+      ) : (
+        <div ref={ref}></div>
+      )}
       {!store.hasMore && posts.length ? <div>No more posts to show...</div>: null}
     </div>
   );

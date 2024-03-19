@@ -16,12 +16,12 @@ export default function UpdateProfileMenu() {
   };
 
   return (
-    <div>
+    <div className="update-profile-menu">
       <VStack spacing={4}>
-        <Button variant="ghost" onClick={() => handleItemClick('Change Profile Picture')}>Update Profile Picture</Button>
-        <Button variant="ghost" onClick={() => handleItemClick('Change Username')}>Change Username</Button>
-        <Button variant="ghost" onClick={() => handleItemClick('Change Password')}>Update Password</Button>
-        <Button variant="ghost" onClick={() => handleItemClick('Delete Account')}>Delete Account</Button>
+        <Button variant="ghost" onClick={() => handleItemClick('Change Profile Picture')} width="80%" style={{ color: 'navy' }}>Update Profile Picture</Button>
+        <Button variant="ghost" onClick={() => handleItemClick('Change Username')} width="80%" style={{ color: 'navy' }}>Change Username</Button>
+        <Button variant="ghost" onClick={() => handleItemClick('Change Password')} width="80%" style={{ color: 'navy' }}>Update Password</Button>
+        <Button variant="ghost" onClick={() => handleItemClick('Delete Account')} width="80%" style={{ color: 'navy' }}>Delete Account</Button>
       </VStack>
 
       <Modal isOpen={isOpen} onClose={onClose}>
