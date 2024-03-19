@@ -1,14 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux'
-import { updateNewUsername, updateNewPassword, updateNewProfilePicture, updateNeedsRefresh } from '../redux/slices/userSlice'
-import { Input, Button, Image, Box } from '@chakra-ui/react'
-import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
+import { updateNeedsRefresh } from '../redux/slices/userSlice'
+import { Image, Box } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
-import { updateAuthStatus } from '../redux/slices/authSlice';
 import UserPostContainer  from './UserPostContainer'
 import UserCommentContainer  from './UserCommentContainer'
 import ProfileContainerNav from '../components/ProfileContainerNav';
-import UpdateProfileInputs from './UpdateProfileInputs';
 import UpdateProfileMenu from '../components/UpdateProfileMenu';
 const utils = require('../../shared/utils')
 

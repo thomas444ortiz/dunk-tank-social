@@ -16,31 +16,27 @@ export default function ChangeUsernameForm() {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.user);
 
-  function updateUserData(route, field, slice) {
-    if (field === 'newUsername') {
-      if (!utils.isValidUsername(store.newUsername)) {
-        toast({
-          title: "Invalid Username",
-          description: "The provided username does not meet the requirements.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
-        return;
-      }
+  function updateUsername() {
+    if (!utils.isValidUsername(store.newUsername)) {
+      toast({
+        title: "Invalid Username",
+        description: "The provided username does not meet the requirements.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
     }
-
-    const reqBody = {};
-    reqBody[field] = store[field];
-    fetch(route, {
+    
+    fetch('/user/updateUsername', {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(reqBody)
+      body: JSON.stringify({newUsername: store.newUsername})
     })
     .then(() => {
-      dispatch(slice(''));
+      dispatch(updateNewUsername(''));
       dispatch(updateNeedsRefresh(true));
     })
     .then(() => {
@@ -55,7 +51,7 @@ export default function ChangeUsernameForm() {
   }
 
   return (
-    <form onSubmit={() => updateUserData('/user/updateUsername', 'newUsername', updateNewUsername)}>
+    <form onSubmit={updateUsername}>
       <VStack spacing={4}>
         <FormControl isRequired>
           <FormLabel htmlFor='new-username'>New Username</FormLabel>

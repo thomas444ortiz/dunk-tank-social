@@ -15,18 +15,16 @@ export default function ChangeProfilePictureForm() {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.user);
 
-  function updateUserData(route, field, slice) {
-    const reqBody = {};
-    reqBody[field] = store[field];
-    fetch(route, {
+  function updateProfilePicture() {
+    fetch('/user/updateProfilePicture', {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(reqBody)
+      body: JSON.stringify({newProfilePicture: store.newProfilePicture})
     })
     .then(() => {
-      dispatch(slice(''));
+      dispatch(updateNewProfilePicture(''));
       dispatch(updateNeedsRefresh(true));
     })
     .then(() => {
@@ -41,7 +39,7 @@ export default function ChangeProfilePictureForm() {
   }
 
   return (
-    <form onSubmit={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)}>
+    <form onSubmit={updateProfilePicture}>
       <VStack spacing={4}>
         <FormControl isRequired>
           <FormLabel htmlFor='new-profile-picture'>New Profile Picture URL</FormLabel>
