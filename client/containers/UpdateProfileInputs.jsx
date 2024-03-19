@@ -5,6 +5,7 @@ import { Input, Button, Image, Box } from '@chakra-ui/react'
 import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
 import { useNavigate } from 'react-router-dom';
 import { updateAuthStatus } from '../redux/slices/authSlice';
+import UpdateProfileMenu from '../components/UpdateProfileMenu';
 const utils = require('../../shared/utils')
 
 export default function UpdateProfileInputs() {
@@ -58,6 +59,7 @@ export default function UpdateProfileInputs() {
   
   return (
     <div className='update-user-info-inner'> 
+        <UpdateProfileMenu/>
         <div className="update-profile-info">
           <Input value={store.newUsername} onChange={(e) => updateInputField(e.target.value, updateNewUsername)} sx={profileInfoInputStyle}/>
           <Button onClick={() => updateUserData('/user/updateUsername', 'newUsername', updateNewUsername)} sx={profileInfoButtonStyle}>Update Username</Button>  
@@ -70,7 +72,7 @@ export default function UpdateProfileInputs() {
           <Input value={store.newProfilePicture} onChange={(e) => updateInputField(e.target.value, updateNewProfilePicture)} sx={profileInfoInputStyle}/>
           <Button onClick={() => updateUserData('/user/updateProfilePicture', 'newProfilePicture', updateNewProfilePicture)} sx={profileInfoButtonStyle}>Update Profile Picture</Button>  
         </div>
-        <Button onClick={deleteAccount} >Delete Account</Button> 
+        <Button onClick={deleteAccount}>Delete Account</Button> 
     </div>
   );
 }
