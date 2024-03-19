@@ -14,7 +14,7 @@ export default function ProfileContainerNav() {
     <div className="profile-container-navbar">
         <Button onClick={()=>updateProfileContainerView('posts')}>Posts</Button>
         <Button onClick={()=>updateProfileContainerView('comments')}>Comments</Button>
-        <Button onClick={()=>updateProfileContainerView('update')}>Update Your Information</Button>
+        <Button onClick={()=>updateProfileContainerView('update')}>Update Profile</Button>
     </div>
   );
 }

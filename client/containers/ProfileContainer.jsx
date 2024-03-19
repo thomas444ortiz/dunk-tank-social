@@ -1,14 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux'
-import { updateNewUsername, updateNewPassword, updateNewProfilePicture, updateNeedsRefresh } from '../redux/slices/userSlice'
-import { Input, Button, Image, Box } from '@chakra-ui/react'
-import { profileInfoInputStyle, profileInfoButtonStyle } from '../chakra-styles/LoginAndSignupStyles';
+import { updateNeedsRefresh } from '../redux/slices/userSlice'
+import { Image, Box } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
-import { updateAuthStatus } from '../redux/slices/authSlice';
 import UserPostContainer  from './UserPostContainer'
 import UserCommentContainer  from './UserCommentContainer'
 import ProfileContainerNav from '../components/ProfileContainerNav';
-import UpdateProfileInputs from './UpdateProfileInputs';
+import UpdateProfileMenu from '../components/UpdateProfileMenu';
 const utils = require('../../shared/utils')
 
 export default function ProfileContainer() {
@@ -47,19 +45,6 @@ export default function ProfileContainer() {
       dispatch(updateNeedsRefresh(true))
     })
   }
-
-  function deleteAccount(){
-    fetch('/user/deleteAccount',{
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then(()=>{ 
-      dispatch(updateAuthStatus(true))
-      navigate('/')
-    })
-  }
   
   return (
     <div className="outer-profile-container"> 
@@ -87,7 +72,7 @@ export default function ProfileContainer() {
         }
 
         {view.userProfileView === 'comments' ? 
-          <div className='userpost-inner'>
+          <div className='max-width'>
             <h1>Your Comments</h1>
             <UserCommentContainer />
           </div>   
@@ -96,7 +81,7 @@ export default function ProfileContainer() {
         }
         
         {view.userProfileView === 'update' ? 
-          <UpdateProfileInputs />
+          <UpdateProfileMenu/>
           :
           null
         }

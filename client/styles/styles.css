@@ -1,5 +1,6 @@
 @import url("post-styles.css");
 @import url("login-signup-navbar-styles.css");
+@import url("profile-styles.css");
 
 html, body {
     height: 100%;
@@ -26,6 +27,10 @@ html, body {
     width: 100%;  
 }
 
+.max-width{
+    width: 100%;
+}
+
 .outer-profile-container{
     display: flex;
     justify-content: center;
@@ -50,10 +55,11 @@ html, body {
     display: flex;
     align-items: center;
     border-radius: 5px;
-    border: 2px solid gray;
+    /* border: 2px solid gray; */
     margin: 5px;
     padding: 5px;
     width: 100%;
+    background-color: white;
 }
 
 .upvotedownvote-bar{

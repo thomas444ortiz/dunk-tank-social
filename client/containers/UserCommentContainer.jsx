@@ -15,9 +15,7 @@ export default function UserCommentContainer(props) {
           method: 'GET',
           headers: {"Content-Type": "application/json"},
         })
-        .then((data)=> {
-            return data.json()
-        })
+        .then((data)=> data.json())
         .then((data)=>{
           dispatch(updateUsersComments(data))
           dispatch(updateUsersCommentsNeedsRerender(false));
@@ -30,7 +28,7 @@ export default function UserCommentContainer(props) {
         id={comment._id} 
         body={comment.body} 
         userPost={true} 
-        username={comment.username} 
+        username={comment.userId.username} 
         postId={comment.userId.postId}
         profilePicture={comment.userId.profilePicture}
       />)

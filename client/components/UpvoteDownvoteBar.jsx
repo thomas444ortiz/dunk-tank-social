@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIsDownvotedByUser, updateIsUpvotedByUser } from '../redux/slices/upvoteDownvoteSlice';
 import { updateNeedsRerender } from '../redux/slices/postSlice';
-import { IconButton } from '@chakra-ui/react'
+import { IconButton, useToast, } from '@chakra-ui/react'
 import { ChevronUpIcon, ChevronDownIcon, TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons'
 
 export default function UpvoteDownvoteBar(props) {
   const store = useSelector((state) => state.upvoteDownvote)
   const postStore = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const toast = useToast()
 
   function handleLike(isUpvote){
     fetch('/upvoteDownvote/toggleUpvoteDownvote',{
@@ -27,7 +28,13 @@ export default function UpvoteDownvoteBar(props) {
       dispatch(updateIsDownvotedByUser({postId: props.id, value: !isUpvote}))
       dispatch(updateNeedsRerender(props.id));
       if(response.exposed){
-        window.alert('Congrats, you have just exposed a post!')
+        toast({
+          title: "Exposed!",
+          description: "Congrats, you have just exposed a post!",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     })
   }
