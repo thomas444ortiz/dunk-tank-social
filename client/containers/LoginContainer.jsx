@@ -1,20 +1,18 @@
 import React from 'react';
-import { Box, Input, Button, useToast } from '@chakra-ui/react'
-import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-styles/LoginAndSignupStyles'
-import { Link, useNavigate } from 'react-router-dom';
+import { Box, Input, Button, useToast, Text, VStack, Link as ChakraLink, Heading } from '@chakra-ui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { updateEmail, updatePassword } from '../redux/slices/loginSlice'
 import { updateAuthStatus } from '../redux/slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignupContainer() {
-  const store = useSelector((state)=> state.login);
+  const store = useSelector((state) => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast()
 
-  function login(){
-    // make post request with the email, username, and password in the request body
-    fetch('/auth/login',{
+  function login() {
+    fetch('/auth/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -25,15 +23,12 @@ export default function SignupContainer() {
       })
     })
     .then(response => {
-      // clear the fields
       dispatch(updateEmail(''));
       dispatch(updatePassword(''));  
       if(response.ok) {
-        // update the auth status and redirect
         dispatch(updateAuthStatus(true))
         navigate('/home');
       } else {
-        // Handle login failure
         toast({
           title: "Login Failed",
           description: 'Login failed. Please check your credentials.',
@@ -47,14 +42,19 @@ export default function SignupContainer() {
   }
 
   return (
-      <Box sx={signupContainerStyle}>
-          <h1 className="login-header" >Login</h1>
-          <Input placeholder='Email' value={store.email} onChange={(e)=> dispatch(updateEmail(e.target.value))} sx={signupInputStyle}/>
-          <Input placeholder='Password' value={store.password} onChange={(e)=> dispatch(updatePassword(e.target.value))} type={'password'} sx={signupInputStyle}/>
-          <Button colorScheme='gray' onClick={login} sx={buttonStyle}>Log In</Button>
-          <div className="login-link-text">Don't yet have an account?
-            <Link to="/signup" className="login-link">Sign Up</Link>
-          </div>
-      </Box>
+    <Box p="6" borderRadius="lg" bg="gray.50" shadow="md" width="30%" mx="auto" mt="10">
+      <VStack spacing="6">
+        <Heading size="lg">Login</Heading>
+        <Input placeholder='Email' value={store.email} onChange={(e) => dispatch(updateEmail(e.target.value))} bg="white"/>
+        <Input placeholder='Password' value={store.password} onChange={(e) => dispatch(updatePassword(e.target.value))} type='password' bg="white"/>
+        <Button colorScheme='blue' width="full" onClick={login}>Log In</Button>
+        <Text>
+          Don't yet have an account?{' '}
+          <ChakraLink as={Link} to="/signup" color="blue.500" fontWeight="semibold">
+            Sign Up
+          </ChakraLink>
+        </Text>
+      </VStack>
+    </Box>
   );
 }
