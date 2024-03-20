@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Image } from '@chakra-ui/react'
+import { Button, Box, Image, useToast } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAuthStatus } from '../redux/slices/authSlice';
 import { updateUserInfo, updateNeedsRefresh } from '../redux/slices/userSlice';
@@ -12,6 +12,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state) => state.user)
+  const toast = useToast()
 
   // going to fetch user data here
   useEffect(() => {
@@ -43,7 +44,13 @@ export default function Navbar() {
         navigate('/');
       } else {
         // Handle login failure
-        alert('Logout failed.');
+        toast({
+          title: "Error Logging Out",
+          description: 'Unable to log out.',
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
       return response.json();
     })

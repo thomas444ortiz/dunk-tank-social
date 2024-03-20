@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Input, Button } from '@chakra-ui/react'
+import { Box, Input, Button, useToast } from '@chakra-ui/react'
 import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-styles/LoginAndSignupStyles'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,8 @@ export default function SignupContainer() {
   const store = useSelector((state)=> state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  const toast = useToast()
+
   function login(){
     // make post request with the email, username, and password in the request body
     fetch('/auth/login',{
@@ -33,7 +34,13 @@ export default function SignupContainer() {
         navigate('/home');
       } else {
         // Handle login failure
-        alert('Login failed. Please check your credentials.');
+        toast({
+          title: "Login Failed",
+          description: 'Login failed. Please check your credentials.',
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
       return response.json();
     })

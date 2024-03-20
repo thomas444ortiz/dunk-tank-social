@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button } from '@chakra-ui/react'
+import { Input, Button, useToast } from '@chakra-ui/react'
 import { newPostInputStyle } from '../chakra-styles/LoginAndSignupStyles';
 import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../redux/slices/commentSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,12 +10,19 @@ import utils from '../../shared/utils.js';
 export default function CreateCommentArea(props) {
   const store = useSelector((state)=> state.comment)
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const comments = [];
 
   function createComment(){
       if(!utils.isValidPostContent(store.commentBody[props.id])) {
-        window.alert('Comments must be between 5 and 500 characters');
+        toast({
+          title: "Invalid Comment",
+          description: 'Comments must be between 5 and 500 characters',
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
         return;
       }
       fetch('/comment/createComment',{

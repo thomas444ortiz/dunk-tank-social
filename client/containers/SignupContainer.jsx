@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Input, Button } from '@chakra-ui/react'
+import { Box, Input, Button, useToast } from '@chakra-ui/react'
 import { signupContainerStyle, signupInputStyle, buttonStyle } from '../chakra-styles/LoginAndSignupStyles'
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,19 +11,38 @@ export default function SignupContainer() {
   const store = useSelector((state) => state.signup);
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const toast = useToast()
 
   function signup() {
     // validate email, username, password
     if(!utils.isValidEmail(store.email)) {
-      alert('Invalid email');
+      toast({
+        title: "Invalid Email",
+        description: 'Please ensure you email is in a valid foramt',
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     };
     if(!utils.isValidUsername(store.username)) {
-      alert('Usernames must be between 3 and 20 characters, and only include letters or the following characters: @, _, -');
+      toast({
+        title: "Invalid Username",
+        description: 'Usernames must be between 3 and 20 characters, and only include letters or the following characters: @, _, -',
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     };
     if(!utils.isValidPassword(store.password)) {
-      alert('Passwords must be between 8 and 64 characters');
+      toast({
+        title: "Invalid Password",
+        description: 'Passwords must be between 8 and 64 characters',
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     };
     // make post request with the email, username, and password in the request body
@@ -49,7 +68,13 @@ export default function SignupContainer() {
         navigate('/home');
       } else {
         // Handle login failure
-        alert('Signup failed. Please ensure your username and email are unique.');
+        toast({
+          title: "Signup Failed",
+          description: 'Signup failed. Please ensure your username and email are unique.',
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
       return response.json();
     })
