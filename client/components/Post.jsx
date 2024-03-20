@@ -1,109 +1,97 @@
 import React, { useState } from 'react';
-import { Text, Button, Input } from '@chakra-ui/react'
+import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, MenuItem, MenuList, VStack, useColorModeValue } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import { useDispatch } from 'react-redux';
 import { updateNeedsRerender } from '../redux/slices/postSlice';
-import { useDispatch } from 'react-redux'
 import CommentArea from './CommentArea';
 import UpvoteDownvoteBar from './UpvoteDownvoteBar';
-import { Heading, Image, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons'
 
 export default function Post(props) {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [editableBody, setEditableBody] = useState(props.body);
 
-  function deletePost(){
-    fetch('/post/deletePost',{
+  function deletePost() {
+    fetch('/post/deletePost', {
       method: 'DELETE',
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        postId: props.id,
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postId: props.id })
     })
-    .then((data)=> data.json())
-    .then((data) => {
-      dispatch(updateNeedsRerender(data));
-    })
+    .then(() => dispatch(updateNeedsRerender(props.id)));
   }
 
   function handleEditChange(e) {
     setEditableBody(e.target.value);
   }
 
-  function editPost(){
+  function editPost() {
     setIsEditing(!isEditing);
-    // Reset editable content if cancelling edit
     if (isEditing) setEditableBody(props.body);
   }
 
-  function saveChanges(){
-    fetch('/post/updatePost',{
+  function saveChanges() {
+    fetch('/post/updatePost', {
       method: "PATCH",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         postId: props.id,
         newBody: editableBody
       })
     })
-    .then((data)=> data.json())
-    .then((data)=> console.log(data))
-    .then(()=>{
+    .then(() => {
       setIsEditing(false);
       dispatch(updateNeedsRerender(props.id));
     })
   }
 
   return (
-    <div className="post-component">
-      <div className="post-top-bar">
-        <div className="post-info-post">
-            <Image 
-              src={props.usernameExposed ? props.profilePicture : 'https://image.made-in-china.com/2f0j00rknuUpYzYlbd/Mini-Yellow-Rubber-Duck-Bath-Toy-Sound-Floating-Ducks.webp'} 
-              alt='Rubber Duck'
-              borderRadius='full'
-              boxSize='50px'
-              marginRight='5px'
-            />
-          <Heading>{props.postedBy}</Heading>
-        </div>
+    <Box bg="white" p={0} rounded="md" shadow="sm" pb={5} mb={8}>
+      <Flex justifyContent="space-between" alignItems="center" p={5}>
+        <Flex alignItems="center">
+          <Image 
+            src={props.usernameExposed ? props.profilePicture : 'https://image.made-in-china.com/2f0j00rknuUpYzYlbd/Mini-Yellow-Rubber-Duck-Bath-Toy-Sound-Floating-Ducks.webp'} 
+            alt="Profile Picture"
+            borderRadius="full"
+            boxSize="50px"
+            mr={3}
+            border="1px solid gray"
+          />
+          <Heading size="md">{props.postedBy}</Heading>
+        </Flex>
         {props.userPost && 
           <Menu>
-            {({ isOpen }) => (
-              <>
-                <MenuButton isActive={isOpen} as={Button}>
-                  <HamburgerIcon />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={deletePost}>Delete Post</MenuItem>
-                  <MenuItem onClick={editPost}>{isEditing ? 'Discard Changes' : 'Edit'}</MenuItem>
-                  {isEditing && <MenuItem onClick={saveChanges}>Save Changes</MenuItem>}
-                </MenuList>
-              </>
-            )}
+            <MenuButton as={Button} rightIcon={<HamburgerIcon />} />
+            <MenuList>
+              <MenuItem onClick={deletePost}>Delete Post</MenuItem>
+              <MenuItem onClick={editPost}>{isEditing ? 'Discard Changes' : 'Edit'}</MenuItem>
+              {isEditing && <MenuItem onClick={saveChanges}>Save Changes</MenuItem>}
+            </MenuList>
           </Menu>
         }
-      </div>
-              
-      {isEditing ? (
-        <div>
-          <Input
-            value={editableBody}
-            onChange={handleEditChange}
-            placeholder="Edit post body"
-            size="md"
-          />
-          <div className="edit-post-button-container">
-            <Button mr="10px" onClick={editPost}>Discard Changes</Button>
-            <Button onClick={saveChanges}>Save Changes</Button>
-          </div>
-        </div>
-      ) : (
-        <Text fontSize='2xl'>{props.body}</Text>
-      )}
-      <div className='post-timestamp'>{props.timestamp}</div>
+      </Flex>
 
-      <UpvoteDownvoteBar key={`${props.id}`+ 'upvotedownvotebar'} id={props.id}/>
-      <CommentArea key={props.id} id={props.id}/>
-    </div>
+      <Box p={5}>
+        {isEditing ? (
+          <VStack spacing={4} align="stretch">
+            <Input
+              value={editableBody}
+              onChange={handleEditChange}
+              placeholder="Edit post body"
+            />
+            <Flex justifyContent="flex-end">
+              <Button mr={2} onClick={editPost}>Discard Changes</Button>
+              <Button colorScheme="blue" onClick={saveChanges}>Save Changes</Button>
+            </Flex>
+          </VStack>
+        ) : (
+          <Text fontSize="xl" mb={4}>{props.body}</Text>
+        )}
+
+        <Text color="gray.500" mb={4}>{props.timestamp}</Text>
+      </Box>
+
+      <UpvoteDownvoteBar key={`${props.id}-upvotedownvote`} id={props.id}/>
+      <CommentArea key={`${props.id}-comments`} id={props.id}/>
+    </Box>
   );
 }
