@@ -6,6 +6,7 @@ const sessionController = require('../controllers/sessionController');
 const commentController = require('../controllers/commentController');
 const upvoteDownvoteController = require('../controllers/upvoteDownvoteController');
 
+// create a new post
 router.post('/createPost',
     sessionController.verifySession,
     postController.createPost,
@@ -14,6 +15,7 @@ router.post('/createPost',
     }
 )
 
+// update the body of a specific post
 router.patch('/updatePost',
     postController.updateBody,
     (req, res) => {
@@ -21,6 +23,7 @@ router.patch('/updatePost',
     }
 )
 
+// load posts for a user feed
 router.post('/loadPosts',
     sessionController.verifySession,
     postController.loadPosts,
@@ -29,6 +32,7 @@ router.post('/loadPosts',
     }
 )
 
+// get data for one post
 router.post('/getOnePost',
     sessionController.verifySession,
     postController.getOnePost,
@@ -37,6 +41,7 @@ router.post('/getOnePost',
     }
 )
 
+// load all posts associated with a specific user
 router.post('/loadPostsByUser',
     sessionController.verifySession,
     postController.loadPostsByUser,
@@ -44,7 +49,7 @@ router.post('/loadPostsByUser',
         return res.status(200).json(res.locals);
     }
 )
-
+// delete a single post
 router.delete('/deletePost',
     sessionController.verifySession,
     postController.deletePost,
@@ -55,23 +60,10 @@ router.delete('/deletePost',
     } 
 )
 
+// get all posts associated with a specific user
 router.get('/allPostsByUser',
     postController.getAllPostsByUser,
     (req, res) =>{
-        return res.status(200).json(res.locals);
-    }
-)
-
-router.get('/allPosts',
-    postController.getAllPosts,
-    (req, res) => {
-        return res.status(200).json(res.locals);
-    }
-)
-
-router.delete('/allPosts',
-    postController.deleteAllPosts,
-    (req, res) => {
         return res.status(200).json(res.locals);
     }
 )
