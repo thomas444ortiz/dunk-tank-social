@@ -46,9 +46,9 @@ router.patch('/updateProfilePicture',
 router.delete('/deleteAccount',
     sessionController.verifySession,
     // delete all other info the user made (likes, comments, etc)
-    postController.deleteAllPostsByUser,
-    commentController.deleteAllCommentsByUser,
     upvoteDownvoteController.deleteAllUpvotesDownvotesFromUser,
+    commentController.deleteAllCommentsByUser,
+    postController.deleteAllPostsByUser,
     // then delete the account
     userController.deleteAccount,
     sessionController.endSession,

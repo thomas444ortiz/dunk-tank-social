@@ -78,7 +78,7 @@ router.delete('/deleteEverything',
     commentController.deleteAllComments,
     upvoteDownvoteController.deleteAllUpvotesDownvotes,
     (req, res) =>{
-        return res.status.json({status: 'Deleted everything'})
+        return res.status.json({})
     }
 )
 
