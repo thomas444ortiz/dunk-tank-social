@@ -23,7 +23,6 @@ export default function UserCommentContainer(props) {
     },[store.usersCommentsNeedsRerender])
 
   for(const comment of store.usersComments){
-    console.log(comment)
     comments.push(<Comment key={'userComment'+comment.key} 
         id={comment._id} 
         body={comment.body} 

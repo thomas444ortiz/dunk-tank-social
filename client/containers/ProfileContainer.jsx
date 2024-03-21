@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux'
 import { updateNeedsRefresh } from '../redux/slices/userSlice'
-import { Image, Box } from '@chakra-ui/react'
+import { Image, Box, Heading, Center } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import UserPostContainer  from './UserPostContainer'
 import UserCommentContainer  from './UserCommentContainer'
@@ -64,7 +64,9 @@ export default function ProfileContainer() {
           
         {view.userProfileView === 'posts' ? 
           <div className='user-post-inner'>
-            <h1>Your Posts</h1>
+          <Center>
+            <Heading mb={4}>Your Posts</Heading>
+          </Center>
             <UserPostContainer />
           </div>
           :
@@ -73,7 +75,9 @@ export default function ProfileContainer() {
 
         {view.userProfileView === 'comments' ? 
           <div className='max-width'>
-            <h1>Your Comments</h1>
+            <Center>
+              <Heading mb={4}>Your Comments</Heading>
+            </Center>
             <UserCommentContainer />
           </div>   
           :
