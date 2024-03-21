@@ -71,5 +71,16 @@ router.delete('/allUpvotesDownvotes',
     }
 )
 
+// admin route to clear all the data from the db
+router.delete('/deleteEverything',
+    userController.deleteAllUsers,
+    postController.deleteAllPosts,
+    commentController.deleteAllComments,
+    upvoteDownvoteController.deleteAllUpvotesDownvotes,
+    (req, res) =>{
+        return res.status.json({status: 'Deleted everything'})
+    }
+)
+
 // export the router
 module.exports = router;
