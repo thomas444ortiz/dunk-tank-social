@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch} from 'react-redux'
 import { updateNewPassword, updateConfirmPassword, updateNeedsRefresh } from '../redux/slices/userSlice'
-const utils = require('../../shared/utils')
+const utils = require('../utils')
 
 export default function ChangePasswordForm() {
   const toast = useToast();

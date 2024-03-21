@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateNewUsername, updateNeedsRefresh } from '../redux/slices/userSlice';
-const utils = require('../../shared/utils');
+const utils = require('../utils');
 
 export default function ChangeUsernameForm() {
   const toast = useToast();

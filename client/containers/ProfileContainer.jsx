@@ -7,7 +7,7 @@ import UserPostContainer  from './UserPostContainer'
 import UserCommentContainer  from './UserCommentContainer'
 import ProfileContainerNav from '../components/ProfileContainerNav';
 import UpdateProfileMenu from '../components/UpdateProfileMenu';
-const utils = require('../../shared/utils')
+const utils = require('../utils')
 
 export default function ProfileContainer() {
   const store = useSelector((state)=> state.user)
