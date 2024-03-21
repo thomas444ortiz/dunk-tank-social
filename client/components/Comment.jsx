@@ -23,7 +23,7 @@ export default function Comment(props) {
   }
 
   return (
-    <Box bg={bgColor} color={color} p={4} rounded="md" shadow="md" my={2}>
+    <Box bg={bgColor} color={color} p={3} rounded="md" shadow="md" mt={1}>
       <Flex justify="space-between" align="center" mb={2}>
         <Flex align="center">
           <Image 
@@ -35,7 +35,7 @@ export default function Comment(props) {
           />
           <Text fontWeight="bold">{props.username}</Text>
         </Flex>
-        {props.userPost ? <Button size="sm" colorScheme="blue" onClick={deleteComment}>Delete Comment</Button> : null}
+        {props.userPost ? <Button size="sm" colorScheme="blue" onClick={deleteComment}>Delete</Button> : null}
       </Flex>
       <Text>{props.body}</Text>
     </Box>

@@ -47,7 +47,7 @@ export default function SignupContainer() {
         <Heading size="lg">Login</Heading>
         <Input placeholder='Email' value={store.email} onChange={(e) => dispatch(updateEmail(e.target.value))} bg="white"/>
         <Input placeholder='Password' value={store.password} onChange={(e) => dispatch(updatePassword(e.target.value))} type='password' bg="white"/>
-        <Button colorScheme='blue' width="full" onClick={login}>Log In</Button>
+        <Button colorScheme='blue' width="40%" onClick={login}>Log In</Button>
         <Text>
           Don't yet have an account?{' '}
           <ChakraLink as={Link} to="/signup" color="blue.500" fontWeight="semibold">

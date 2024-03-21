@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, MenuItem, MenuList, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, Center, MenuItem, MenuList, VStack, useColorModeValue } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { updateNeedsRerender } from '../redux/slices/postSlice';
@@ -46,21 +46,24 @@ export default function Post(props) {
 
   return (
     <Box bg="white" p={0} rounded="md" shadow="sm" pb={5} mb={8}>
-      <Flex justifyContent="space-between" alignItems="center" p={5}>
-        <Flex alignItems="center">
+      <Flex justifyContent="space-between" alignItems="center" pt={5} pb={2} pr={5} pl={5}>
+        <Flex alignItems="center" >
           <Image 
             src={props.usernameExposed ? props.profilePicture : 'https://image.made-in-china.com/2f0j00rknuUpYzYlbd/Mini-Yellow-Rubber-Duck-Bath-Toy-Sound-Floating-Ducks.webp'} 
             alt="Profile Picture"
             borderRadius="full"
             boxSize="50px"
             mr={3}
-            border="1px solid gray"
           />
           <Heading size="md">{props.postedBy}</Heading>
         </Flex>
         {props.userPost && 
-          <Menu>
-            <MenuButton as={Button} rightIcon={<HamburgerIcon />} />
+          <Menu placement="bottom-end">
+            <MenuButton as={Button}>
+              <Center>
+                <HamburgerIcon />
+              </Center>
+            </MenuButton>
             <MenuList>
               <MenuItem onClick={deletePost}>Delete Post</MenuItem>
               <MenuItem onClick={editPost}>{isEditing ? 'Discard Changes' : 'Edit'}</MenuItem>
@@ -70,9 +73,9 @@ export default function Post(props) {
         }
       </Flex>
 
-      <Box p={5}>
+      <Box pt={0} pb={0} pl={5}>
         {isEditing ? (
-          <VStack spacing={4} align="stretch">
+          <VStack spacing={4} align="stretch" mr={5} mb={0}>
             <Input
               value={editableBody}
               onChange={handleEditChange}
@@ -84,7 +87,7 @@ export default function Post(props) {
             </Flex>
           </VStack>
         ) : (
-          <Text fontSize="xl" mb={4}>{props.body}</Text>
+          <Text fontSize="xl" mb={2}>{props.body}</Text>
         )}
 
         <Text color="gray.500" mb={4}>{props.timestamp}</Text>

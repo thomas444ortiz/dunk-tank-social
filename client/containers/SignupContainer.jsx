@@ -81,7 +81,7 @@ export default function SignupContainer() {
         <Input placeholder='Username (3-20 chars, a-z or _)' value={store.username} onChange={(e) => dispatch(updateUsername(e.target.value))} bg="white"/>
         <Input placeholder='Email' value={store.email} onChange={(e) => dispatch(updateEmail(e.target.value))} bg="white"/>
         <Input placeholder='Password (8-64 chars)' value={store.password} onChange={(e) => dispatch(updatePassword(e.target.value))} type='password' bg="white"/>
-        <Button colorScheme='blue' width="full" onClick={signup}>Sign Up</Button>
+        <Button colorScheme='blue' width="40%" onClick={signup}>Sign Up</Button>
         <Text>
           Already have an account?{' '}
           <ChakraLink as={Link} to="/" color="blue.500" fontWeight="semibold">

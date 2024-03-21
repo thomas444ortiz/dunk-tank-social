@@ -74,7 +74,7 @@ export default function CreateCommentArea(props) {
   return (
     <Box w="100%">
       <Divider my={4} />
-      <Flex alignItems="center" justifyContent="space-between" p={5}>
+      <Flex alignItems="center" justifyContent="space-between" pl={5} pt={1} pb={1} pr={5}>
         <Input value={store.commentBody[props.id] ? store.commentBody[props.id] : ''} 
                onChange={(e) => dispatch(updateCommentBody({postId: props.id, text: e.target.value}))}
                placeholder='Add a comment...' 

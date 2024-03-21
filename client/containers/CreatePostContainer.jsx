@@ -41,7 +41,7 @@ export default function CreatePostContainer() {
       <Input 
         onChange={(e) => dispatch(updatePostBody(e.target.value))}
         value={store.postBody}
-        placeholder='Create your post...'
+        placeholder='Share whats on your mind...'
         bg="gray.100"
         _placeholder={{ color: 'gray.500' }}
         flex="1"
