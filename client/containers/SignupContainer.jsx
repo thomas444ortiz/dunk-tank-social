@@ -78,7 +78,7 @@ export default function SignupContainer() {
     <Box p="6" borderRadius="lg" bg="gray.50" shadow="md" width="30%" mx="auto" mt="10">
       <VStack spacing="6">
         <Heading size="lg">Signup</Heading>
-        <Input placeholder='Username (3-20 chars, a-z or _)' value={store.username} onChange={(e) => dispatch(updateUsername(e.target.value))} bg="white"/>
+        <Input placeholder='Username (3-20 chars, a-z, 0-9, or _)' value={store.username} onChange={(e) => dispatch(updateUsername(e.target.value))} bg="white"/>
         <Input placeholder='Email' value={store.email} onChange={(e) => dispatch(updateEmail(e.target.value))} bg="white"/>
         <Input placeholder='Password (8-64 chars)' value={store.password} onChange={(e) => dispatch(updatePassword(e.target.value))} type='password' bg="white"/>
         <Button colorScheme='blue' width="40%" onClick={signup}>Sign Up</Button>

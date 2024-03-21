@@ -23,13 +23,13 @@ export default function UpdateProfileMenu() {
           Update Profile Information
         </Box>
         <Text as="button" variant="ghost" onClick={() => handleItemClick('Change Profile Picture')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
-          Update Profile Picture <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+          Profile Picture <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
         </Text>
         <Text as="button" variant="ghost" onClick={() => handleItemClick('Change Username')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
-          Change Username <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+          Username <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
         </Text>
         <Text as="button" variant="ghost" onClick={() => handleItemClick('Change Password')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
-          Update Password <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+          Password <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
         </Text>
         <Text as="button" variant="ghost" onClick={() => handleItemClick('Delete Account')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
           Delete Account <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
@@ -39,7 +39,7 @@ export default function UpdateProfileMenu() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update {activeItem}</ModalHeader>
+          <ModalHeader>{activeItem}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {activeItem === 'Change Password' && <ChangePasswordForm />}
