@@ -50,6 +50,9 @@ userController.updateUsername = (req, res, next) => {
         .then(() => {
             return next()
         })
+        .catch(()=>{
+            return next('Error updating username')
+        })
     } catch {
         return next('Error updating username')
     }

@@ -1,20 +1,26 @@
 import React from 'react';
-import { Input, Button } from '@chakra-ui/react'
-import { newPostInputStyle } from '../chakra-styles/LoginAndSignupStyles';
+import { Flex, Input, Button, useToast } from '@chakra-ui/react';
+import { useSelector, useDispatch } from 'react-redux';
 import { updatePostBody, updateNeedsRerender } from '../redux/slices/postSlice';
-import { useSelector, useDispatch } from 'react-redux'
-const utils = require('../../shared/utils')
+const utils = require('../../shared/utils');
 
 export default function CreatePostContainer() {
-  const store = useSelector((state) => state.post)
+  const store = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const toast = useToast();
 
-  function createPost(){
-    if(!utils.isValidPostContent(store.postBody)){
-      alert('Posts must be between 5 and 500 characters')
+  function createPost() {
+    if (!utils.isValidPostContent(store.postBody)) {
+      toast({
+        title: "Invalid Post",
+        description: 'Posts must be between 5 and 500 characters',
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     }
-    fetch('/post/createPost',{
+    fetch('/post/createPost', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -23,17 +29,30 @@ export default function CreatePostContainer() {
         body: store.postBody,
       })
     })
-    .then((data)=> data.json())
-    .then((data)=>{
-      dispatch(updatePostBody(''))
+    .then((data) => data.json())
+    .then((data) => {
+      dispatch(updatePostBody(''));
       dispatch(updateNeedsRerender(data));
-    })
+    });
   }
 
   return (
-    <div className="create-post-container">
-      <Input onChange={(e)=> dispatch(updatePostBody(e.target.value))} value={store.postBody} placeholder='Create your post...' sx={newPostInputStyle}/>
-      <Button onClick={createPost}>Create Post</Button>    
-    </div>
+    <Flex w="full" p={4} boxShadow="md" rounded="lg" bg="white" alignItems="center" justifyContent="space-between" mt={4} mb={8}>
+      <Input 
+        onChange={(e) => dispatch(updatePostBody(e.target.value))}
+        value={store.postBody}
+        placeholder='Share whats on your mind...'
+        bg="gray.100"
+        _placeholder={{ color: 'gray.500' }}
+        flex="1"
+        mr={4}
+      />
+      <Button 
+        colorScheme="blue"
+        onClick={createPost}
+      >
+        Create Post
+      </Button>
+    </Flex>
   );
 }

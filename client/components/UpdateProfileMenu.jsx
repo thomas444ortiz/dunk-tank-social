@@ -1,6 +1,7 @@
 import React from 'react';
-import { VStack, Button, useDisclosure } from '@chakra-ui/react';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import { VStack, Text, useDisclosure, Divider, Icon, Box } from '@chakra-ui/react';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button } from '@chakra-ui/react';
 import ChangePasswordForm from './ChangePasswordForm';
 import ChangeUsernameForm from './ChangeUsernameForm';
 import ChangeProfilePictureForm from './ChangeProfilePictureForm';
@@ -17,17 +18,28 @@ export default function UpdateProfileMenu() {
 
   return (
     <div className="update-profile-menu">
-      <VStack spacing={4}>
-        <Button variant="ghost" onClick={() => handleItemClick('Change Profile Picture')} width="80%" style={{ color: 'navy' }}>Update Profile Picture</Button>
-        <Button variant="ghost" onClick={() => handleItemClick('Change Username')} width="80%" style={{ color: 'navy' }}>Change Username</Button>
-        <Button variant="ghost" onClick={() => handleItemClick('Change Password')} width="80%" style={{ color: 'navy' }}>Update Password</Button>
-        <Button variant="ghost" onClick={() => handleItemClick('Delete Account')} width="80%" style={{ color: 'navy' }}>Delete Account</Button>
+      <VStack divider={<Divider />} spacing={4} align="stretch">
+        <Box as="header" pt="4" pr="4" pl="0" pb="0" color="black" fontSize="lg" fontWeight="bold">
+          Update Profile Information
+        </Box>
+        <Text as="button" variant="ghost" onClick={() => handleItemClick('Change Profile Picture')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
+          Profile Picture <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+        </Text>
+        <Text as="button" variant="ghost" onClick={() => handleItemClick('Change Username')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
+          Username <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+        </Text>
+        <Text as="button" variant="ghost" onClick={() => handleItemClick('Change Password')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
+          Password <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+        </Text>
+        <Text as="button" variant="ghost" onClick={() => handleItemClick('Delete Account')} style={{ justifyContent: 'space-between', display: 'flex', color: 'black', width: '100%' }}>
+          Delete Account <Icon as={ArrowForwardIcon} ml="auto" w={5} h={5} />
+        </Text>
       </VStack>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update {activeItem}</ModalHeader>
+          <ModalHeader>{activeItem}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {activeItem === 'Change Password' && <ChangePasswordForm />}

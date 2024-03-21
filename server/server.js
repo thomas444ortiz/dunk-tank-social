@@ -21,7 +21,7 @@ app.use(limiter);
 
 // serve everything from the build folder
 app.use(express.static(path.join(__dirname, "../build")));
-
+ 
 // handle logic
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
