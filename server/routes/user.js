@@ -5,7 +5,9 @@ const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const postController = require('../controllers/postController');
 const sessionController = require('../controllers/sessionController')
-const cookieController = require('../controllers/cookieController')
+const cookieController = require('../controllers/cookieController');
+const commentController = require('../controllers/commentController');
+const upvoteDownvoteController = require('../controllers/upvoteDownvoteController');
 
 // get the info associated with a specific user
 router.get('/userInfo',
@@ -42,8 +44,12 @@ router.patch('/updateProfilePicture',
 
 // delete a users account
 router.delete('/deleteAccount',
-    postController.deleteAllPostsByUser,
+    sessionController.verifySession,
     // delete all other info the user made (likes, comments, etc)
+    postController.deleteAllPostsByUser,
+    commentController.deleteAllCommentsByUser,
+    upvoteDownvoteController.deleteAllUpvotesDownvotesFromUser,
+    // then delete the account
     userController.deleteAccount,
     sessionController.endSession,
     cookieController.removeSSIDCookie,
@@ -51,6 +57,6 @@ router.delete('/deleteAccount',
         return res.status(200).json(res.locals);
     }
 )
-
+ 
 // export the router
 module.exports = router;

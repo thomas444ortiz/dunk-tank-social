@@ -52,5 +52,5 @@ app.use("/", (err, req, res, next) => {
 // Starts the server on port 3000
 app.listen(3000, (err) => {
   if (err) console.log("Error setting up server");
-  console.log("Server running and ready to work :)");
+  else console.log("Server running and ready to work :)");
 });

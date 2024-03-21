@@ -13,7 +13,7 @@ router.get('/allUsers',
     (req, res) => {
         return res.status(200).json(res.locals);
     }
-)
+) 
 
 // delete all users
 router.delete('/allUsers',

@@ -79,7 +79,7 @@ commentController.getAllComments = (req, res, next) => {
 commentController.deleteComment = (req, res, next) => {
     try{
         models.Comment.findOneAndDelete({userId: req.cookies.ssid, _id: req.body.commentId})
-        .then((data)=>{            
+        .then(()=>{            
             return next();
         })
     }
@@ -91,7 +91,7 @@ commentController.deleteComment = (req, res, next) => {
 commentController.deleteAllCommentsFromPost = (req, res, next) => {
     try{
         models.Comment.deleteMany({postId: req.body.postId})
-        .then((data)=>{
+        .then(()=>{
             return next()
         })
     }
@@ -100,10 +100,23 @@ commentController.deleteAllCommentsFromPost = (req, res, next) => {
     }
 }
 
+commentController.deleteAllCommentsByUser = (req, res, next) => {
+    try{
+        models.Comment.deleteMany({userId: req.cookies.ssid})
+        .then(()=>{
+            res.locals.status = 'All comments deleted'
+            return next()
+        })
+    }
+    catch {
+        return next('Error deleting all comments')
+    }
+}
+
 commentController.deleteAllComments = (req, res, next) => {
     try{
         models.Comment.deleteMany({})
-        .then((data)=>{
+        .then(()=>{
             res.locals.status = 'All comments deleted'
             return next()
         })

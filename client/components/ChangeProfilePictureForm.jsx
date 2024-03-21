@@ -15,7 +15,8 @@ export default function ChangeProfilePictureForm() {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.user);
 
-  function updateProfilePicture() {
+  function updateProfilePicture(e) {
+    e.preventDefault()
     fetch('/user/updateProfilePicture', {
       method: "PATCH",
       headers: {
