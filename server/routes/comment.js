@@ -5,6 +5,7 @@ const postController = require('../controllers/postController');
 const userController = require('../controllers/userController');
 const router = express.Router();
 
+// creates a new comment
 router.post('/createComment', 
     sessionController.verifySession,
     postController.validatePost,
@@ -15,6 +16,7 @@ router.post('/createComment',
     }
 )
 
+// gets all comments from a specific post
 router.post('/postComments', 
     commentController.getAllCommentsFromPost,
     (req, res) => {
@@ -22,6 +24,7 @@ router.post('/postComments',
     }
 )
 
+// gets all coments associated with a specific user
 router.get('/allOfUsersComments', 
     commentController.getAllOfUsersComments,
     (req, res) => {
@@ -29,24 +32,11 @@ router.get('/allOfUsersComments',
     }
 )
 
-router.get('/allComments', 
-    commentController.getAllComments,
-    (req, res) => {
-        return res.status(200).json(res.locals)
-    }
-)
-
+// deletes a specific comment
 router.delete('/deleteComment',
     commentController.deleteComment,
     (req, res) =>{
         return res.status(200).json(res.locals);
-    }
-)
-
-router.delete('/allComments', 
-    commentController.deleteAllComments,
-    (req, res) => {
-        return res.status(200).json(res.locals)
     }
 )
 

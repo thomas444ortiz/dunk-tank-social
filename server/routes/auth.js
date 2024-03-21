@@ -6,6 +6,7 @@ const cookieController = require('../controllers/cookieController')
 const sessionController = require('../controllers/sessionController')
 const userController = require('../controllers/userController')
 
+// validates user session
 router.get('/validateSession',
     sessionController.verifySession,
     (req, res) => {
@@ -13,6 +14,7 @@ router.get('/validateSession',
     }
 ) 
 
+// signs up new user
 router.post('/signup', 
     authController.hashPassword,
     userController.createUser,
@@ -23,6 +25,7 @@ router.post('/signup',
     }
 )
 
+// logs user in
 router.post('/login', 
     authController.loginUser,
     cookieController.setSSIDCookie,
@@ -32,6 +35,7 @@ router.post('/login',
     }
 )
 
+// logs user out
 router.post('/logout',
     sessionController.endSession,
     cookieController.removeSSIDCookie,

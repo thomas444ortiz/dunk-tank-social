@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateUsername, updateEmail, updatePassword } from '../redux/slices/signupSlice';
 import { updateAuthStatus } from '../redux/slices/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
-const utils = require('../../shared/utils');
+const utils = require('../utils');
 
 export default function SignupContainer() {
   const store = useSelector((state) => state.signup);

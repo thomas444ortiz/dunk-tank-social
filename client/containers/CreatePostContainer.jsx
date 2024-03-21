@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Input, Button, useToast } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updatePostBody, updateNeedsRerender } from '../redux/slices/postSlice';
-const utils = require('../../shared/utils');
+const utils = require('../utils');
 
 export default function CreatePostContainer() {
   const store = useSelector((state) => state.post);

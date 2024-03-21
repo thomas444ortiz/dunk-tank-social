@@ -4,6 +4,7 @@ const router = express.Router();
 const upvoteDownvoteController = require('../controllers/upvoteDownvoteController')
 const postController = require('../controllers/postController');
 
+// toggles upvote / downvote for a single post
 router.post('/toggleUpvoteDownvote', 
     upvoteDownvoteController.toggleUpvoteDownvote,
     postController.updateUpvotesDownvotes,
@@ -13,24 +14,11 @@ router.post('/toggleUpvoteDownvote',
     }
 )
 
+// gets all upvotes and downvotes from a post
 router.post('/upvotesDownvotesFromPost', 
     upvoteDownvoteController.checkIfUserUpvotedDownvotedPost,
     (req, res) =>{
         return res.status(200).json(res.locals)
-    }
-)
-
-router.get('/allUpvotesDownvotes',
-    upvoteDownvoteController.getAllUpvotesDownvotes,
-    (req, res) => {
-        return res.status(200).json(res.locals);
-    }
-)
-
-router.delete('/allUpvotesDownvotes',
-    upvoteDownvoteController.deleteAllUpvotesDownvotes,
-    (req, res) => {
-        return res.status(200).json(res.locals);
     }
 )
 

@@ -109,6 +109,32 @@ upvoteDownvoteController.deleteAllUpvotesDownvotesFromPost = (req, res, next) =>
     }
 }
 
+upvoteDownvoteController.deleteAllUpvotesDownvotesFromUser = async (req, res, next) => {
+    try {
+        const upvoteDownvoteRecords = await models.PostUpvoteDownvote.find({ userId: req.cookies.ssid });
+        
+        // Update the corresponding Post documents
+        for (const record of upvoteDownvoteRecords) {
+            if (record.upvoted) {
+                await models.Post.findByIdAndUpdate(record.postId, { $inc: { upvotes: -1 } });
+            }
+            if (record.downvoted) {
+                await models.Post.findByIdAndUpdate(record.postId, { $inc: { downvotes: -1 } });
+            }
+        }
+
+        // Delete the upvote/downvote records
+        await models.PostUpvoteDownvote.deleteMany({ userId: req.cookies.ssid });
+
+        res.locals.status = 'All upvotes downvotes from user deleted';
+        return next();
+    } catch (error) {
+        return next('Error deleting all upvotes / downvotes');
+    }
+};
+
+
+
 upvoteDownvoteController.deleteAllUpvotesDownvotes = (req, res, next) => {
     try{
         models.PostUpvoteDownvote.deleteMany({})

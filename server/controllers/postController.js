@@ -1,5 +1,5 @@
 const models = require('../models/models');
-const utils = require('../../shared/utils');
+const utils = require('../utils');
 
 const postController = {};
 
@@ -133,7 +133,7 @@ postController.getOnePost = (req, res, next) => {
             if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
             else clonedPost.username = data.userId.username;
             clonedPost.profilePicture = data.userId.profilePicture;
-            clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+            clonedPost.createdAt = utils.formatElapsedTime(clonedPost.createdAt, new Date().toISOString())
             res.locals = clonedPost;
             return next();
         })
@@ -166,7 +166,6 @@ postController.loadPosts = (req, res, next) => {
                 const modifiedData = {};
                 // If we have more posts than needed, slice the array to the correct size
                 const hasMore = data.length > postsPerPage;
-                const postsToSend = hasMore ? data.slice(0, postsPerPage) : data;
 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data
@@ -176,7 +175,7 @@ postController.loadPosts = (req, res, next) => {
                     if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
                     else clonedPost.username = post.userId.username;
                     clonedPost.profilePicture = post.userId.profilePicture;
-                    clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+                    clonedPost.createdAt = utils.formatElapsedTime(clonedPost.createdAt, new Date().toISOString())
                     // Optionally adjust or format other fields as needed
                     // Use the post's _id as the key for the modifiedData object
                     modifiedData[post._id] = clonedPost;
@@ -199,23 +198,7 @@ postController.getAllPosts = (req,res, next) => {
         })
         .sort({createdAt: -1}) // This will sort the posts in descending order of creation
         .then((data)=> {
-            // Initialize an empty object to hold the modified posts
-            const modifiedData = {};
-
-            data.forEach(post => {
-                // Clone the post object to avoid modifying the original data
-                const clonedPost = { ...post._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
-                // Compare the userId and set it to true or false
-                clonedPost.userId = post.userId._id == req.cookies.ssid;
-                if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
-                else clonedPost.username = post.userId.username;
-                clonedPost.profilePicture = post.userId.profilePicture;
-                // decode timestamp
-                clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
-                // Use the post's _id as the key for the modifiedData object
-                modifiedData[post._id] = clonedPost;
-            });
-            res.locals = modifiedData;
+            res.locals = data;
             return next();
         })
         .catch(err => next(err));
@@ -248,7 +231,6 @@ postController.loadPostsByUser = (req, res, next) => {
 
                 // If we have more posts than needed, slice the array to the correct size
                 const hasMore = data.length > postsPerPage;
-                const postsToSend = hasMore ? data.slice(0, postsPerPage) : data;
 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data
@@ -258,7 +240,7 @@ postController.loadPostsByUser = (req, res, next) => {
                     if(!clonedPost.usernameExposed) clonedPost.username = 'Anonymous';
                     else clonedPost.username = post.userId.username;
                     clonedPost.profilePicture = post.userId.profilePicture;
-                    clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+                    clonedPost.createdAt = utils.formatElapsedTime(clonedPost.createdAt, new Date().toISOString())
                     // Optionally adjust or format other fields as needed
                     // Use the post's _id as the key for the modifiedData object
                     modifiedData[post._id] = clonedPost;
@@ -293,7 +275,7 @@ postController.getAllPostsByUser = (req, res, next) => {
                 else clonedPost.username = post.userId.username;
                 clonedPost.profilePicture = post.userId.profilePicture;
                 // decode timestamp
-                clonedPost.updatedAt = utils.formatElapsedTime(clonedPost.updatedAt, new Date().toISOString())
+                clonedPost.createdAt = utils.formatElapsedTime(clonedPost.createdAt, new Date().toISOString())
                 // Use the post's _id as the key for the modifiedData object
                 modifiedData[post._id] = clonedPost;
             });

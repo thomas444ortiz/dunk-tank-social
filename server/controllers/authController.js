@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const models = require('../models/models');
-const utils = require('../../shared/utils')
+const utils = require('../utils')
 
 const authController = {};
 

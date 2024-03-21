@@ -5,21 +5,19 @@ const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const postController = require('../controllers/postController');
 const sessionController = require('../controllers/sessionController')
-const cookieController = require('../controllers/cookieController')
+const cookieController = require('../controllers/cookieController');
+const commentController = require('../controllers/commentController');
+const upvoteDownvoteController = require('../controllers/upvoteDownvoteController');
 
+// get the info associated with a specific user
 router.get('/userInfo',
     userController.getUserInfo,
     (req, res) => {
         return res.status(200).json(res.locals);
     }
 )
-router.get('/allUsers',
-    userController.getAllUsers,
-    (req, res) => {
-        return res.status(200).json(res.locals);
-    }
-)
 
+// update the username of a specific user
 router.patch('/updateUsername',
     userController.updateUsername,
     (req, res) => {
@@ -27,6 +25,7 @@ router.patch('/updateUsername',
     }
 )
 
+// update the password of a specific user
 router.patch('/updatePassword',
     authController.hashPassword,
     userController.updatePassword,
@@ -35,6 +34,7 @@ router.patch('/updatePassword',
     }
 )
 
+// update the profile picture of a specific user
 router.patch('/updateProfilePicture',
     userController.updateProfilePicture,
     (req, res) => {
@@ -42,9 +42,14 @@ router.patch('/updateProfilePicture',
     }
 )
 
+// delete a users account
 router.delete('/deleteAccount',
-    postController.deleteAllPostsByUser,
+    sessionController.verifySession,
     // delete all other info the user made (likes, comments, etc)
+    upvoteDownvoteController.deleteAllUpvotesDownvotesFromUser,
+    commentController.deleteAllCommentsByUser,
+    postController.deleteAllPostsByUser,
+    // then delete the account
     userController.deleteAccount,
     sessionController.endSession,
     cookieController.removeSSIDCookie,
@@ -52,13 +57,6 @@ router.delete('/deleteAccount',
         return res.status(200).json(res.locals);
     }
 )
-
-router.delete('/allUsers',
-    userController.deleteAllUsers,
-    (req, res) => {
-        return res.status(200).json(res.locals);
-    }
-)
-
+ 
 // export the router
 module.exports = router;

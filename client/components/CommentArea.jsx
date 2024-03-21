@@ -3,7 +3,7 @@ import { Box, Flex, Input, Button, useToast, Divider, VStack } from '@chakra-ui/
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../redux/slices/commentSlice';
 import Comment from './Comment';
-import utils from '../../shared/utils.js';
+import utils from '../utils.js';
 
 export default function CreateCommentArea(props) {
   const store = useSelector((state) => state.comment);
