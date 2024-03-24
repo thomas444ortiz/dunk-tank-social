@@ -54,7 +54,7 @@ export default function CreateCommentArea(props) {
       dispatch(updateCommentsArray({postId: props.id, comments: data}));
       dispatch(updateNeedsRerender({postId: props.id, value: false}));
     });
-  }, [store.needsRerender[props.id], dispatch, props.id]);
+  }, [store.needsRerender[props.id], props.id]);
 
   if (store.commentsArray[props.id]) {
     for (const commentID in store.commentsArray[props.id]) {
