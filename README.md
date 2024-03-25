@@ -4,8 +4,8 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 
 # Technical Features
 - Containerized via docker
-- Hosted on AWS ECS
 - Rate limiting
+- Stateless servers for maximum scalability
 - Express server with express router in NodeJS environment
 - React and React Router for reusable components, dynamic page rendering, protected routes
 - Redux Toolkit for centralized state management
@@ -43,8 +43,8 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 - Add in autoscaler for servers
 - Add in load balancer
 
-
 ### Other
-- Do a thorough code review
+- Thorough code review
+- Host on AWS
 - Testing
 - CI / CD
