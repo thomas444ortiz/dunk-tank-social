@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Input, Button, useToast, Divider, VStack } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../redux/slices/commentSlice';
+import { updateCommentBody, updateNeedsRerender } from '../redux/slices/commentSlice';
 import Comment from './Comment';
 import utils from '../utils.js';
  
