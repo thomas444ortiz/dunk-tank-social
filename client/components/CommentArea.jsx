@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Flex, Input, Button, useToast, Divider, VStack } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../redux/slices/commentSlice';
 import Comment from './Comment';
 import utils from '../utils.js';
-
+ 
 export default function CreateCommentArea(props) {
   const store = useSelector((state) => state.comment);
   const dispatch = useDispatch();
   const toast = useToast();
+  const [page, setPage] = useState(1);
 
   const comments = [];
 
@@ -39,6 +40,10 @@ export default function CreateCommentArea(props) {
     });
   }
 
+  function loadPosts(){
+    console.log('Load more posts invoked', page)
+  }
+
   useEffect(() => {
     fetch('/comment/postComments', {
       method: 'POST',
@@ -46,13 +51,15 @@ export default function CreateCommentArea(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        postId: props.id
+        postId: props.id,
+        page: page
       })
     })
     .then((data) => data.json())
     .then((data) => {
       dispatch(updateCommentsArray({postId: props.id, comments: data}));
       dispatch(updateNeedsRerender({postId: props.id, value: false}));
+      setPage(page + 1)
     });
   }, [store.needsRerender[props.id], props.id]);
 
@@ -88,6 +95,7 @@ export default function CreateCommentArea(props) {
       <Divider my={4} />
       <VStack spacing={4} align="stretch" px={5}>
         {comments.length ? comments: <div>No comments yet...</div>}
+        <Button onClick={loadPosts}>Load more comments...</Button>
       </VStack>
     </Box>
   );
