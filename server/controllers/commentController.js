@@ -25,7 +25,6 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
         // Calculate the number of posts to skip based on the page number
         const skip = (page - 1) * postsPerPage;
 
-        // console.log('page', page,'skip', skip)
         models.Comment.find({postId: `${req.body.postId}`})
         .populate({
             path: 'userId',
@@ -33,7 +32,7 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
         })
         .sort({createdAt: -1}) // Sort in descending order of creation
         .skip(skip) // Skip posts based on the current page
-        .limit(postsPerPage + 1) // Limit the number of posts to 5
+        .limit(postsPerPage) // Limit the number of posts
         .then((data)=>{
             // Initialize an empty object to hold the modified comments
             const modifiedData = {};
@@ -48,7 +47,7 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
                 // Use the comment's _id as the key for the modifiedData object
                 modifiedData[comment._id] = clonedComment;
             });
-            res.locals = modifiedData;
+            res.locals = Object.values(modifiedData);
             return next();
         })
     }

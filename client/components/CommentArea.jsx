@@ -10,9 +10,8 @@ export default function CreateCommentArea(props) {
   const dispatch = useDispatch();
   const toast = useToast();
   const [page, setPage] = useState(1);
-
+  const [commentsArray, setCommentsArray] = useState([])
   const comments = [];
-
   function createComment() {
     if (!utils.isValidPostContent(store.commentBody[props.id])) {
       toast({
@@ -41,10 +40,6 @@ export default function CreateCommentArea(props) {
   }
 
   function loadPosts(){
-    console.log('Load more posts invoked', page)
-  }
-
-  useEffect(() => {
     fetch('/comment/postComments', {
       method: 'POST',
       headers: {
@@ -57,25 +52,27 @@ export default function CreateCommentArea(props) {
     })
     .then((data) => data.json())
     .then((data) => {
-      dispatch(updateCommentsArray({postId: props.id, comments: data}));
-      dispatch(updateNeedsRerender({postId: props.id, value: false}));
       setPage(page + 1)
+      setCommentsArray([...commentsArray, ...data]);
     });
+  }
+
+  useEffect(() => {
+    loadPosts()
   }, [store.needsRerender[props.id], props.id]);
 
-  if (store.commentsArray[props.id]) {
-    for (const commentID in store.commentsArray[props.id]) {
-      comments.push(
-        <Comment key={store.commentsArray[props.id][commentID]._id}
-                 id={store.commentsArray[props.id][commentID]._id}
-                 body={store.commentsArray[props.id][commentID].body}
-                 userPost={store.commentsArray[props.id][commentID].userId}
-                 username={store.commentsArray[props.id][commentID].username}
-                 postId={props.id}
-                 profilePicture={store.commentsArray[props.id][commentID].profilePicture}
-        />
-      );
-    }
+
+  for(const comm of commentsArray){
+    comments.push(
+      <Comment key={comm._id}
+        id={comm._id}
+        body={comm.body}
+        userPost={comm.userId}
+        username={comm.username}
+        postId={props.id}
+        profilePicture={comm.profilePicture}
+    />  
+    )
   }
 
   return (
