@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Input, Button, useToast, Divider, VStack } from '@chakra-ui/react';
+import { Box, Flex, Input, Button, useToast, Divider, VStack, Spinner } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCommentBody, updateNeedsRerender } from '../redux/slices/commentSlice';
 import Comment from './Comment';
@@ -11,7 +11,10 @@ export default function CreateCommentArea(props) {
   const toast = useToast();
   const [page, setPage] = useState(1);
   const [commentsArray, setCommentsArray] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+
   const comments = [];
+  
   function createComment() {
     if (!utils.isValidPostContent(store.commentBody[props.id])) {
       toast({
@@ -40,6 +43,7 @@ export default function CreateCommentArea(props) {
   }
 
   function loadPosts(){
+    setIsLoading(true);
     fetch('/comment/postComments', {
       method: 'POST',
       headers: {
@@ -54,6 +58,7 @@ export default function CreateCommentArea(props) {
     .then((data) => {
       setPage(page + 1)
       setCommentsArray([...commentsArray, ...data]);
+      setIsLoading(false);
     });
   }
 
@@ -87,7 +92,12 @@ export default function CreateCommentArea(props) {
                flex="1"
                mr={4}
         />
-        <Button colorScheme="blue" onClick={createComment}>Comment</Button>
+       {isLoading ?         
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Spinner size="xl"/>
+          </div> 
+          : <Button colorScheme="blue" onClick={createComment}>Comment</Button>
+        } 
       </Flex>
       <Divider my={4} />
       <VStack spacing={4} align="stretch" px={5}>
