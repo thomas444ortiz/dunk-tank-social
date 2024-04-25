@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Input, Button, useToast, Divider, VStack, Spinner } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateCommentBody, updateNeedsRerender } from '../redux/slices/commentSlice';
+import { updateCommentBody } from '../redux/slices/commentSlice';
 import Comment from './Comment';
 import utils from '../utils.js';
  
@@ -38,8 +38,11 @@ export default function CreateCommentArea(props) {
     })
     .then(() => {
       dispatch(updateCommentBody({postId: props.id, text: ''}));
-      dispatch(updateNeedsRerender({postId: props.id, value: true}));
     });
+  }
+
+  function getNewPost(){
+
   }
 
   function loadPosts(){
@@ -51,7 +54,7 @@ export default function CreateCommentArea(props) {
       },
       body: JSON.stringify({
         postId: props.id,
-        page: page
+        page: page,
       })
     })
     .then((data) => data.json())
@@ -64,8 +67,7 @@ export default function CreateCommentArea(props) {
 
   useEffect(() => {
     loadPosts()
-  }, [store.needsRerender[props.id], props.id]);
-
+  }, []);
 
   for(const comm of commentsArray){
     comments.push(
@@ -90,14 +92,14 @@ export default function CreateCommentArea(props) {
                bg="gray.100"
                _placeholder={{ color: 'gray.500' }}
                flex="1"
-               mr={4}
+               mr={4} 
         />
        {isLoading ?         
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Spinner size="xl"/>
           </div> 
           : <Button colorScheme="blue" onClick={createComment}>Comment</Button>
-        } 
+        }
       </Flex>
       <Divider my={4} />
       <VStack spacing={4} align="stretch" px={5}>

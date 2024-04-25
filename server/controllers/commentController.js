@@ -2,7 +2,7 @@ const models = require('../models/models');
 const utils = require('../utils')
 
 const commentController = {};
-
+ 
 commentController.createComment = (req, res, next) =>{
     try{
         if(!utils.isValidPostContent(req.body.commentBody)) return next('Invalid comment format')
@@ -16,7 +16,7 @@ commentController.createComment = (req, res, next) =>{
     } 
 }
 
-commentController.getAllCommentsFromPost = (req, res, next) => {
+commentController.loadComments = (req, res, next) => {
     try {
         // Extract the page number from the request. Default to page 1 if not specified.
         const page = parseInt(req.body.page) || 1;
