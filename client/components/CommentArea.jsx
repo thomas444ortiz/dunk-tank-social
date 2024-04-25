@@ -36,13 +36,27 @@ export default function CreateCommentArea(props) {
         postId: props.id
       })
     })
-    .then(() => {
+    .then((data) => data.json())
+    .then((data) => {
       dispatch(updateCommentBody({postId: props.id, text: ''}));
+      setCommentsArray([data, ...commentsArray]);
     });
   }
-
-  function getNewPost(){
-
+  
+  // the pagination is messed up when you add or create a new post. need to update that
+  function deleteComment(id) {
+    fetch('/comment/deleteComment', {
+      method: 'DELETE',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        commentId: id,
+      })
+    })
+    .then((data) => data.json())
+    .then((data) => {
+      const updatedCommentsArray = commentsArray.filter(comment => comment._id !== data.commentId);
+      setCommentsArray(updatedCommentsArray);
+    })
   }
 
   function loadPosts(){
@@ -78,6 +92,7 @@ export default function CreateCommentArea(props) {
         username={comm.username}
         postId={props.id}
         profilePicture={comm.profilePicture}
+        deleteMethod={deleteComment}
     />  
     )
   }

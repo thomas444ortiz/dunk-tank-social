@@ -3,18 +3,31 @@ const utils = require('../utils')
 
 const commentController = {};
  
-commentController.createComment = (req, res, next) =>{
-    try{
-        if(!utils.isValidPostContent(req.body.commentBody)) return next('Invalid comment format')
-        models.Comment.create({body: `${req.body.commentBody}`, postId: `${req.body.postId}`, 
-        userId: `${req.cookies.ssid}`, username: res.locals.username})
-        .then(() => {
-            return next();
+commentController.createComment = (req, res, next) => {
+    try {
+        if (!utils.isValidPostContent(req.body.commentBody)) return next('Invalid comment format');
+        models.Comment.create({
+            body: `${req.body.commentBody}`,
+            postId: `${req.body.postId}`,
+            userId: `${req.cookies.ssid}`
         })
-    } catch {
-        return next('Error creating comment')
-    } 
-}
+        .then((comment) => {
+            return models.Comment.findById(comment._id)
+                .populate('userId', 'username profilePicture') 
+        })
+        .then((populatedComment) => {
+            let newData = {...populatedComment._doc};
+            newData.username = populatedComment.userId.username;
+            newData.profilePicture = populatedComment.userId.profilePicture;
+            newData.userId = true;
+            res.locals = newData;
+            return next();
+        });
+    } catch (error) {
+        return next('Error creating comment');
+    }
+};
+
 
 commentController.loadComments = (req, res, next) => {
     try {
@@ -56,6 +69,9 @@ commentController.loadComments = (req, res, next) => {
     }
 }
 
+
+
+
 commentController.getAllOfUsersComments = (req, res, next) => {
     try {
         models.Comment.find({userId: req.cookies.ssid})
@@ -89,7 +105,8 @@ commentController.getAllComments = (req, res, next) => {
 commentController.deleteComment = (req, res, next) => {
     try{
         models.Comment.findOneAndDelete({userId: req.cookies.ssid, _id: req.body.commentId})
-        .then(()=>{            
+        .then((data)=>{ 
+            res.locals = { commentId: data._id}
             return next();
         })
     }
