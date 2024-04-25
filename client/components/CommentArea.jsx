@@ -38,9 +38,8 @@ export default function CreateCommentArea(props) {
     })
     .then((data) => data.json())
     .then((data) => {
-      console.log('new post', data)
       dispatch(updateCommentBody({postId: props.id, text: ''}));
-      setCommentsArray([data.newPost, ...commentsArray]);
+      setCommentsArray([data, ...commentsArray]);
     });
   }
 
