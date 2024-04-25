@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Button, Image, Text, Flex, useColorModeValue } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { updateNeedsRerender, updateUsersCommentsNeedsRerender } from '../redux/slices/commentSlice';
 
 export default function Comment(props) {
   const dispatch = useDispatch();
