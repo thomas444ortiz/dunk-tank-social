@@ -8,20 +8,6 @@ export default function Comment(props) {
   const bgColor = useColorModeValue('gray.100', 'gray.700');
   const color = useColorModeValue('black', 'white');
 
-  function deleteComment() {
-    fetch('/comment/deleteComment', {
-      method: 'DELETE',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        commentId: props.id,
-      })
-    })
-    .then(() => {
-      dispatch(updateNeedsRerender({ postId: props.postId, value: true }))
-      dispatch(updateUsersCommentsNeedsRerender(true));
-    })
-  }
-
   return (
     <Box bg={bgColor} color={color} p={3} rounded="md" shadow="md" mt={1}>
       <Flex justify="space-between" align="center" mb={2}>
@@ -35,7 +21,7 @@ export default function Comment(props) {
           />
           <Text fontWeight="bold">{props.username}</Text>
         </Flex>
-        {props.userPost ? <Button size="sm" colorScheme="blue" onClick={deleteComment}>Delete</Button> : null}
+        {props.userPost ? <Button size="sm" colorScheme="blue" onClick={() => props.deleteMethod(props.id)}>Delete</Button> : null}
       </Flex>
       <Text>{props.body}</Text>
     </Box>

@@ -20,7 +20,7 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 # Feature Pipeline
 
 ### App Features
-# Need to finish paginating comments and refactor, and make it so that the new comments auto load
+# Need to finish paginating comments and refactor, and make it so that deleted comments delete
 - User content moderation
 - Location based feed / multiple feeds
 - Email validation, and require validation to post or comment

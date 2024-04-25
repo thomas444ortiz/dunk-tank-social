@@ -43,6 +43,21 @@ export default function CreateCommentArea(props) {
     });
   }
 
+  function deleteComment(id) {
+    fetch('/comment/deleteComment', {
+      method: 'DELETE',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        commentId: id,
+      })
+    })
+    .then((data) => data.json())
+    .then((data) => {
+      const updatedCommentsArray = commentsArray.filter(comment => comment._id !== data.commentId);
+      setCommentsArray(updatedCommentsArray);
+    })
+  }
+
   function loadPosts(){
     setIsLoading(true);
     fetch('/comment/postComments', {
@@ -76,6 +91,7 @@ export default function CreateCommentArea(props) {
         username={comm.username}
         postId={props.id}
         profilePicture={comm.profilePicture}
+        deleteMethod={deleteComment}
     />  
     )
   }

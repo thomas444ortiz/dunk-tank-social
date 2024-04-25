@@ -105,7 +105,8 @@ commentController.getAllComments = (req, res, next) => {
 commentController.deleteComment = (req, res, next) => {
     try{
         models.Comment.findOneAndDelete({userId: req.cookies.ssid, _id: req.body.commentId})
-        .then(()=>{            
+        .then((data)=>{ 
+            res.locals = { commentId: data._id}
             return next();
         })
     }
