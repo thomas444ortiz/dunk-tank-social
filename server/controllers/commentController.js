@@ -2,7 +2,7 @@ const models = require('../models/models');
 const utils = require('../utils')
 
 const commentController = {};
-
+ 
 commentController.createComment = (req, res, next) =>{
     try{
         if(!utils.isValidPostContent(req.body.commentBody)) return next('Invalid comment format')
@@ -13,16 +13,26 @@ commentController.createComment = (req, res, next) =>{
         })
     } catch {
         return next('Error creating comment')
-    }
+    } 
 }
 
-commentController.getAllCommentsFromPost = (req, res, next) => {
+commentController.loadComments = (req, res, next) => {
     try {
+        // Extract the page number from the request. Default to page 1 if not specified.
+        const page = parseInt(req.body.page) || 1;
+        const postsPerPage = 2;
+        
+        // Calculate the number of posts to skip based on the page number
+        const skip = (page - 1) * postsPerPage;
+
         models.Comment.find({postId: `${req.body.postId}`})
         .populate({
             path: 'userId',
             select: 'profilePicture username _id'
         })
+        .sort({createdAt: -1}) // Sort in descending order of creation
+        .skip(skip) // Skip posts based on the current page
+        .limit(postsPerPage) // Limit the number of posts
         .then((data)=>{
             // Initialize an empty object to hold the modified comments
             const modifiedData = {};
@@ -37,7 +47,7 @@ commentController.getAllCommentsFromPost = (req, res, next) => {
                 // Use the comment's _id as the key for the modifiedData object
                 modifiedData[comment._id] = clonedComment;
             });
-            res.locals = modifiedData;
+            res.locals = Object.values(modifiedData);
             return next();
         })
     }

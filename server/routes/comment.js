@@ -18,7 +18,7 @@ router.post('/createComment',
 
 // gets all comments from a specific post
 router.post('/postComments', 
-    commentController.getAllCommentsFromPost,
+    commentController.loadComments,
     (req, res) => {
         return res.status(200).json(res.locals)
     }

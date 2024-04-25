@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   commentBody: {},
-  commentsArray: {},
   needsRerender: {},
   usersComments: [],
   usersCommentsNeedsRerender: false,
@@ -14,9 +13,6 @@ export const commentSlice = createSlice({
   reducers: {
     updateCommentBody: (state, action ) => {
       state.commentBody[action.payload.postId] = action.payload.text;
-    },
-    updateCommentsArray: (state, action) => {  
-      state.commentsArray[action.payload.postId] = action.payload.comments;
     },
     updateNeedsRerender: (state, action) =>{
       state.needsRerender[action.payload.postId] = action.payload.value;
@@ -31,7 +27,7 @@ export const commentSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updateCommentBody, updateCommentsArray, updateNeedsRerender,
+export const { updateCommentBody, updateNeedsRerender,
                updateUsersComments, updateUsersCommentsNeedsRerender } = commentSlice.actions
 
 export default commentSlice.reducer

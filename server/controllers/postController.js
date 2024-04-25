@@ -4,7 +4,7 @@ const utils = require('../utils');
 const postController = {};
 
 postController.createPost = (req, res, next) => {
-    try {
+    try { 
         // make sure the post body is valid format
         if(!utils.isValidPostContent(req.body.body)) return next('Post body format invalid')
         // first get the username of the poster

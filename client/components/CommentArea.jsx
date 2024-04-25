@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
-import { Box, Flex, Input, Button, useToast, Divider, VStack } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { Box, Flex, Input, Button, useToast, Divider, VStack, Spinner } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateCommentBody, updateCommentsArray, updateNeedsRerender } from '../redux/slices/commentSlice';
+import { updateCommentBody } from '../redux/slices/commentSlice';
 import Comment from './Comment';
 import utils from '../utils.js';
-
+ 
 export default function CreateCommentArea(props) {
   const store = useSelector((state) => state.comment);
   const dispatch = useDispatch();
   const toast = useToast();
+  const [page, setPage] = useState(1);
+  const [commentsArray, setCommentsArray] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   const comments = [];
-
+  
   function createComment() {
     if (!utils.isValidPostContent(store.commentBody[props.id])) {
       toast({
@@ -35,40 +38,48 @@ export default function CreateCommentArea(props) {
     })
     .then(() => {
       dispatch(updateCommentBody({postId: props.id, text: ''}));
-      dispatch(updateNeedsRerender({postId: props.id, value: true}));
     });
   }
 
-  useEffect(() => {
+  function getNewPost(){
+
+  }
+
+  function loadPosts(){
+    setIsLoading(true);
     fetch('/comment/postComments', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        postId: props.id
+        postId: props.id,
+        page: page,
       })
     })
     .then((data) => data.json())
     .then((data) => {
-      dispatch(updateCommentsArray({postId: props.id, comments: data}));
-      dispatch(updateNeedsRerender({postId: props.id, value: false}));
+      setPage(page + 1)
+      setCommentsArray([...commentsArray, ...data]);
+      setIsLoading(false);
     });
-  }, [store.needsRerender[props.id], props.id]);
+  }
 
-  if (store.commentsArray[props.id]) {
-    for (const commentID in store.commentsArray[props.id]) {
-      comments.push(
-        <Comment key={store.commentsArray[props.id][commentID]._id}
-                 id={store.commentsArray[props.id][commentID]._id}
-                 body={store.commentsArray[props.id][commentID].body}
-                 userPost={store.commentsArray[props.id][commentID].userId}
-                 username={store.commentsArray[props.id][commentID].username}
-                 postId={props.id}
-                 profilePicture={store.commentsArray[props.id][commentID].profilePicture}
-        />
-      );
-    }
+  useEffect(() => {
+    loadPosts()
+  }, []);
+
+  for(const comm of commentsArray){
+    comments.push(
+      <Comment key={comm._id}
+        id={comm._id}
+        body={comm.body}
+        userPost={comm.userId}
+        username={comm.username}
+        postId={props.id}
+        profilePicture={comm.profilePicture}
+    />  
+    )
   }
 
   return (
@@ -81,13 +92,19 @@ export default function CreateCommentArea(props) {
                bg="gray.100"
                _placeholder={{ color: 'gray.500' }}
                flex="1"
-               mr={4}
+               mr={4} 
         />
-        <Button colorScheme="blue" onClick={createComment}>Comment</Button>
+       {isLoading ?         
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Spinner size="xl"/>
+          </div> 
+          : <Button colorScheme="blue" onClick={createComment}>Comment</Button>
+        }
       </Flex>
       <Divider my={4} />
       <VStack spacing={4} align="stretch" px={5}>
         {comments.length ? comments: <div>No comments yet...</div>}
+        <Button onClick={loadPosts}>Load more comments...</Button>
       </VStack>
     </Box>
   );
