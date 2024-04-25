@@ -1,9 +1,7 @@
 import React from 'react';
 import { Box, Button, Image, Text, Flex, useColorModeValue } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 
 export default function Comment(props) {
-  const dispatch = useDispatch();
   const bgColor = useColorModeValue('gray.100', 'gray.700');
   const color = useColorModeValue('black', 'white');
 

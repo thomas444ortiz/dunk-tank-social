@@ -42,7 +42,8 @@ export default function CreateCommentArea(props) {
       setCommentsArray([data, ...commentsArray]);
     });
   }
-
+  
+  // the pagination is messed up when you add or create a new post. need to update that
   function deleteComment(id) {
     fetch('/comment/deleteComment', {
       method: 'DELETE',
