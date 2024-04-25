@@ -8,7 +8,8 @@ commentController.createComment = (req, res, next) =>{
         if(!utils.isValidPostContent(req.body.commentBody)) return next('Invalid comment format')
         models.Comment.create({body: `${req.body.commentBody}`, postId: `${req.body.postId}`, 
         userId: `${req.cookies.ssid}`, username: res.locals.username})
-        .then(() => {
+        .then((data) => {
+            res.locals.newPost = data;
             return next();
         })
     } catch {
@@ -55,6 +56,9 @@ commentController.loadComments = (req, res, next) => {
         return next('Error getting all comments from post')
     }
 }
+
+
+
 
 commentController.getAllOfUsersComments = (req, res, next) => {
     try {

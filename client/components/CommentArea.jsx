@@ -36,13 +36,12 @@ export default function CreateCommentArea(props) {
         postId: props.id
       })
     })
-    .then(() => {
+    .then((data) => data.json())
+    .then((data) => {
+      console.log('new post', data)
       dispatch(updateCommentBody({postId: props.id, text: ''}));
+      setCommentsArray([data.newPost, ...commentsArray]);
     });
-  }
-
-  function getNewPost(){
-
   }
 
   function loadPosts(){
