@@ -99,7 +99,7 @@ commentController.getAllComments = (req, res, next) => {
     }
     catch {
         return next('Error getting all comments')
-    }
+    } 
 }
 
 commentController.deleteComment = (req, res, next) => {
