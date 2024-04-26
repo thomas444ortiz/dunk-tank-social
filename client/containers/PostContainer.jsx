@@ -39,7 +39,7 @@ export default function PostContainer() {
       .then((data)=> {
         dispatch(updateHasMore(data.hasMore))
         dispatch(updateAddPosts(data.posts));
-        dispatch(updatePage(store.page+1));
+        dispatch(updatePage(store.page + Object.keys(data.posts).length));
         dispatch(updateIsLoading(false))
         dispatch(updateNeedsRerender(false))
       })
@@ -75,7 +75,7 @@ export default function PostContainer() {
         userPost={store.posts[postId].userId} usernameExposed={store.posts[postId].usernameExposed}
         profilePicture={store.posts[postId].profilePicture}/>)
     }
-  }
+  } 
 
   return (
     <div className="post-container">
