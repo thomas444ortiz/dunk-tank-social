@@ -33,7 +33,7 @@ commentController.loadComments = (req, res, next) => {
     try {
         // Extract the page number from the request. Default to page 1 if not specified.
         const page = parseInt(req.body.page) || 1;
-        const postsPerPage = 2;
+        const commentsPerPage = 2;
 
         models.Comment.find({postId: `${req.body.postId}`})
         .populate({
@@ -41,8 +41,8 @@ commentController.loadComments = (req, res, next) => {
             select: 'profilePicture username _id'
         })
         .sort({createdAt: -1}) // Sort in descending order of creation
-        .skip(page - 1) // Skip posts based on the current page
-        .limit(postsPerPage) // Limit the number of posts
+        .skip(page - 1)
+        .limit(commentsPerPage)
         .then((data)=>{
             // Initialize an empty object to hold the modified comments
             const modifiedData = {};
