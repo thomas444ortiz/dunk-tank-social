@@ -143,14 +143,11 @@ postController.getOnePost = (req, res, next) => {
     }
 }
 
-postController.loadPosts = (req, res, next) => {
+postController.loadPosts = (req, res, next) => { 
     try {
         // Extract the page number from the request. Default to page 1 if not specified.
         const page = parseInt(req.body.page) || 1;
-        const postsPerPage = 4;
-        
-        // Calculate the number of posts to skip based on the page number
-        const skip = (page - 1) * postsPerPage;
+        const postsPerPage = 3;
         
         // Perform the query with pagination
         models.Post.find()
@@ -159,13 +156,13 @@ postController.loadPosts = (req, res, next) => {
                 select: 'profilePicture username _id'
             })
             .sort({createdAt: -1}) // Sort in descending order of creation
-            .skip(skip) // Skip posts based on the current page
-            .limit(postsPerPage + 1) // Limit the number of posts to 5
+            .skip(page - 1) // Skip posts based on the current page
+            .limit(postsPerPage)
             .then((data) => {
                 // Initialize an empty object to hold the modified posts
                 const modifiedData = {};
                 // If we have more posts than needed, slice the array to the correct size
-                const hasMore = data.length > postsPerPage;
+                const hasMore = data.length > 0;
 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data
@@ -211,10 +208,7 @@ postController.loadPostsByUser = (req, res, next) => {
     try {
         // Extract the page number from the request. Default to page 1 if not specified.
         const page = parseInt(req.body.page) || 1;
-        const postsPerPage = 4;
-        
-        // Calculate the number of posts to skip based on the page number
-        const skip = (page - 1) * postsPerPage;
+        const postsPerPage = 3;
         
         // Perform the query with pagination
         models.Post.find({userId: req.cookies.ssid})
@@ -223,14 +217,14 @@ postController.loadPostsByUser = (req, res, next) => {
                 select: 'profilePicture username _id'
             })
             .sort({createdAt: -1}) // Sort in descending order of creation
-            .skip(skip) // Skip posts based on the current page
-            .limit(postsPerPage + 1) // Limit the number of posts to 5
+            .skip(page -1) // Skip posts based on the current page
+            .limit(postsPerPage)
             .then((data) => {
                 // Initialize an empty object to hold the modified posts
                 const modifiedData = {};
 
                 // If we have more posts than needed, slice the array to the correct size
-                const hasMore = data.length > postsPerPage;
+                const hasMore = data.length > 0;
 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data

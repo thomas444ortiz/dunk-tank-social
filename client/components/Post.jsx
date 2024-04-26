@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, Center, MenuItem, MenuList, VStack, useColorModeValue } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import { useDispatch } from 'react-redux';
-import { updateNeedsRerender } from '../redux/slices/postSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateNeedsRerender, updatePage } from '../redux/slices/postSlice';
 import CommentArea from './CommentArea';
 import UpvoteDownvoteBar from './UpvoteDownvoteBar';
 
 export default function Post(props) {
   const dispatch = useDispatch();
+  const store = useSelector((state) => state.post);
   const [isEditing, setIsEditing] = useState(false);
   const [editableBody, setEditableBody] = useState(props.body);
 
@@ -17,7 +18,10 @@ export default function Post(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ postId: props.id })
     })
-    .then(() => dispatch(updateNeedsRerender(props.id)));
+    .then(() => {
+      dispatch(updateNeedsRerender(props.id))
+      dispatch(updatePage(store.page -1))
+    });
   }
 
   function handleEditChange(e) {

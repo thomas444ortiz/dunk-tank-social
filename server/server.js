@@ -10,10 +10,10 @@ const adminRouter = require('./routes/admin')
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
-// Create rate limit rule, max 500 request per 5 mins
+// Create rate limit rule
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 1000, // limit each IP to 1000 requests per windowMs
+  max: 10000, // limit each IP to 1000 requests per windowMs
 }); 
 
 app.use(cookieParser());
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "../build")));
 // handle logic
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
-app.use('/post', postRouter);
+app.use('/post', postRouter); 
 app.use('/comment', commentRouter);
 app.use('/upvoteDownvote', upvoteDownvoteRouter);
 app.use('/upvoteDownvote', upvoteDownvoteRouter);

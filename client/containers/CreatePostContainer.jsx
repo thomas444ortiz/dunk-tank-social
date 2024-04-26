@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Input, Button, useToast } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePostBody, updateNeedsRerender } from '../redux/slices/postSlice';
+import { updatePostBody, updateNeedsRerender, updatePage } from '../redux/slices/postSlice';
 const utils = require('../utils');
 
 export default function CreatePostContainer() {
@@ -33,6 +33,7 @@ export default function CreatePostContainer() {
     .then((data) => {
       dispatch(updatePostBody(''));
       dispatch(updateNeedsRerender(data));
+      dispatch(updatePage(store.page + 1))
     });
   }
 

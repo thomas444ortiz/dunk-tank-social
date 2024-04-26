@@ -40,6 +40,7 @@ export default function CreateCommentArea(props) {
     .then((data) => {
       dispatch(updateCommentBody({postId: props.id, text: ''}));
       setCommentsArray([data, ...commentsArray]);
+      setPage(page+1)
     });
   }
   
@@ -50,16 +51,17 @@ export default function CreateCommentArea(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         commentId: id,
-      })
+      }) 
     })
     .then((data) => data.json())
     .then((data) => {
       const updatedCommentsArray = commentsArray.filter(comment => comment._id !== data.commentId);
       setCommentsArray(updatedCommentsArray);
+      setPage(page -1)
     })
   }
 
-  function loadPosts(){
+  function loadComments(){
     setIsLoading(true);
     fetch('/comment/postComments', {
       method: 'POST',
@@ -73,14 +75,14 @@ export default function CreateCommentArea(props) {
     })
     .then((data) => data.json())
     .then((data) => {
-      setPage(page + 1)
+      setPage(page + data.length)
       setCommentsArray([...commentsArray, ...data]);
       setIsLoading(false);
     });
   }
 
   useEffect(() => {
-    loadPosts()
+    loadComments()
   }, []);
 
   for(const comm of commentsArray){
@@ -119,7 +121,7 @@ export default function CreateCommentArea(props) {
       <Divider my={4} />
       <VStack spacing={4} align="stretch" px={5}>
         {comments.length ? comments: <div>No comments yet...</div>}
-        <Button onClick={loadPosts}>Load more comments...</Button>
+        <Button onClick={loadComments}>Load more comments...</Button>
       </VStack>
     </Box>
   );
