@@ -40,6 +40,7 @@ export default function CreateCommentArea(props) {
     .then((data) => {
       dispatch(updateCommentBody({postId: props.id, text: ''}));
       setCommentsArray([data, ...commentsArray]);
+      setPage(page+1)
     });
   }
   
@@ -56,6 +57,7 @@ export default function CreateCommentArea(props) {
     .then((data) => {
       const updatedCommentsArray = commentsArray.filter(comment => comment._id !== data.commentId);
       setCommentsArray(updatedCommentsArray);
+      setPage(page -1)
     })
   }
 
@@ -73,8 +75,7 @@ export default function CreateCommentArea(props) {
     })
     .then((data) => data.json())
     .then((data) => {
-      console.log(data)
-      setPage(page + 1)
+      setPage(page + data.length)
       setCommentsArray([...commentsArray, ...data]);
       setIsLoading(false);
     });
