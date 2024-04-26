@@ -39,7 +39,7 @@ export default function UserPostContainer() {
       .then((data)=> {
         dispatch(updateHasMore(data.hasMore))
         dispatch(updateAddPosts(data.posts));
-        dispatch(updatePage(store.page+1));
+        dispatch(updatePage(store.page+ data.posts ? Object.keys(data.posts).length : 0));
         dispatch(updateIsLoading(false))
         dispatch(updateNeedsRerender(false))
       })

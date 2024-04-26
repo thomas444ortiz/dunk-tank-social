@@ -12,7 +12,7 @@ export default function PostContainer() {
   const dispatch = useDispatch();
   const [ref, inView, entry] = useInView();
 
-  const posts = [];
+  const posts = []; 
 
     // reset everything when switching between pages
   useEffect(()=>{
@@ -39,7 +39,7 @@ export default function PostContainer() {
       .then((data)=> {
         dispatch(updateHasMore(data.hasMore))
         dispatch(updateAddPosts(data.posts));
-        dispatch(updatePage(store.page + Object.keys(data.posts).length));
+        dispatch(updatePage(store.page + data.posts ? Object.keys(data.posts).length : 0));
         dispatch(updateIsLoading(false))
         dispatch(updateNeedsRerender(false))
       })
