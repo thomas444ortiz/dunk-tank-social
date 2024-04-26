@@ -67,8 +67,6 @@ commentController.loadComments = (req, res, next) => {
 }
 
 
-
-
 commentController.getAllOfUsersComments = (req, res, next) => {
     try {
         models.Comment.find({userId: req.cookies.ssid})
