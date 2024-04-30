@@ -39,7 +39,7 @@ export default function PostContainer() {
       .then((data)=> {
         dispatch(updateHasMore(data.hasMore))
         dispatch(updateAddPosts(data.posts));
-        dispatch(updatePage(store.page + data.posts ? Object.keys(data.posts).length : 0));
+        dispatch(updatePage(store.page + (data.posts ? Object.keys(data.posts).length : 0)));
         dispatch(updateIsLoading(false))
         dispatch(updateNeedsRerender(false))
       })
@@ -85,9 +85,8 @@ export default function PostContainer() {
           <Spinner size="xl"/>
         </div>
       ) : (
-        <div ref={ref}></div>
+        (!store.hasMore && posts.length) ? <div>No more posts to show...</div>: <div ref={ref}></div>
       )}
-      {!store.hasMore && posts.length ? <div>No more posts to show...</div>: null}
     </div>
   );
 }

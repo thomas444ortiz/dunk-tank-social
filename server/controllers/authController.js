@@ -5,7 +5,7 @@ const utils = require('../utils')
 const authController = {};
 
 authController.hashPassword = (req, res, next) => {
-    try {
+    try { 
         // validate the password format
         if(!utils.isValidPassword(req.body.password)) return next('Invalid password format');
         // hash the password

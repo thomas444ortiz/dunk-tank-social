@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, Center, MenuItem, MenuList, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, Center, MenuItem, MenuList, VStack } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateNeedsRerender, updatePage } from '../redux/slices/postSlice';
@@ -58,7 +58,7 @@ export default function Post(props) {
             borderRadius="full"
             boxSize="50px"
             mr={3}
-          />
+          /> 
           <Heading size="md">{props.postedBy}</Heading>
         </Flex>
         {props.userPost && 
