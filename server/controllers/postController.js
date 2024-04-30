@@ -148,7 +148,6 @@ postController.loadPosts = (req, res, next) => {
         // Extract the page number from the request. Default to page 1 if not specified.
         const page = parseInt(req.body.page) || 1;
         const postsPerPage = 3;
-        
         // Perform the query with pagination
         models.Post.find()
             .populate({

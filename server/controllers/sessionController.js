@@ -8,7 +8,7 @@ sessionController.createSession = (req, res, next) => {
         models.Session.findOne({cookieId: `${res.locals.ssid}`})
         .then((data) =>{
             // if the data is not null, then there is already a session so we can just move on
-            if(data !== null) return next();
+            if(data !== null) return next(); 
             // if no existing session, create one
             models.Session.create({cookieId: `${res.locals.ssid}`})
             .then((data)=>{
