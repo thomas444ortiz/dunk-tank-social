@@ -27,7 +27,7 @@ router.post('/postComments',
 router.patch('/editComments',
     commentController.editComment,
     (req, res) => {
-        return res.status(200).json({})
+        return res.status(200).json(res.locals.updatedComment)
     }
 )
 

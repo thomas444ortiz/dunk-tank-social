@@ -6,6 +6,7 @@ export default function Comment(props) {
   const color = useColorModeValue('black', 'white');
   const [isEditing, setIsEditing] = useState(false);
   const [editableBody, setEditableBody] = useState(props.body);
+  const [body, setBody] = useState(props.body);
 
   function saveChanges(){
     setIsEditing(true);
@@ -19,14 +20,16 @@ export default function Comment(props) {
         newBody: editableBody
       })
     })
-    .then(() => {
+    .then((data) => data.json())
+    .then((data) => {
+      setBody(data.body);
       setIsEditing(false);
     })
   }
 
   function editComment() {
     setIsEditing(!isEditing);
-    if (isEditing) setEditableBody(props.body);
+    if (isEditing) setEditableBody(body);
   }
 
   function handleEditChange(e) {
@@ -62,7 +65,7 @@ export default function Comment(props) {
             </Flex>
           </VStack>
         ) : (
-          <Text fontSize="xl" mb={2}>{props.body}</Text>
+          <Text fontSize="xl" mb={2}>{body}</Text>
         )}
 
     </Box>

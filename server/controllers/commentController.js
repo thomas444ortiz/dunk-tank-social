@@ -100,7 +100,6 @@ commentController.getAllComments = (req, res, next) => {
 commentController.editComment = (req, res, next) => {
     try {
         const updateData = { body: req.body.newBody };
-
         models.Comment.findOneAndUpdate(
             { userId: req.cookies.ssid, _id: req.body.commentId },
             updateData,
