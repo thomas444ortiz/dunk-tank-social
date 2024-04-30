@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import { Box, Button, Image, Text, Flex, useColorModeValue, VStack, Input } from '@chakra-ui/react';
+import { Box, Flex, Text, Button, Input, Heading, Image, Menu, MenuButton, useColorModeValue, 
+  Center, MenuItem, MenuList, VStack } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
 
 export default function Comment(props) {
   const bgColor = useColorModeValue('gray.100', 'gray.700');
@@ -49,8 +51,23 @@ export default function Comment(props) {
           />
           <Text fontWeight="bold">{props.username}</Text>
         </Flex>
-        {props.userPost ? <Button size="sm" colorScheme="blue" onClick={() => props.deleteMethod(props.id)}>Delete</Button> : null}
+        {/* {props.userPost ? <Button size="sm" colorScheme="blue" onClick={() => props.deleteMethod(props.id)}>Delete</Button> : null}
         {props.userPost ? <Button size="sm" colorScheme="blue" onClick={editComment}>Edit</Button> : null}
+         */}
+        {props.userPost && 
+          <Menu placement="bottom-end">
+            <MenuButton as={Button}>
+              <Center>
+                <HamburgerIcon />
+              </Center>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => props.deleteMethod(props.id)}>Delete Comment</MenuItem>
+              <MenuItem onClick={editComment}>{isEditing ? 'Discard Changes' : 'Edit'}</MenuItem>
+              {isEditing && <MenuItem onClick={saveChanges}>Save Changes</MenuItem>}
+            </MenuList>
+          </Menu>
+        }
       </Flex>
 
       {isEditing ? (
