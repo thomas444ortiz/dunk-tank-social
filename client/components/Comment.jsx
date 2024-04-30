@@ -16,7 +16,7 @@ export default function Comment(props) {
       },
       body: JSON.stringify({
         commentId: props.id,
-        body: 'test body'
+        newBody: editableBody
       })
     })
     .then(() => {

@@ -98,19 +98,26 @@ commentController.getAllComments = (req, res, next) => {
 }
 
 commentController.editComment = (req, res, next) => {
-    try{
-        console.log(req.body);
-        return next();
-        // models.Comment.findOneAndUpdate({userId: req.cookies.ssid, _id: req.body.commentId})
-        // .then((data) => {
-        //     console.log(data)
-        //     return next;
-        // })
-    }
-    catch{
+    try {
+        const updateData = { body: req.body.newBody };
+
+        models.Comment.findOneAndUpdate(
+            { userId: req.cookies.ssid, _id: req.body.commentId },
+            updateData,
+            { new: true } // This option will return the updated document
+        ).then((updatedComment) => {
+            if (!updatedComment) {
+                return next('No comment found with the given ID.');
+            }
+            res.locals.updatedComment = updatedComment;
+            return next();
+        }).catch(err => {
+            return next(err);
+        });
+    } catch (error) {
         return next('Error editing comment');
     }
-}
+};
 
 commentController.deleteComment = (req, res, next) => {
     try{
