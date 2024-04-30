@@ -162,7 +162,7 @@ postController.loadPosts = (req, res, next) => {
                 const modifiedData = {};
                 // If we have more posts than needed, slice the array to the correct size
                 const hasMore = data.length > 0;
-
+ 
                 data.forEach(post => {
                     // Clone the post object to avoid modifying the original data
                     const clonedPost = { ...post._doc };

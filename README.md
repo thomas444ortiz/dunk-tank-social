@@ -20,11 +20,10 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 # Feature Pipeline
 
 ### App Features
-- Edit comments
+- Edit comments 
 - Hide load more comments button when there are none left
 - Paginate comments on user page
 - Refactor comments and posts on user page to not require separate components
-
 - See other users profile
 - Have a page to see all users
 

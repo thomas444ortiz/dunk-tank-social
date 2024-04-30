@@ -97,6 +97,19 @@ commentController.getAllComments = (req, res, next) => {
     } 
 }
 
+commentController.editComment = (req, res, next) => {
+    try{
+        models.Comment.findOneAndUpdate({userId: req.cookies.ssid, _id: req.body.commentId})
+        .then((data) => {
+            console.log(data)
+            return next;
+        })
+    }
+    catch{
+        return next('Error editing comment');
+    }
+}
+
 commentController.deleteComment = (req, res, next) => {
     try{
         models.Comment.findOneAndDelete({userId: req.cookies.ssid, _id: req.body.commentId})

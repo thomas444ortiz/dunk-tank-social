@@ -5,6 +5,11 @@ export default function Comment(props) {
   const bgColor = useColorModeValue('gray.100', 'gray.700');
   const color = useColorModeValue('black', 'white');
 
+  function editCommentBody(){
+    console.log('Invoked')
+  }
+
+
   return (
     <Box bg={bgColor} color={color} p={3} rounded="md" shadow="md" mt={1}>
       <Flex justify="space-between" align="center" mb={2}>
