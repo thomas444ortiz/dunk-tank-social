@@ -44,20 +44,23 @@ commentController.loadComments = (req, res, next) => {
         .skip(page - 1)
         .limit(commentsPerPage)
         .then((data)=>{
-            // Initialize an empty object to hold the modified comments
-            const modifiedData = {};
-            data.forEach(comment => {
-                // Clone the comment object to avoid modifying the original data
-                const clonedComment = { ...comment._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
-                // get the username and pro pic
-                clonedComment.username = clonedComment.userId.username;
-                clonedComment.profilePicture = clonedComment.userId.profilePicture;
-                // Compare the userId and set it to true or false
-                clonedComment.userId = comment.userId._id == req.cookies.ssid;
-                // Use the comment's _id as the key for the modifiedData object
-                modifiedData[comment._id] = clonedComment;
-            });
-            res.locals = Object.values(modifiedData);
+            if(data.length < 1) res.locals = null;
+            else{
+                // Initialize an empty object to hold the modified comments
+                const modifiedData = {};
+                data.forEach(comment => {
+                    // Clone the comment object to avoid modifying the original data
+                    const clonedComment = { ...comment._doc }; // Assuming Mongoose documents, use ._doc to get a plain JS object
+                    // get the username and pro pic
+                    clonedComment.username = clonedComment.userId.username;
+                    clonedComment.profilePicture = clonedComment.userId.profilePicture;
+                    // Compare the userId and set it to true or false
+                    clonedComment.userId = comment.userId._id == req.cookies.ssid;
+                    // Use the comment's _id as the key for the modifiedData object
+                    modifiedData[comment._id] = clonedComment;
+                });
+                res.locals = Object.values(modifiedData);
+            }
             return next();
         })
     }

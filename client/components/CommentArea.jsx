@@ -12,6 +12,7 @@ export default function CreateCommentArea(props) {
   const [page, setPage] = useState(1);
   const [commentsArray, setCommentsArray] = useState([])
   const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const comments = [];
   
@@ -75,9 +76,12 @@ export default function CreateCommentArea(props) {
     })
     .then((data) => data.json())
     .then((data) => {
-      setPage(page + data.length)
-      setCommentsArray([...commentsArray, ...data]);
       setIsLoading(false);
+      if(!data) setHasMore(false);
+      else {
+        setPage(page + data.length)
+        setCommentsArray([...commentsArray, ...data]);
+      }
     });
   }
 
@@ -95,6 +99,7 @@ export default function CreateCommentArea(props) {
         postId={props.id}
         profilePicture={comm.profilePicture}
         deleteMethod={deleteComment}
+        hasMore={hasMore}
     />  
     )
   }
@@ -121,7 +126,7 @@ export default function CreateCommentArea(props) {
       <Divider my={4} />
       <VStack spacing={4} align="stretch" px={5}>
         {comments.length ? comments: <div>No comments yet...</div>}
-        <Button onClick={loadComments}>Load more comments...</Button>
+        {hasMore ? <Button onClick={loadComments}>Load more comments...</Button>: null}
       </VStack>
     </Box>
   );
