@@ -23,11 +23,12 @@ Dunk Tank Social is a social networking platform where users can post anonomousl
 - Hide load more comments button when there are none left
 - Paginate comments on user page
 - Refactor comments and posts on user page to not require separate components
+
 - See other users profile
 - Have a page to see all users
 
 - User content moderation
-- Location based feed / multiple feeds
+- Location based feed / multiple feeds`
 - Update profile pictures to be actual local uploads
 - Mobile responsive design
 - Upvote and downvote comments
